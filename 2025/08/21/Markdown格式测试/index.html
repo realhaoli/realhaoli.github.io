@@ -175,7 +175,7 @@
     <div class="tocbot-list">
     </div>
     <div class="tocbot-list-menu">
-        <a class="tocbot-toc-expand" onclick="expand_toc()">展开目录</a>
+        <a class="tocbot-toc-expand" onclick="expand_toc()">关闭目录</a>
         <a onclick="go_top()">回到顶部</a>
         <a onclick="go_bottom()">前往底部</a>
     </div>
@@ -204,7 +204,7 @@
 
     document.ready(function() {
         tocbot.init(obj_merge(tocbot_default_config, {
-            collapseDepth: 1
+            collapseDepth: 6
         }));
     });
 

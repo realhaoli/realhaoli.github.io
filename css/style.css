@@ -1026,9 +1026,9 @@ header .menu label {
 .post-toc {
   position: fixed;
   top: 95px;
-  right: 2em;
+  left: calc((100vw - 800px) / 2 - 15rem - 2rem);
   width: 15rem;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
 }
 .post-toc .tocbot-list {
   max-height: 450px;

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Henry Li">
+
+
+
+
+
+<title>Linux与服务器管理 | Henry&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const pagebody = document.getElementsByTagName('body')[0]
+
+            function setTheme(status) {
+
+                if (status === 'dark') {
+                    window.sessionStorage.theme = 'dark'
+                    pagebody.classList.add('dark-theme');
+
+                } else if (status === 'light') {
+                    window.sessionStorage.theme = 'light'
+                    pagebody.classList.remove('dark-theme');
+                }
+            };
+
+            setTheme(window.sessionStorage.theme)
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Henry&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                <a class="menu-item" href="/archives">文章</a>
+                
+                <a class="menu-item" href="/category">分类</a>
+                
+                <a class="menu-item" href="/tag">标签</a>
+                
+                <a class="menu-item" href="/about">关于</a>
+                
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Henry&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">
+                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M4.5 17.27q-.213 0-.356-.145T4 16.768t.144-.356t.356-.143h15q.213 0 .356.144q.144.144.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.144T4 11.999t.144-.356t.356-.143h15q.213 0 .356.144t.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.143Q4 7.443 4 7.23t.144-.356t.356-.143h15q.213 0 .356.144T20 7.23t-.144.356t-.356.144z"/></svg>
+                    <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Material Symbols Light by Google - https://github.com/google/material-design-icons/blob/master/LICENSE --><path fill="currentColor" d="m12 12.708l-5.246 5.246q-.14.14-.344.15t-.364-.15t-.16-.354t.16-.354L11.292 12L6.046 6.754q-.14-.14-.15-.344t.15-.364t.354-.16t.354.16L12 11.292l5.246-5.246q.14-.14.345-.15q.203-.01.363.15t.16.354t-.16.354L12.708 12l5.246 5.246q.14.14.15.345q.01.203-.15.363t-.354.16t-.354-.16z"/></svg>
+                </div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                <a class="menu-item" href="/archives">文章</a>
+                
+                <a class="menu-item" href="/category">分类</a>
+                
+                <a class="menu-item" href="/tag">标签</a>
+                
+                <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if (toggleMenu.classList.contains("active")) {
+            toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        } else {
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">关闭目录</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">前往底部</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 6
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        // b.innerText = expanded ? 'Expand all' : 'Collapse all';
+        b.innerText = expanded ? '展开目录' : '关闭目录';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Linux与服务器管理</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Henry Li</a>&nbsp;&nbsp;
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2025-08-22</a>&nbsp;&nbsp;
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%8A%80%E6%9C%AF%E9%80%9F%E8%AE%B0/">技术速记</a>
+                            &nbsp;&nbsp;
+                        </span>
+                    
+                    <!-- 添加本文阅读量 -->
+                        <span id="busuanzi_container_page_pv">
+                        本文阅读量: <span id="busuanzi_value_page_pv"></span> 次
+                        </span>
+
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>其实原来学了Linux系统，但是懂得不多，</p>
+<p>后来研究生期间莫名其妙负责了实验室的机器管理才了解更进一步，没办法能扛事的太少了，都是慢慢被推上去的</p>
+<p>负责过自购电脑配件组装、机箱式工作站、(1U&#x2F;2U)服务器的全部软件管理和硬件配置(CPU、电源、内存、硬盘、显卡等)</p>
+<p>知识碎片比较零散、都是遇到什么问题才学习并解决什么问题，没有系统化整理，但是已经够用了</p>
+<p>在此把已经踩的坑和遇到的问题记录下来，以后遇到新问题会跟进更新</p>
+<h1 id="1-注意有“坑”"><a href="#1-注意有“坑”" class="headerlink" title="1. 注意有“坑”"></a>1. 注意有“坑”</h1><p>机架式服务器的内存和普通机箱服务器内存不同，需要ECC校验的内存条，否则不能用</p>
+<p>机架式服务器的硬盘和需要注意型号和尺寸，一般为SAS 2.5英寸，和平常用的3.5英寸只是大小不同</p>
+<p>内存方面，注意DDR5和DDR4卡槽不通用，而且不同品牌、不同速率、不同容量都会导致不能运行，所以需要重点注意</p>
+<p>2U机架服务器装显卡需要PCI笼子，而且显卡线是小8pin转2*8pin，正常的8pin口不能使用。1U服务器装不了显卡</p>
+<p>在机房放置服务器一定要管理员IP地址、掩码、网关、DNS，而且需要管理员开放端口才能访问外网</p>
+<p>不同机房的机柜的规格不一样，所以需要适配度的服务器电源线不一样，并不一定是平时家用的三插，需要找供应商配全</p>
+<h1 id="2-常用命令"><a href="#2-常用命令" class="headerlink" title="2. 常用命令"></a>2. 常用命令</h1><h2 id="2-1-系统目录"><a href="#2-1-系统目录" class="headerlink" title="2.1 系统目录"></a>2.1 系统目录</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">/</span><br><span class="line">├── bin               <span class="comment"># 单用户模式下也必须可用的基础命令（ls、cp、cat）</span></span><br><span class="line">├── sbin              <span class="comment"># 系统管理员命令（fsck、reboot、iptables）</span></span><br><span class="line">├── lib               <span class="comment"># /bin 与 /sbin 依赖的 32 位共享库</span></span><br><span class="line">├── lib64 -&gt; lib      <span class="comment"># 64 位系统常用软链，指向 lib（部分发行版独立）</span></span><br><span class="line">├── usr               <span class="comment"># 只读用户数据，核心工具仓库</span></span><br><span class="line">│   ├── bin           <span class="comment"># 普通用户主要命令（vim、python、git）</span></span><br><span class="line">│   ├── sbin          <span class="comment"># 非关键系统守护进程（sshd、cupsd）</span></span><br><span class="line">│   ├── lib           <span class="comment"># /usr/bin、/usr/sbin 对应的库</span></span><br><span class="line">│   ├── share         <span class="comment"># 架构无关资源：man、locale、图标、doc</span></span><br><span class="line">│   ├── <span class="built_in">local</span>         <span class="comment"># 本地编译安装的软件默认前缀（./configure &amp;&amp; make install）</span></span><br><span class="line">│   └── src           <span class="comment"># 内核源码、头文件</span></span><br><span class="line">├── etc               <span class="comment"># 系统级静态配置（passwd、fstab、systemd）</span></span><br><span class="line">├── var               <span class="comment"># 经常变化的数据</span></span><br><span class="line">│   ├── <span class="built_in">log</span>           <span class="comment"># 系统和应用日志（messages、auth.log、nginx/error.log）</span></span><br><span class="line">│   ├── lib           <span class="comment"># 程序状态（dpkg、mysql 数据目录）</span></span><br><span class="line">│   ├── spool         <span class="comment"># 待处理队列：打印、cron、邮件</span></span><br><span class="line">│   ├── tmp           <span class="comment"># 重启后仍保留的临时文件</span></span><br><span class="line">│   └── cache         <span class="comment"># 包管理器缓存（apt、dnf）</span></span><br><span class="line">├── home              <span class="comment"># 普通用户家目录（/home/alice）</span></span><br><span class="line">├── root              <span class="comment"># root 用户家目录（注意不在 /home）</span></span><br><span class="line">├── tmp               <span class="comment"># 任何人可写的临时目录，重启或定时清理</span></span><br><span class="line">├── dev               <span class="comment"># 设备文件（sda、null、tty）</span></span><br><span class="line">├── proc              <span class="comment"># 内核运行时信息伪文件系统（数字=PID）</span></span><br><span class="line">├── sys               <span class="comment"># 统一设备模型，暴露内核对象</span></span><br><span class="line">├── boot              <span class="comment"># 启动所需：内核 vmlinuz、initramfs、GRUB</span></span><br><span class="line">├── opt               <span class="comment"># 第三方大型独立软件包（Oracle、VMware、VS Code）</span></span><br><span class="line">├── media             <span class="comment"># 自动挂载的可移动介质（U 盘、光驱）</span></span><br><span class="line">├── mnt               <span class="comment"># 管理员手动临时挂载点</span></span><br><span class="line">├── srv               <span class="comment"># 本机对外提供的服务数据（ftp、www、git）</span></span><br><span class="line">└── lost+found        <span class="comment"># 文件系统 fsck 后找回的碎片</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关键目录解读</span></span><br><span class="line">/etc</span><br><span class="line">├─ /etc/fstab        开机自动挂载表。</span><br><span class="line">├─ /etc/passwd       用户账号信息。</span><br><span class="line">├─ /etc/shadow       加密后的口令与策略。</span><br><span class="line">├─ /etc/hostname     主机名。</span><br><span class="line">└─ /etc/systemd      systemd 单元文件。</span><br><span class="line">/var/log</span><br><span class="line">├─ /var/log/syslog  或 /var/log/messages  系统总日志。</span><br><span class="line">├─ /var/log/auth.log  认证日志（SSH 登录记录）。</span><br><span class="line">├─ /var/log/nginx     Web 服务访问/错误日志。</span><br><span class="line">/proc</span><br><span class="line">├─ /proc/cpuinfo  CPU 信息。</span><br><span class="line">├─ /proc/meminfo  实时内存使用。</span><br><span class="line">├─ /proc/&lt;PID&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-常用命令"><a href="#2-2-常用命令" class="headerlink" title="2.2 常用命令"></a>2.2 常用命令</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">ls　用来显示目标列表</span><br><span class="line">cd　[path]　用来切换工作目录</span><br><span class="line">pwd　以绝对路径的方式显示用户当前工作目录</span><br><span class="line">man　[command]　查看Linux中的指令帮助、配置文件帮助和编程帮助等信息</span><br><span class="line">echo　[string]　打印一行文本，参数“-e”可激活转义字符</span><br><span class="line">cat　[file]　连接文件并打印到标准输出设备上</span><br><span class="line"></span><br><span class="line">touch　[file]　创建新的空文件</span><br><span class="line">mkdir　[dir]　创建目录</span><br><span class="line">chmod　变更文件或目录的权限</span><br><span class="line">chown　变更某个文件或目录的所有者和所属组</span><br><span class="line">mv　[file1]　[file2]　用来对文件或目录重新命名，或者将文件从一个目录移到另一个目录中</span><br><span class="line">cp　[file1]　[file2]　用来将一个或多个源文件或者目录复制到指定的目的文件或目录</span><br><span class="line">rm　[file]　可以删除一个目录中的一个或多个文件或目录，也可以将某个目录及其下属的所有文件及其子目录均删除掉</span><br><span class="line"></span><br><span class="line">ps　用于报告当前系统的进程状态</span><br><span class="line">top　实时查看系统的整体运行情况</span><br><span class="line">kill　杀死一个进程</span><br><span class="line"></span><br><span class="line">ifconfig　查看或设置网络设备</span><br><span class="line">ping　查看网络上的主机是否工作</span><br><span class="line">netstat　显示网络连接、路由表和网络接口信息</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-vi编辑器"><a href="#2-2-vi编辑器" class="headerlink" title="2.2 vi编辑器"></a>2.2 vi编辑器</h2><p>所有的 Unix Like 系统都会内建 vi 文书编辑器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">三种模式：命令模式（Command Mode）、输入模式（Insert Mode）和底部命令模式（Command-Line Mode）</span><br><span class="line">vi filename	--&gt;(进入) 命令模式  --&gt;(:wq) 退出</span><br><span class="line">输入模式  &lt;--(i/a/o),(ESC)--&gt;  命令模式  &lt;--(:),(回车)--&gt;  输入模式</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-安装系统"><a href="#3-安装系统" class="headerlink" title="3. 安装系统"></a>3. 安装系统</h1><h2 id="3-1-Arch-Linux"><a href="#3-1-Arch-Linux" class="headerlink" title="3.1 Arch Linux"></a>3.1 Arch Linux</h2><p>目前用的服务器都是Ubuntu，很多都自动化配置了</p>
+<p>但Arch是最精简的Linux，很多东西都要自己配置，会用Arch那么其他Linux基本不在话下</p>
+<h3 id="1-前期配置"><a href="#1-前期配置" class="headerlink" title="1. 前期配置"></a>1. 前期配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更改字体大小</span></span><br><span class="line">setfont     ter-132(字体大小)n(参数，b粗体)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更改键盘布局</span></span><br><span class="line"><span class="comment"># 列出所有布局</span></span><br><span class="line"><span class="built_in">ls</span> /usr/share/kbd/keymaps/**/*.map.gz</span><br><span class="line"><span class="comment"># 更改布局</span></span><br><span class="line">loadkeys de-latin1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证UEFI模式</span></span><br><span class="line"><span class="built_in">ls</span> /sys/firmware/efi/efivars</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-网络配置"><a href="#2-网络配置" class="headerlink" title="2. 网络配置"></a>2. 网络配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示设备列表</span></span><br><span class="line">rfkill list</span><br><span class="line"><span class="comment"># 解除锁定(某些)</span></span><br><span class="line">rfkill unblock wifi</span><br><span class="line"><span class="comment"># 显示网卡列表</span></span><br><span class="line">ip <span class="built_in">link</span></span><br><span class="line"><span class="comment"># 启动网卡</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> wlan0 up</span><br><span class="line"><span class="comment"># 进入wifi模式</span></span><br><span class="line">iwctl</span><br><span class="line"><span class="comment"># 搜索无线网络，查看所有wifi</span></span><br><span class="line">station wlan0 scan</span><br><span class="line">station wlan0 get-networks</span><br><span class="line"><span class="comment"># 连接wifi</span></span><br><span class="line">station wlan0 connect WiFi名</span><br><span class="line"><span class="comment"># 退出</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="comment"># 检查WiFi是否连接</span></span><br><span class="line">ping baidu.com</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 同步工具</span></span><br><span class="line">pacman -Syy</span><br><span class="line"><span class="comment"># 更新系统时间</span></span><br><span class="line">timedatectl status</span><br><span class="line"><span class="comment"># 选择镜像</span></span><br><span class="line"><span class="comment"># 进入镜像文件</span></span><br><span class="line">nano /etc/pacman.d/mirrorlist</span><br><span class="line"><span class="comment"># 添加镜像</span></span><br><span class="line">去百度搜索相关镜像</span><br><span class="line"><span class="comment"># 国家、时间(h更新过)，速度，协议，保存路径</span></span><br><span class="line">reflector --country China --age 24 --<span class="built_in">sort</span> rate --protocol https --save /etc/pacman.d/mirrorlist</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-硬盘分区"><a href="#3-硬盘分区" class="headerlink" title="3. 硬盘分区"></a>3. 硬盘分区</h3><table>
+<thead>
+<tr>
+<th>挂载点</th>
+<th>分区</th>
+<th>分区类型</th>
+<th>建议大小</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#x2F;mnt&#x2F;boot</td>
+<td>&#x2F;dev&#x2F;efi_system_partition</td>
+<td>EFI系统分区</td>
+<td>&gt;300MB</td>
+</tr>
+<tr>
+<td>swap</td>
+<td>&#x2F;dev&#x2F;swap_partition</td>
+<td>Linux swap交换空间</td>
+<td>&gt;512MB</td>
+</tr>
+<tr>
+<td>&#x2F;mnt</td>
+<td>&#x2F;dev&#x2F;root_partition</td>
+<td>Linux x86-64根目录</td>
+<td>&gt;30GB</td>
+</tr>
+<tr>
+<td>&#x2F;mnt&#x2F;home</td>
+<td>&#x2F;dev&#x2F;home_partition</td>
+<td>Linux家目录</td>
+<td>All</td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.硬盘分区</span></span><br><span class="line"><span class="comment"># 列出所有硬盘</span></span><br><span class="line">lsblk    -f</span><br><span class="line">fdisk    -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入磁盘</span></span><br><span class="line">cfdisk  /dev/磁盘名</span><br><span class="line">fdisk    /dev/磁盘名</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据需要磁盘列表进行创建</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.格式化分区</span></span><br><span class="line"><span class="comment"># 格式化根分区，并建立ext4文件系统</span></span><br><span class="line">mkfs.ext4 /dev/根分区</span><br><span class="line">xfs格式针对大文件系统，最新</span><br><span class="line"><span class="comment"># 格式化交换分区</span></span><br><span class="line">mkswap /dev/交换分区</span><br><span class="line"><span class="comment"># 格式化EFI分区</span></span><br><span class="line">mkfs.vfat /dev/EFI分区</span><br><span class="line">mkfs.fat -F 32 /dev/EFI分区</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 3. 挂载分区</span></span><br><span class="line"><span class="comment"># 启动挂载分区</span></span><br><span class="line">swapon /dev/交换分区</span><br><span class="line"><span class="comment"># 挂载根分区</span></span><br><span class="line">mount /dev/根分区 /mnt</span><br><span class="line"><span class="comment"># 创建boot分区</span></span><br><span class="line"><span class="built_in">mkdir</span> -p /mnt/boot/efi</span><br><span class="line"><span class="comment"># 挂载EFI系统分区</span></span><br><span class="line">mount /dev/*EFI分区 * /mnt/boot/efi</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-安装必备软件包"><a href="#4-安装必备软件包" class="headerlink" title="4. 安装必备软件包"></a>4. 安装必备软件包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用pacstrap脚本安装base软件包和linux内核，常规硬件的固件</span></span><br><span class="line">pacstrap -K /mnt base linux-zen linux-firmware base-devel nano</span><br><span class="line">linux-headers ,bash-completion自动补全</span><br><span class="line"><span class="comment"># 若报错则需要更新keyring，然后重新安装</span></span><br><span class="line">pacman -Sy archlinux-keyring</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-配置系统"><a href="#5-配置系统" class="headerlink" title="5. 配置系统"></a>5. 配置系统</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.Fstab当前的挂载信息载入系统</span></span><br><span class="line">genfstab -U /mnt &gt;&gt; /mnt/etc/fstab</span><br><span class="line"><span class="comment"># 检查：cat /mnt/etc/fstab</span></span><br><span class="line"><span class="comment"># Chroot到新系统</span></span><br><span class="line">arch-chroot /mnt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.时区</span></span><br><span class="line"><span class="comment"># 设置时区</span></span><br><span class="line"><span class="built_in">ln</span> -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br><span class="line"><span class="comment"># 运行hwclock，生成/etc/sdjtime</span></span><br><span class="line">hwclock --systohc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3.本地化</span></span><br><span class="line"><span class="comment"># 编辑 /etc/locale.gen，然后取消掉 en_US.UTF-8 UTF-8 和其他需要的区域设置前的注释</span></span><br><span class="line">nano /etc/locale.gen</span><br><span class="line"><span class="comment"># 执行命令生成locale信息</span></span><br><span class="line">locale-gen</span><br><span class="line"><span class="comment"># 创建locale.conf文件，并编辑LANG变量</span></span><br><span class="line">nano /etc/locale.conf</span><br><span class="line"><span class="comment"># 添加：LANG=en_US.UTF-8</span></span><br><span class="line">    </span><br><span class="line"><span class="comment"># 4.网络配置</span></span><br><span class="line"><span class="comment"># 安装管理软件</span></span><br><span class="line">pacman -S networkmanager</span><br><span class="line"><span class="comment"># 配置管理，开机自启动</span></span><br><span class="line">systemctl <span class="built_in">enable</span> NetworkManager</span><br><span class="line"><span class="comment"># initramfs(通常不需要)</span></span><br><span class="line">mkinitcpio -P</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5.新建用户 </span></span><br><span class="line"><span class="comment"># 设置root密码</span></span><br><span class="line">passwd</span><br><span class="line"><span class="comment"># 设置主机名字</span></span><br><span class="line">nano /etc/hostname</span><br><span class="line"><span class="comment"># ip地址映射</span></span><br><span class="line">nano /etc/hosts</span><br><span class="line"><span class="comment"># 添加如下</span></span><br><span class="line">127.0.0.1 localhost</span><br><span class="line">::1 localhost</span><br><span class="line">127.0.0.1 archlinux.localdomin name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6.新建用户</span></span><br><span class="line">useradd -m username</span><br><span class="line">passwd username</span><br><span class="line"><span class="comment"># 授予用户 权限</span></span><br><span class="line">nano /etc/sudoers</span><br><span class="line"><span class="comment"># root的下一行写上</span></span><br><span class="line">username ALL=（ALL）ALL</span><br><span class="line">usermod -aG wheel,<span class="built_in">users</span>,storage,power,lp,adm,optical username</span><br><span class="line"><span class="built_in">export</span> EDITOR=vim</span><br><span class="line">visudo</span><br><span class="line"><span class="comment"># 去掉%wheel注释</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 7.安装引导程序</span></span><br><span class="line"><span class="comment"># 安装grub efibootmgr os-prober</span></span><br><span class="line">pacman -S grub efibootmgr os-prober</span><br><span class="line">efivar</span><br><span class="line"><span class="comment"># 启用os-prober</span></span><br><span class="line">nano /etc/default/grub</span><br><span class="line"><span class="comment"># 取消注释：GRUB_DISABLE_OS_PROBER=false</span></span><br><span class="line">ctrl+x退出</span><br><span class="line"><span class="comment"># 执行下面的命令来将 GRUB EFI 应用 grubx64.efi 安装到 esp/EFI/GRUB/，并将其模块安装到 /boot/grub/x86_64-efi/</span></span><br><span class="line">grub-install --target=x86_64-efi --efi-directory=boot --bootloader-id=GRUB</span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line">grub-install /dev/vda</span><br><span class="line">vim /etc/default/grub</span><br><span class="line"><span class="comment"># 修改如下</span></span><br><span class="line"><span class="built_in">timeout</span>=2时间短一点</span><br><span class="line">“loglevel=3”生成日志</span><br><span class="line">GRUB_GFXMOOE=1920*1080屏幕分辨率</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成grub配置文件</span></span><br><span class="line">grub-mkconfig -o /boot/grub/grub.cfg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 8.其他</span></span><br><span class="line"><span class="comment"># 退出chroot</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="comment"># 卸载掉分区</span></span><br><span class="line">umount /mnt/boot/efi</span><br><span class="line">umount /mnt</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-进入系统"><a href="#6-进入系统" class="headerlink" title="6.进入系统"></a>6.进入系统</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入Arch并激活网络</span></span><br><span class="line"><span class="comment"># 设置字号大小</span></span><br><span class="line">setfont /usr/share/kbd/consolefonts/sun12*22.psfu.gz</span><br><span class="line">        </span><br><span class="line"><span class="comment"># 连接到互联网</span></span><br><span class="line"><span class="comment"># 显示设备列表</span></span><br><span class="line">rfkill list</span><br><span class="line"><span class="comment"># 解除锁定(某些)</span></span><br><span class="line">rfkill unblock wifi</span><br><span class="line"><span class="comment"># 显示网卡列表</span></span><br><span class="line">ip <span class="built_in">link</span></span><br><span class="line"><span class="comment"># 启动网卡</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> wlan0 up</span><br><span class="line"><span class="comment"># 设置Wifi</span></span><br><span class="line">nmtui</span><br><span class="line"><span class="comment"># 启用连接，连接WIFI</span></span><br><span class="line"><span class="comment"># 检查WiFi是否连接</span></span><br><span class="line">ping baidu.com</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下载桌面KDE</span></span><br><span class="line">pacmna -S sddm xorg plasma konsole <span class="built_in">sudo</span></span><br><span class="line"><span class="comment"># 使sddm开机自启动</span></span><br><span class="line">systemctl <span class="built_in">enable</span> sddm</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-SSH远程连接"><a href="#4-SSH远程连接" class="headerlink" title="4. SSH远程连接"></a>4. SSH远程连接</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1:打开终端安装所需要的SSH服务</span></span><br><span class="line"><span class="built_in">sudo</span> apt update                    更新系统软件包索引</span><br><span class="line"><span class="built_in">sudo</span> apt install openssh-server    安装SSH服务</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2：开启SSH服务以及查看SSH服务</span></span><br><span class="line"><span class="built_in">sudo</span> systemctl status ssh            查看SSH服务是否被启动</span><br><span class="line"><span class="built_in">sudo</span> systemctl start ssh            开启SSH服务</span><br><span class="line"><span class="built_in">sudo</span> systemctl stop ssh             关闭SSH服务</span><br><span class="line"><span class="built_in">sudo</span> systemctl restart ssh          重启SSH服务</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3：开机自启动</span></span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> ssh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4.允许root登录</span></span><br><span class="line"><span class="built_in">sudo</span> nano /etc/ssh/sshd_config</span><br><span class="line">Port 22 <span class="comment">#可修改远程登陆端口</span></span><br><span class="line">PermitRootLogin prohibit-password-&gt; PermitRootLogin <span class="built_in">yes</span>   <span class="comment">#允许root账户登录</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="5-磁盘管理"><a href="#5-磁盘管理" class="headerlink" title="5. 磁盘管理"></a>5. 磁盘管理</h1><h2 id="5-1-多硬盘挂载"><a href="#5-1-多硬盘挂载" class="headerlink" title="5.1 多硬盘挂载"></a>5.1 多硬盘挂载</h2><p>因为实验室服务器都是很多人用，所以自购了新硬盘加装上去</p>
+<p>但是Linux系统上装上新硬盘需要挂载，原来的方法都是一个目录只能挂载一个硬盘</p>
+<p>本章介绍采用逻辑卷的方法，将多个硬盘挂到同一个目录的方法</p>
+<p>把两块盘先放到一个 LVM 卷组里，再建一个逻辑卷。日后还可以向卷里再加盘、扩容量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">以下是我的Linux系统硬盘情况</span></span><br><span class="line">root@user:/home# lsblk</span><br><span class="line"></span><br><span class="line">NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS</span><br><span class="line">sda           8:0    0   1.8T  0 disk </span><br><span class="line">└─sda1        8:1    0   1.8T  0 part /mnt/c7892ef0-3412-431b-98f9-9307df6c555b</span><br><span class="line">nvme0n1     259:0    0 476.9G  0 disk </span><br><span class="line">├─nvme0n1p1 259:1    0   512M  0 part /boot/efi</span><br><span class="line">└─nvme0n1p2 259:2    0 476.4G  0 part /var/snap/firefox/common/host-hunspell</span><br><span class="line">                                      /</span><br><span class="line">nvme2n1     259:3    0   1.8T  0 disk </span><br><span class="line">nvme1n1     259:4    0   1.8T  0 disk</span><br></pre></td></tr></table></figure>
+
+<p>其中nvme2n1和nvme1n1是我刚刚装的硬盘。我想把nvme2n1和nvme1n1挂载到同一个目录&#x2F;home下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">0. 安装 LVM 工具</span></span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install lvm2 -y</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1.创建物理卷</span></span><br><span class="line">sudo pvcreate /dev/nvme2n1     # 新分区</span><br><span class="line">sudo pvcreate /dev/nvme1n1     # 新分区</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2.创建卷组（VG），名字叫 vg_home</span></span><br><span class="line">vgcreate vg_home /dev/nvme2n1 /dev/nvme1n1</span><br><span class="line">vgs	#查看</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">3.在卷组里建一个逻辑卷（LV），名字叫 lv_home，大小用 100%FREE 全部用完</span></span><br><span class="line">lvcreate -l 100%FREE -n lv_home vg_home</span><br><span class="line">lvs	#查看</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">4.格式化逻辑卷</span></span><br><span class="line">mkfs.ext4 /dev/vg_home/lv_home</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">5.临时挂载到系统中/mnt/tmp_home</span></span><br><span class="line">mkdir /mnt/tmp_home</span><br><span class="line">mount /dev/vg_home/lv_home /mnt/tmp_home</span><br><span class="line">df -h            # 应该能看到 /mnt/tmp_home 约 3.6 TB</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">6.迁移旧 /home 的数据到新组中</span></span><br><span class="line">rsync -aXS --progress /home/ /mnt/tmp_home/</span><br><span class="line">umount /mnt/tmp_home	#数据保存入后，取消临时挂载</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">7.替换掉原来的挂载</span></span><br><span class="line">umount /home          # 如果原来有挂载</span><br><span class="line">mv /home /home.bak    # 保留旧目录</span><br><span class="line">mkdir /home           # 新建空目录</span><br><span class="line">blkid /dev/vg_home/lv_home     # 记下 UUID，例如：</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">UUID=5f3c9a8c-1234-4abc-9def-0123456789ab</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">8.正式挂载并写入 fstab（开机自动挂载）</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">编辑 /etc/fstab，追加一行：</span></span><br><span class="line">UUID=5f3c9a8c-1234-4abc-9def-0123456789ab  /home  ext4  defaults  0  2</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">保存后执行：</span></span><br><span class="line">mount -a</span><br><span class="line">df -h 	#看到/home新磁盘空间</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">后续扩容（可选）</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">以后如果再加一块盘（例如 /dev/nvme3n1），容量可在线扩展，无需停机。</span></span><br><span class="line">pvcreate /dev/nvme3n1</span><br><span class="line">vgextend vg_home /dev/nvme3n1</span><br><span class="line">lvextend -l +100%FREE /dev/vg_home/lv_home</span><br><span class="line">resize2fs /dev/vg_home/lv_home      # ext4</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">或</span></span><br><span class="line">xfs_growfs /home                    # xfs</span><br></pre></td></tr></table></figure>
+
+<h1 id="6-显卡"><a href="#6-显卡" class="headerlink" title="6. 显卡"></a>6. 显卡</h1><h2 id="6-1-英伟达apt-key报错"><a href="#6-1-英伟达apt-key报错" class="headerlink" title="6.1 英伟达apt-key报错"></a>6.1 英伟达apt-key报错</h2><h3 id="1-问题复现"><a href="#1-问题复现" class="headerlink" title="1. 问题复现"></a>1. 问题复现</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 运行包更新显示英伟达报错</span></span><br><span class="line"><span class="variable">$apt</span> update</span><br><span class="line"></span><br><span class="line"><span class="comment"># 出现报错</span></span><br><span class="line">W: https://nvidia.github.io/libnvidia-container/stable/deb/amd64/InRelease: 密钥存储在过时的 trusted.gpg 密钥环中（/etc/apt/trusted.gpg），请参见 apt-key(8) 的 DEPRECATION 一节以了解详情。</span><br><span class="line">W: https://nvidia.github.io/libnvidia-container/stable/ubuntu18.04/amd64/InRelease: 密钥存储在过时的 trusted.gpg 密钥环中（/etc/apt/trusted.gpg），请参见 apt-key(8) 的 DEPRECATION 一节以了解详情。</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-原因分析"><a href="#2-原因分析" class="headerlink" title="2.原因分析"></a>2.原因分析</h3><p>一、产生原因 APT 从 Debian 11 &#x2F; Ubuntu 22.04 起开始弃用 <code>/etc/apt/trusted.gpg</code> 这把“全局大钥匙环”。</p>
+<ul>
+<li>旧做法：把公钥直接塞进 <code>/etc/apt/trusted.gpg</code>（或 <code>apt-key add</code>），所有仓库共用一把环。</li>
+<li>新做法：每个仓库对应一把独立文件（<code>.gpg</code> 或 <code>.asc</code>），放在 <code>/usr/share/keyrings/</code> 或 <code>/etc/apt/trusted.gpg.d/</code>，并在 <code>sources.list</code> 里用 <code>[signed-by=/path/to/key.gpg]</code> 显式指定。</li>
+</ul>
+<p>只要系统里同时满足以下两点，就会出现</p>
+<p>“密钥存储在过时的 trusted.gpg 密钥环中（&#x2F;etc&#x2F;apt&#x2F;trusted.gpg），请参见 apt-key(8) 的 DEPRECATION 一节以了解详情”</p>
+<p>的警告：</p>
+<ol>
+<li>该仓库的 GPG 公钥仍留在 <code>/etc/apt/trusted.gpg</code>；</li>
+<li><code>sources.list</code> 中未使用 <code>[signed-by=...]</code> 指向独立 keyring。</li>
+</ol>
+<h3 id="3-排查方案"><a href="#3-排查方案" class="headerlink" title="3. 排查方案"></a>3. 排查方案</h3><table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>命令</th>
+<th>预期结果</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1. 查看所有仓库</td>
+<td><code>grep -r ^deb /etc/apt/sources.list*</code></td>
+<td>确认是否有 <code>[signed-by=...]</code> 字样</td>
+<td></td>
+</tr>
+<tr>
+<td>2. 检查旧钥匙环</td>
+<td><code>gpg --list-keys --keyring /etc/apt/trusted.gpg</code></td>
+<td>列表中是否包含 <strong>NVIDIA &#x2F; Docker &#x2F; 第三方</strong> 的 UID</td>
+<td></td>
+</tr>
+<tr>
+<td>3. 检查独立钥匙环</td>
+<td><code>ls -l /usr/share/keyrings/*.gpg /etc/apt/trusted.gpg.d/*.gpg</code></td>
+<td>是否有对应仓库的独立 keyring</td>
+<td></td>
+</tr>
+<tr>
+<td>4. 确认 apt 输出</td>
+<td>`sudo apt update 2&gt;&amp;1</td>
+<td>grep -i deprecated`</td>
+<td>仅当 1+2 同时满足时才出现警告</td>
+</tr>
+</tbody></table>
+<h3 id="4-解决步骤"><a href="#4-解决步骤" class="headerlink" title="4. 解决步骤"></a>4. 解决步骤</h3><ol>
+<li>找出仍在旧钥匙环里的 NVIDIA key</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列出旧钥匙环里所有 UID（看是否含 NVIDIA）</span></span><br><span class="line">gpg --no-default-keyring --keyring /etc/apt/trusted.gpg --list-keys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果输出里有 NVIDIA 的 UID，记下其 16 位 Key-ID</span></span><br><span class="line"><span class="comment"># 例：</span></span><br><span class="line"><span class="comment"># pub   rsa4096/F7964EA2A3E56DDE 2016-06-24 [SC]</span></span><br></pre></td></tr></table></figure>
+
+<p>假设得到的 Key-ID 是 <code>F7964EA2A3E56DDE</code>（把它替换为你机器上的真实值）。</p>
+<ol start="2">
+<li>把该 key 迁移到新钥匙环</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 创建独立 keyring</span></span><br><span class="line"><span class="built_in">sudo</span> gpg --no-default-keyring --keyring /etc/apt/trusted.gpg \</span><br><span class="line">         --<span class="built_in">export</span> F7964EA2A3E56DDE| \</span><br><span class="line"><span class="built_in">sudo</span> gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 给对应的 .list 文件加上 signed-by</span></span><br><span class="line"><span class="built_in">sudo</span> sed -i \</span><br><span class="line">  <span class="string">&#x27;s|^deb https://nvidia.github.io|deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://nvidia.github.io|&#x27;</span> \</span><br><span class="line">  /etc/apt/sources.list.d/nvidia*.list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 删除旧钥匙环里的同一条 key</span></span><br><span class="line"><span class="built_in">sudo</span> apt-key del F7964EA2A3E56DDE</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>验证</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 运行包更新，没有nvidia的warning了</span></span><br><span class="line">apt update</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E8%BF%90%E7%BB%B4/"># 运维</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2025/08/22/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E9%80%9F%E8%AE%B0/">Hexo博客搭建速记</a>
+            
+            
+            <a class="next" rel="next" href="/2025/08/22/Markdown%E6%A0%BC%E5%BC%8F%E6%B5%8B%E8%AF%95/">Markdown格式测试</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <!-- <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Henry Li | Powered by Hexo</a> & Chic</a></span>
+    </div>
+</footer> -->
+<footer id="footer" class="footer">
+  <div class="copyright">
+    <span>© Henry Li | Powered by Hexo</a> & Chic</a></span>
+    <br>
+    <span id="busuanzi_container_site_uv">本站总访客数: <span id="busuanzi_value_site_uv"></span> 人,</span>
+    <span id="busuanzi_container_site_pv">本站总访问量: <span id="busuanzi_value_site_pv"></span> 次</span>
+  </div>
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+    </div>
+</body>
+
+</html>

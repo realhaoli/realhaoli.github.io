@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Henry Li">
+
+
+
+
+
+<title>Git速记 | Henry&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const pagebody = document.getElementsByTagName('body')[0]
+
+            function setTheme(status) {
+
+                if (status === 'dark') {
+                    window.sessionStorage.theme = 'dark'
+                    pagebody.classList.add('dark-theme');
+
+                } else if (status === 'light') {
+                    window.sessionStorage.theme = 'light'
+                    pagebody.classList.remove('dark-theme');
+                }
+            };
+
+            setTheme(window.sessionStorage.theme)
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Henry&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                <a class="menu-item" href="/archives">文章</a>
+                
+                <a class="menu-item" href="/category">分类</a>
+                
+                <a class="menu-item" href="/tag">标签</a>
+                
+                <a class="menu-item" href="/about">关于</a>
+                
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Henry&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">
+                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M4.5 17.27q-.213 0-.356-.145T4 16.768t.144-.356t.356-.143h15q.213 0 .356.144q.144.144.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.144T4 11.999t.144-.356t.356-.143h15q.213 0 .356.144t.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.143Q4 7.443 4 7.23t.144-.356t.356-.143h15q.213 0 .356.144T20 7.23t-.144.356t-.356.144z"/></svg>
+                    <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Material Symbols Light by Google - https://github.com/google/material-design-icons/blob/master/LICENSE --><path fill="currentColor" d="m12 12.708l-5.246 5.246q-.14.14-.344.15t-.364-.15t-.16-.354t.16-.354L11.292 12L6.046 6.754q-.14-.14-.15-.344t.15-.364t.354-.16t.354.16L12 11.292l5.246-5.246q.14-.14.345-.15q.203-.01.363.15t.16.354t-.16.354L12.708 12l5.246 5.246q.14.14.15.345q.01.203-.15.363t-.354.16t-.354-.16z"/></svg>
+                </div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                <a class="menu-item" href="/archives">文章</a>
+                
+                <a class="menu-item" href="/category">分类</a>
+                
+                <a class="menu-item" href="/tag">标签</a>
+                
+                <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if (toggleMenu.classList.contains("active")) {
+            toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        } else {
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">关闭目录</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">前往底部</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 6
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        // b.innerText = expanded ? 'Expand all' : 'Collapse all';
+        b.innerText = expanded ? '展开目录' : '关闭目录';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Git速记</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Henry Li</a>&nbsp;&nbsp;
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2025-08-22</a>&nbsp;&nbsp;
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%8A%80%E6%9C%AF%E9%80%9F%E8%AE%B0/">技术速记</a>
+                            &nbsp;&nbsp;
+                        </span>
+                    
+                    <!-- 添加本文阅读量 -->
+                        <span id="busuanzi_container_page_pv">
+                        本文阅读量: <span id="busuanzi_value_page_pv"></span> 次
+                        </span>
+
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Git操作流程</span></span><br><span class="line"><span class="comment">#1、克隆仓库或本地初始化项目</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/username/repo.git</span><br><span class="line"><span class="built_in">cd</span> repo</span><br><span class="line"><span class="comment">#git init dir	#本地初始化</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#2、创建新分支：为了避免直接在 main 或 master 分支上进行开发，通常会创建一个新的分支</span></span><br><span class="line">git checkout -b new-feature</span><br><span class="line"></span><br><span class="line"><span class="comment">#3、暂存、提交文件：随时暂存(装箱)，按需提交</span></span><br><span class="line">git add .	<span class="comment">#git add filename</span></span><br><span class="line">git commit -m <span class="string">&quot;Add new feature&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#4、拉取最新更改：在推送本地更改之前，最好从远程仓库拉取最新的更改，以避免冲突：</span></span><br><span class="line">git pull origin main</span><br><span class="line"><span class="comment"># 或者如果在新的分支上工作</span></span><br><span class="line">git pull origin new-feature</span><br><span class="line"></span><br><span class="line"><span class="comment">#5、推送更改</span></span><br><span class="line">git push origin new-feature</span><br><span class="line"></span><br><span class="line"><span class="comment">#6、创建 Pull Request（PR）</span></span><br><span class="line">在 GitHub 或其他托管平台上创建 Pull Request，邀请团队成员进行代码审查。</span><br><span class="line">PR 合并后，你的更改就会合并到主分支。</span><br><span class="line"></span><br><span class="line"><span class="comment">#7、删除分支：如果不再需要新功能分支，可以将其删除：</span></span><br><span class="line">git branch -d new-feature</span><br><span class="line"><span class="comment">#或者从远程仓库删除分支：</span></span><br><span class="line">git push origin --delete new-feature</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="1-Git介绍"><a href="#1-Git介绍" class="headerlink" title="1. Git介绍"></a>1. Git介绍</h1><p>开源、分布式、直接记录快照、专针对数据</p>
+<h2 id="1-1-仓库概念"><a href="#1-1-仓库概念" class="headerlink" title="1.1 仓库概念"></a>1.1 仓库概念</h2><ol>
+<li>工作区：workspace，电脑能看到的目录，<strong>写代码的地方</strong>，通过git init创建的代码库，但不包括 .git文件(版本库)</li>
+<li>暂存区&#x2F;索引：Index&#x2F;Stage，<strong>保存暂时信息</strong>，通过git add操作存入的地方(.git&#x2F;index)，</li>
+<li>本地库仓库：Repository，<strong>本地保存每个版本记录</strong>，本地文件夹 + Git 历史记录</li>
+<li>版本库：工作区中的目录(.git，版本库&#x3D;暂存区+本地库)</li>
+<li>远程库：Remote，<strong>远程保存每个记录</strong>，托管在服务器上的代码库（如 GitHub&#x2F;GitLab）</li>
+</ol>
+<h2 id="1-2-文件的三种状态"><a href="#1-2-文件的三种状态" class="headerlink" title="1.2 文件的三种状态"></a>1.2 文件的三种状态</h2><ol>
+<li>已修改（modified）：没进行add和commit操作，在工作区</li>
+<li>已暂存（staged）：进行add操作，但没commit操作，保存到暂存区</li>
+<li>已提交（committed）：进行add操作和commit操作，保存到本地库</li>
+</ol>
+<h2 id="1-3-配置"><a href="#1-3-配置" class="headerlink" title="1.3 配置"></a>1.3 配置</h2><h3 id="1-配置文件"><a href="#1-配置文件" class="headerlink" title="1. 配置文件"></a>1. 配置文件</h3><p><code>Git</code>自带<code>git config</code>的工具控制<code>Git</code>外观和行为的配置变量（存储在三个不同的位置）</p>
+<ol>
+<li><code>/etc/gitconfig</code> 文件：包含系统上每个用户及他们仓库的通用配置。 带有<code>--system</code> 选项时，会从此文件读写配置变量。</li>
+<li><code>~/.gitconfig</code> 或<code>~/.config/git/config</code>文件：只针对当前用户。 <code>--global</code>选项让 Git 读写此文件。</li>
+<li><code>.git/config</code>：当前仓库的<code>config</code> 文件，针对该仓库。</li>
+</ol>
+<p>每一个级别覆盖上一级别的配置，即 <code>.git/config</code> 的配置变量会覆盖 <code>/etc/gitconfig</code> 中的配置变量。</p>
+<h3 id="2-配置用户信息-必要"><a href="#2-配置用户信息-必要" class="headerlink" title="2. 配置用户信息(必要)"></a>2. 配置用户信息(必要)</h3><p>当使用<code>--globle</code>参数时，只需要配置一次</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置全局用户名和邮箱（提交者身份）</span></span><br><span class="line">git config --global user.name &quot;你的名字&quot;</span><br><span class="line">git config --global user.email &quot;你的邮箱&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看配置列表</span></span><br><span class="line">git config --list</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-配置SSH"><a href="#3-配置SSH" class="headerlink" title="3. 配置SSH"></a>3. 配置SSH</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">ssh-keygen.exe <span class="comment">#生成SSH密钥</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">进入文件夹：C:\Users\username\.ssh</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">复制id_rsa.pub文件夹全部内容</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">进入GitHub选择Setting -&gt; SSH and GPG keys -&gt; New SSH key</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-文本编辑器-可选"><a href="#4-文本编辑器-可选" class="headerlink" title="4. 文本编辑器(可选)"></a>4. 文本编辑器(可选)</h3><p>Git会使用操作系统默认的文本编辑器，也可指定</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.editor emacs</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-本地操作"><a href="#2-本地操作" class="headerlink" title="2. 本地操作"></a>2. 本地操作</h1><p><img src="/../images/git/git-local.jpeg" alt="本地操作"></p>
+<h2 id="2-1-新建仓库"><a href="#2-1-新建仓库" class="headerlink" title="2.1 新建仓库"></a>2.1 新建仓库</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">初始化文件夹</span></span><br><span class="line">git init        #文件夹内初始化</span><br><span class="line">git init dir    #指定文件夹内</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">拉取远程仓库</span></span><br><span class="line">git clone &lt;repo&gt;        #克隆远程仓库</span><br><span class="line">git clone &lt;repo&gt; &lt;dir&gt;  #克隆远程仓库到指定文件夹</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-提交代码流程"><a href="#2-2-提交代码流程" class="headerlink" title="2.2 提交代码流程"></a>2.2 提交代码流程</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">添加到暂存区</span></span><br><span class="line">git add .                #当前目录所有文件到暂存区</span><br><span class="line">git add &lt;dir|file?       #指定目录或文件到暂存区</span><br><span class="line">git add file1 file2 ...  #添加多个文件到暂存区</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">添加到本地库</span></span><br><span class="line">git commit -m “msg”     #自动将暂存区所有内容存入本地库</span><br><span class="line">git commit file1 file2 ... -m “msg”        #添加暂存区的指定文件到本地库</span><br><span class="line">git commit -am “msg”    #直接将工作区文件加入本地库</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3-查看文件状态"><a href="#2-3-查看文件状态" class="headerlink" title="2.3 查看文件状态"></a>2.3 查看文件状态</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看文件状态</span></span><br><span class="line">git status -s    </span><br><span class="line"><span class="comment">#参数表示简要输出</span></span><br><span class="line"><span class="comment">#？？(红色)表示未添加到暂存区</span></span><br><span class="line"><span class="comment">#A表示添加到暂存区</span></span><br><span class="line"><span class="comment">#M已经添加到本地库的文件又进行了修改(红色未提交到暂存区，绿色已提交到暂存区，两个MM表示都不一样)</span></span><br><span class="line"><span class="comment">#AM表示添加到暂存区后又修改了</span></span><br><span class="line"><span class="comment">#U代表合并后未提交到暂存库</span></span><br><span class="line"><span class="comment">#添加到本地库的内容不显示</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#比较文件在暂存区和工作区的差异</span></span><br><span class="line">git diff file    <span class="comment">#比较暂存区和工作区的差异，没差别则不显示，以工作区视角</span></span><br><span class="line">git diff --cached/staged file#比较暂存区和最新本地库之间的差异，没差别不显示，暂存区视角</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-4-版本管理"><a href="#2-4-版本管理" class="headerlink" title="2.4 版本管理"></a>2.4 版本管理</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看提交历史</span></span><br><span class="line">git log                         #查看提交记录，最新在上面</span><br><span class="line">git log --oneline/git reflog    #简洁显示日志</span><br><span class="line">git log --oneline --graph       #拓扑图显示分支与合并历程</span><br><span class="line">git log --author=&lt;Lee&gt; --oneline#查看指定作者日志</span><br><span class="line">git blame file                  #查看指定文件的修改记录</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">回退到指定版本</span></span><br><span class="line">git reset HEAD^/ID        #误操作add，暂存区回退到指定版本，默认--mixed参数，修改暂存区，工作区不变</span><br><span class="line">git reset HEAD^/ID file   #指定文件回退，默认--mixed参数</span><br><span class="line">git reset --hard HEAD/ID  #将暂存区和工作区都会回到指定版本，版本之后的会被删除，--hard参数</span><br><span class="line">git reset --soft HEAD/ID  #合并提交，指定版本之后的都设为未被提交到暂存区，只改变commit指针指向，不改变工作区</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">暂存区内容同步到工作区</span></span><br><span class="line">git restore .</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">删除文件</span></span><br><span class="line">git rm file           #将文件从暂存区和工作区中删除</span><br><span class="line">git rm -f file        #若删除前修改过且已放入暂存区，则参数-f强制删除</span><br><span class="line">git rm --cached file  #只把文件从暂存区移除，工作区不变，仅从工作区中删除</span><br><span class="line">git rm –r *           #递归删除</span><br><span class="line">git commit -m “msg”   #将删除内容同步到本地库</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-5-分支管理"><a href="#2-5-分支管理" class="headerlink" title="2.5 分支管理"></a>2.5 分支管理</h2><p>版本控制中使用多分支同时推进多个任务，每个分支代表一条独立的开开发线</p>
+<p>每个分支并行开发互不影响，对一个分支的增删改查不影响另一个分支，提高开发效率</p>
+<p><img src="/../images/git/git-checkout.png" alt="分支操作"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git branch    #列出所有分支</span><br><span class="line">git branch branch_name      #创建分支</span><br><span class="line">git checkout branch_name    #切换分支，Git会用最近版本替换工作区内容</span><br><span class="line">git checkout -b branch_name #创建分支，并直接进入</span><br><span class="line">git branch -d branch_name   #删除分支</span><br><span class="line">git merge branch_name       #分支合并，将指定分支合并到本分支，都存在本地库中</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-远程库操作"><a href="#3-远程库操作" class="headerlink" title="3. 远程库操作"></a>3. 远程库操作</h1><p>若是想和其他开发人员合作，需要将数据放到共同的服务器上</p>
+<p><img src="/../images/git/git-github.png" alt="远程库操作"></p>
+<p>GitHub项目的三个操作</p>
+<ol>
+<li><code>Watch/Unwatch</code>:跟踪项目，每当项目发生变动时自己都会收到站内通知，或邮件通知</li>
+<li><code>Star</code>：收藏、点赞，在个人信息列表的<code>your stars</code>目录里收藏着所有<code>Star</code>过的项目</li>
+<li><code>Fork</code>：克隆、分支：相当于对原项目创建分支(包括历史记录)，自己克隆到本地修改后上传，可发起<code>pull request</code>给原项目作者，然后等待他的<code>merge</code>通知</li>
+</ol>
+<h2 id="3-1-GitHub配置"><a href="#3-1-GitHub配置" class="headerlink" title="3.1 GitHub配置"></a>3.1 GitHub配置</h2><p>由于本地git仓库和远程仓库是通过SSH加密传输，所以需要配置验证信息</p>
+<p><code>$ssh-keygen -t rsa -C “``123@abc.com``”</code>输入邮箱生成SSH Key</p>
+<ol>
+<li>进入<code>.ssh</code>文件下，复制全部<code>id_rsa.pub</code>里面的值</li>
+<li>配置：在<code>Github</code>上，<code>Account &gt;&gt; Settings &gt;&gt; SSH and GPG keys &gt;&gt; New SSH key</code></li>
+<li>添加：Tittle随便填，复制全部内容进去，保存</li>
+</ol>
+<p><code>$ssh -T ``git@github.com</code>输入命令并键入yes，进行连接验证</p>
+<h2 id="3-2-连接远程库"><a href="#3-2-连接远程库" class="headerlink" title="3.2 连接远程库"></a>3.2 连接远程库</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1.建立远程仓库：选择new，输入仓库名字</span><br><span class="line">创建后，会显示信息，可按信息进行克隆新仓库，或把本地仓库内容推送到GitHub仓库</span><br><span class="line"></span><br><span class="line">2.本地库连接：</span><br><span class="line">git init    #初始化本地库</span><br><span class="line">git remote  #显示所有远程仓库，-v参数显示实际链接地址</span><br><span class="line">git remote add &lt;name&gt; &lt;url&gt;  #给远程库起名字，便于引用</span><br><span class="line">git push -u origin master    #把本地库内容推送到远程库</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-从远程库获取代码"><a href="#3-3-从远程库获取代码" class="headerlink" title="3.3 从远程库获取代码"></a>3.3 从远程库获取代码</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git fetch origin           #从origin远程库获取更新内容到本地库</span><br><span class="line">git merge origin/branch    #将origin远程库内容合并到branch分支</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-4-推送到远程库"><a href="#3-4-推送到远程库" class="headerlink" title="3.4 推送到远程库"></a>3.4 推送到远程库</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git push origin master1:master2    #将本地分支名master1推送到origin远程库的master分支上</span><br><span class="line">git push origin maste    #当本地库与远程库的分支名相同时，推送本地库master分支到origin远程库</span><br><span class="line">git push --force origin master    #本地库与远程库有差异时，强制推送</span><br><span class="line">git push origin --delete master   #删除origin远程库的master分支</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-5-远程库合并本地版本"><a href="#3-5-远程库合并本地版本" class="headerlink" title="3.5 远程库合并本地版本"></a>3.5 远程库合并本地版本</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git pull #其实就是 git fetch 和 git merge FETCH_HEAD 的简写</span><br><span class="line">git pull origin master1:master2    #远程库origin的master1分支合并到本地master2分支中</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-6-删除远程仓库"><a href="#3-6-删除远程仓库" class="headerlink" title="3.6 删除远程仓库"></a>3.6 删除远程仓库</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote rm origin    #删除origin远程库</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-团队合作"><a href="#4-团队合作" class="headerlink" title="4. 团队合作"></a>4. 团队合作</h1><h2 id="4-1-团队内部合作"><a href="#4-1-团队内部合作" class="headerlink" title="4.1 团队内部合作"></a>4.1 团队内部合作</h2><p><img src="/../images/git/git-inner-teamwork.png" alt="团队内部合作"></p>
+<ol>
+<li>团队1创建项目，保存origin地址</li>
+<li>团队2根据origin地址进行fork操作，然后克隆到本地仓库进行修改</li>
+<li>修改好后从本地库上传到远程库，并发送pull request请求</li>
+<li>团队1收到pull request通知，并决定是否接受merge</li>
+<li>团队2等待merge通知</li>
+</ol>
+<h2 id="4-2-跨团队合作"><a href="#4-2-跨团队合作" class="headerlink" title="4.2 跨团队合作"></a>4.2 跨团队合作</h2><p><img src="/../images/git/git-outter-teamwork.png" alt="团队内部合作"></p>
+<ol>
+<li>团队 A（仓库维护方）<ol>
+<li>在 GitHub 新建公开或私有仓库，记录仓库 URL。</li>
+<li>设定主分支保护、Issue&#x2F;PR 模板、CI 规则。</li>
+<li>定期查看 Pull Request，进行代码评审。</li>
+<li>评审通过后执行合并，并在必要时打版本标签。</li>
+<li>通知贡献方合并结果，关闭相关 Issue。</li>
+</ol>
+</li>
+<li>团队 B（功能贡献方）<ol>
+<li>在 GitHub 将团队 A 的仓库 Fork 到本组织或个人名下。</li>
+<li>把 Fork 后的仓库克隆到本地开发环境。</li>
+<li>创建功能分支，完成需求开发、测试与本地提交。</li>
+<li>将功能分支推送到自己的远程仓库。</li>
+<li>在 GitHub 发起 Pull Request，描述改动并关联 Issue。</li>
+<li>根据团队 A 的评审意见迭代修改，直至合并完成。</li>
+<li>合并后同步最新主分支到本地和远程，清理已完成功能分支。</li>
+</ol>
+</li>
+<li>系统管理员 &#x2F; DevOps（可选支撑角色）<ol>
+<li>为仓库配置持续集成&#x2F;持续部署（CI&#x2F;CD）流程。</li>
+<li>监控主分支健康状态，确保合并前通过全部检查。</li>
+<li>在发布节点创建 Release 分支或 Tag，触发自动部署。</li>
+</ol>
+</li>
+</ol>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%AE%97%E6%B3%95/"># 算法</a>
+                    
+                        <a href="/tags/%E5%89%8D%E7%AB%AF/"># 前端</a>
+                    
+                        <a href="/tags/%E5%90%8E%E7%AB%AF/"># 后端</a>
+                    
+                        <a href="/tags/%E8%BF%90%E7%BB%B4/"># 运维</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2025/08/22/Markdown%E6%A0%BC%E5%BC%8F%E6%B5%8B%E8%AF%95/">Markdown格式测试</a>
+            
+            
+            <a class="next" rel="next" href="/2025/08/22/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E9%80%9F%E8%AE%B0/">Hexo博客搭建速记</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <!-- <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Henry Li | Powered by Hexo</a> & Chic</a></span>
+    </div>
+</footer> -->
+<footer id="footer" class="footer">
+  <div class="copyright">
+    <span>© Henry Li | Powered by Hexo</a> & Chic</a></span>
+    <br>
+    <span id="busuanzi_container_site_uv">本站总访客数: <span id="busuanzi_value_site_uv"></span> 人,</span>
+    <span id="busuanzi_container_site_pv">本站总访问量: <span id="busuanzi_value_site_pv"></span> 次</span>
+  </div>
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+    </div>
+</body>
+
+</html>

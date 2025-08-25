@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Henry Li">
+
+
+
+
+
+<title>MySQL笔记 | Henry&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const pagebody = document.getElementsByTagName('body')[0]
+
+            function setTheme(status) {
+
+                if (status === 'dark') {
+                    window.sessionStorage.theme = 'dark'
+                    pagebody.classList.add('dark-theme');
+
+                } else if (status === 'light') {
+                    window.sessionStorage.theme = 'light'
+                    pagebody.classList.remove('dark-theme');
+                }
+            };
+
+            setTheme(window.sessionStorage.theme)
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Henry&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                <a class="menu-item" href="/archives">文章</a>
+                
+                <a class="menu-item" href="/category">分类</a>
+                
+                <a class="menu-item" href="/tag">标签</a>
+                
+                <a class="menu-item" href="/about">关于</a>
+                
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Henry&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">
+                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M4.5 17.27q-.213 0-.356-.145T4 16.768t.144-.356t.356-.143h15q.213 0 .356.144q.144.144.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.144T4 11.999t.144-.356t.356-.143h15q.213 0 .356.144t.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.143Q4 7.443 4 7.23t.144-.356t.356-.143h15q.213 0 .356.144T20 7.23t-.144.356t-.356.144z"/></svg>
+                    <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Material Symbols Light by Google - https://github.com/google/material-design-icons/blob/master/LICENSE --><path fill="currentColor" d="m12 12.708l-5.246 5.246q-.14.14-.344.15t-.364-.15t-.16-.354t.16-.354L11.292 12L6.046 6.754q-.14-.14-.15-.344t.15-.364t.354-.16t.354.16L12 11.292l5.246-5.246q.14-.14.345-.15q.203-.01.363.15t.16.354t-.16.354L12.708 12l5.246 5.246q.14.14.15.345q.01.203-.15.363t-.354.16t-.354-.16z"/></svg>
+                </div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                <a class="menu-item" href="/archives">文章</a>
+                
+                <a class="menu-item" href="/category">分类</a>
+                
+                <a class="menu-item" href="/tag">标签</a>
+                
+                <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if (toggleMenu.classList.contains("active")) {
+            toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        } else {
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">关闭目录</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">前往底部</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 6
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        // b.innerText = expanded ? 'Expand all' : 'Collapse all';
+        b.innerText = expanded ? '展开目录' : '关闭目录';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">MySQL笔记</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Henry Li</a>&nbsp;&nbsp;
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2025-08-25</a>&nbsp;&nbsp;
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%8A%80%E6%9C%AF%E9%80%9F%E8%AE%B0/">技术速记</a>
+                            &nbsp;&nbsp;
+                        </span>
+                    
+                    <!-- 添加本文阅读量 -->
+                        <span id="busuanzi_container_page_pv">
+                        本文阅读量: <span id="busuanzi_value_page_pv"></span> 次
+                        </span>
+
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="1-基础"><a href="#1-基础" class="headerlink" title="1. 基础"></a>1. 基础</h1><p>MySQL是关系型数据库，具有开源、稳定、可靠、管理方便等优点</p>
+<p>MySQL语法在Windows下不区分大小写，在Linux下区分大小写</p>
+<p>数据库是按照数据结构对数据进行组织存储管理的仓库</p>
+<p>注释为#，或–，多行注释为<code>/*，*/</code></p>
+<h1 id="2-数据库基础"><a href="#2-数据库基础" class="headerlink" title="2. 数据库基础"></a>2. 数据库基础</h1><h2 id="2-1-数据库操作"><a href="#2-1-数据库操作" class="headerlink" title="2.1 数据库操作"></a>2.1 数据库操作</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">创建数据库</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">CREATE DATABASE &lt;db_name&gt;;</span></span><br><span class="line">create database mydb;</span><br><span class="line">create database if not exists mydb;</span><br><span class="line">   </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看数据库</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">SHOW DATABASES</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看数据库的创建信息</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">SHOW CREATE DATABASE &lt;db_name&gt;;</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">选择/使用数据库</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">USE &lt;db_name&gt;;</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">删除数据库</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">DROP DATABASE &lt;db_name&gt;;</span></span><br><span class="line">drop database mydb;</span><br><span class="line">drop database if exists mydb;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-数据表操作"><a href="#2-2-数据表操作" class="headerlink" title="2.2 数据表操作"></a>2.2 数据表操作</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">创建数据表</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">CREATE TABLE &lt;table_name&gt;(字段名、字段类型、字段属性,...);</span></span><br><span class="line">create table goods(</span><br><span class="line">id int comment &#x27;编号&#x27;,</span><br><span class="line">name varchar(32),</span><br><span class="line">)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看数据表</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">SHOW TABLES [LIKE 匹配模式];#%匹配多个字符，_匹配单个字符</span></span><br><span class="line">show tables;</span><br><span class="line">show tables like &#x27;%msg%&#x27;;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看表结构</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">DESCRIBE &lt;table_name&gt;;</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">DESC &lt;table_name&gt;;</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">DESC &lt;table_name field_name&gt;;</span></span><br><span class="line">desc gooods;</span><br><span class="line">desc goods name;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看数据库的创建语句</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">SHOW CREATE TABLE &lt;table_name&gt;;</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看数据表结构</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">SHOW [FULL] COLUMNS FROM &lt;db_name.table_name&gt;</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">SHOW [FULL] COLUMNS FROM &lt;table_name&gt; [FROM &lt;db_name&gt;]</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">删除数据表</span></span><br><span class="line">DROP TABLE [IF EXITES] &lt;table_name&gt;;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">修改表名称</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">ALTER TABLE &lt;old_name&gt; rename &lt;new_name&gt;;</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">RENAME TABLE &lt;old_name1&gt; TO &lt;new_name1&gt;[,&lt;old_name2&gt; TO &lt;new_name2&gt;];</span></span><br><span class="line">rename table old_name to new_name;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">修改表选项</span></span><br><span class="line">ALTER TABLE &lt;table_name&gt; &lt;&gt; [=] &lt;value&gt;</span><br><span class="line">alter table goods charset=utf-8;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">修改表结构</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">修改字段名</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">ALTER TABLE &lt;table_name&gt; CHANGE [COLUMN] &lt;old_field&gt; &lt;new_field&gt; &lt;field_type&gt;;</span></span><br><span class="line">alter table mydb change name goods_name varchar(255);</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">修改字段类型</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">ALTER TABLE &lt;table_name&gt; MODIFY &lt;field&gt; &lt;new_type&gt;;</span></span><br><span class="line">alter table goods modify name char(255)</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">修改顺序</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">ALTER TABLE &lt;table_name&gt; MODIFY &lt;field1&gt; &lt;<span class="built_in">type</span>&gt; &lt;FIRST|AFTER&gt; &lt;field2&gt;</span></span><br><span class="line">alter table goods modify id int after name;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">新增字段</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">ALTER TABLE &lt;table_name&gt; ADD [COLUMN] &lt;field1&gt; &lt;<span class="built_in">type</span>&gt; [&lt;FIRST|AFTER&gt; &lt;field2&gt;]</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">ALTER TABLE &lt;table_name&gt; ADD [COLUMN] &lt;field1&gt; &lt;type1&gt;,&lt;field2&gt; &lt;type2&gt;;</span></span><br><span class="line">alter table goods add num int after name;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">删除字段</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">ALTER TABLE &lt;table_name&gt; DROP [COLUMN] &lt;field&gt;;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3-数据操作"><a href="#2-3-数据操作" class="headerlink" title="2.3 数据操作"></a>2.3 数据操作</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">添加数据</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">INSERT [INTO] &lt;table_name&gt; &#123;VALUES | VALUE&#125;(value1,value2...);</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查询数据</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">SELECT * FROM &lt;table_name&gt;;</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">SELECT &lt;field1,field2...&gt; FORM &lt;table_name&gt;;</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">SELECT * FROM &lt;table_name&gt; WHERE &lt;field&gt; = &lt;value&gt;;</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">修改数据</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">UPDATE &lt;table_name&gt; SET &lt;field1&gt; = &lt;value1&gt; [,&lt;field2&gt; = &lt;value2&gt;] [WHERE ...];</span></span><br><span class="line">update goods set num=99 where id=2;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">删除数据</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">DELETE FROM &lt;table_name&gt; [Where ...];</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="3-数据类型与约束"><a href="#3-数据类型与约束" class="headerlink" title="3. 数据类型与约束"></a>3. 数据类型与约束</h1><h2 id="3-1-数据类型"><a href="#3-1-数据类型" class="headerlink" title="3.1 数据类型"></a>3.1 数据类型</h2><table>
+<thead>
+<tr>
+<th>整数类型</th>
+<th>字节数</th>
+<th>无符号取值范围</th>
+<th>有符号取值范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TINYINT</td>
+<td>1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SMALLINT</td>
+<td>2</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>MEDIUMINT</td>
+<td>3</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>INT</td>
+<td>4</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>8</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int unsigned ZEROFILL;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>浮点数类型</th>
+<th>字节数</th>
+<th>复数取值范围</th>
+<th>非负数取值范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FLOAT</td>
+<td>4</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>DOUBLE</td>
+<td>8</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>时间数据类型</th>
+<th>取值范围</th>
+<th>日期格式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>YEAR</td>
+<td>1901~2155</td>
+<td>YYYY</td>
+</tr>
+<tr>
+<td>DATE</td>
+<td>1000-01-01~9999-12-3</td>
+<td>YYYY-MM-DD</td>
+</tr>
+<tr>
+<td>TIME</td>
+<td>-838:59:59~838:59:59</td>
+<td>HH:MM:SS</td>
+</tr>
+<tr>
+<td>DATETIME</td>
+<td>1000-01-01 00:00:00~9999-12-31 23:59:59</td>
+<td>YYYY-MM-DD HH:MM:SS</td>
+</tr>
+<tr>
+<td>TIMESTAMP</td>
+<td>1970-01-01 00:00:01~2038-01-19 03:14:07</td>
+<td>YYYY-MM-DD HH:MM:SS</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>字符串类型</th>
+<th>类型说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CHAR</td>
+<td>固定长度字符串</td>
+</tr>
+<tr>
+<td>VARCHAR</td>
+<td>可变长度字符串</td>
+</tr>
+<tr>
+<td>TEXT</td>
+<td>大文本数据</td>
+</tr>
+<tr>
+<td>ENUM</td>
+<td>枚举类型</td>
+</tr>
+<tr>
+<td>SET</td>
+<td>字符串对象</td>
+</tr>
+<tr>
+<td>BINARY</td>
+<td>固定长度二进制数据</td>
+</tr>
+<tr>
+<td>VARBINARY</td>
+<td>可变长度二进制数据</td>
+</tr>
+<tr>
+<td>BLOB</td>
+<td>二进制大对象，图片，pdf</td>
+</tr>
+</tbody></table>
+<h2 id="3-2-表的约束"><a href="#3-2-表的约束" class="headerlink" title="3.2 表的约束"></a>3.2 表的约束</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#默认约束</span><br><span class="line">字段名 数据类型 DEFAULT 默认值;</span><br><span class="line"></span><br><span class="line">#非空约束</span><br><span class="line">字段名 数据类型 NOT NULL;</span><br><span class="line"></span><br><span class="line">#唯一约束</span><br><span class="line">字段名 数据类型 UNIQUE;</span><br><span class="line"></span><br><span class="line">#主键约束</span><br><span class="line">字段名 数据类型 PRIMARY KEY;</span><br><span class="line"></span><br><span class="line">#自动增长</span><br><span class="line">字段名 数据类型 AUTO_INCREMENT;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-字符集与校对集"><a href="#3-3-字符集与校对集" class="headerlink" title="3.3 字符集与校对集"></a>3.3 字符集与校对集</h2><p>字符集指对计算机保存的各种文字和符号</p>
+<p>SHOW CHARACTER SET；</p>
+<table>
+<thead>
+<tr>
+<th>字符集</th>
+<th>单字符最大长度</th>
+<th>支持的语言</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>latin1</td>
+<td>1Byte</td>
+<td></td>
+</tr>
+<tr>
+<td>gbk</td>
+<td>2Byte</td>
+<td></td>
+</tr>
+<tr>
+<td>utf8</td>
+<td>3Byte</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>校对集用于为不同字符集指定比较和排序规则</p>
+<h1 id="4-数据库设计"><a href="#4-数据库设计" class="headerlink" title="4. 数据库设计"></a>4. 数据库设计</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1.需求分析</span><br><span class="line">	收集数据</span><br><span class="line">	解决冲突</span><br><span class="line">	制定标准</span><br><span class="line">2.概念数据库设计</span><br><span class="line">3.逻辑数据库设计</span><br><span class="line">4.物理数据库设计</span><br><span class="line">5.数据库实施</span><br><span class="line">6.数据库运行与维护</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-1-数据库设计范式"><a href="#4-1-数据库设计范式" class="headerlink" title="4.1 数据库设计范式"></a>4.1 数据库设计范式</h2><p>数据库设计范式（Normalization）是关系数据库设计中的一系列规范原则，旨在<strong>消除数据冗余</strong>、<strong>减少数据异常</strong>（插入、更新、删除异常），并<strong>确保数据的一致性和完整性</strong></p>
+<p>通过将大表拆分为结构良好的小表，并通过关系连接来实现目标。</p>
+<p>为了避免不规范的数据库出现数据冗余，造成增删改查的异常情况，需要满足一定的范式要求</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">第一范式(1NF)原子性:每一列（数据项）不可再分</span><br><span class="line">第二范式(2NF)唯一性:非主键字段完全依赖主键</span><br><span class="line">第三范式(3NF):非主键字段不能相互依赖</span><br></pre></td></tr></table></figure>
+
+<h1 id="5-单表操作"><a href="#5-单表操作" class="headerlink" title="5.单表操作"></a>5.单表操作</h1><h2 id="5-1-数据操作"><a href="#5-1-数据操作" class="headerlink" title="5.1 数据操作"></a>5.1 数据操作</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#复制已有的表结构</span><br><span class="line">$CREATR [TEMPORARY] TABLE [IF NOT EXISTS] &lt;TABLE_NAME&gt; [LIKE &lt;OLD_TABLE_NAME&gt;];</span><br><span class="line">create table mydb.mygoods like sh_goods;</span><br><span class="line"></span><br><span class="line">#复制已有的表数据(蠕虫复制)</span><br><span class="line">INSERT [INTO] &lt;table_name1&gt; [(filed)] SELECT [(filed)] FROM &lt;table_name1&gt;;</span><br><span class="line">insert into mydb.goods select * from sh_goods;</span><br><span class="line"></span><br><span class="line">#解决主键冲突</span><br><span class="line">1.主键冲突更新</span><br><span class="line">$INSERT [into] &lt;table_names&gt; on dup</span><br><span class="line"></span><br><span class="line">#去除重复记录</span><br><span class="line">SELECT DISTINCT name from sh_goods;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-2-排序与限量"><a href="#5-2-排序与限量" class="headerlink" title="5.2 排序与限量"></a>5.2 排序与限量</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#单字段排序</span><br><span class="line">SELECT *|&lt;filed&gt; FROM &lt;table_name&gt; ORDER BY &lt;filed&gt; [ASC|DESC];</span><br><span class="line">#多字段排序</span><br><span class="line">SELECT *|&lt;filed&gt; FROM &lt;table_name&gt; ORDER BY &lt;filed1&gt; [ASC|DESC],&lt;filed2&gt; [ASC|DESC];</span><br><span class="line"></span><br><span class="line">限量</span><br><span class="line">SELECT [select选项] 字段列表 FROM 数据表名 [WHERE表达式] [ORDER BY 字段 ASC|DESC] LIMIT [OFFSET,]记录数</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-3-分组与聚合"><a href="#5-3-分组与聚合" class="headerlink" title="5.3 分组与聚合"></a>5.3 分组与聚合</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">根据一个或多个字段进行分组，字段值相同的为一组</span><br><span class="line">分组统计</span><br><span class="line">SELECT [select选项] 字段列表 FROM 数据表名 [where 表达式] GROUP BY 字段名;</span><br><span class="line">分组排序</span><br><span class="line">SELECT [select选项] 字段列表 FROM 数据表名 [where 表达式] GROUP BY 字段名 [ASC|DESC];</span><br><span class="line">多分组排序</span><br><span class="line">SELECT [select选项] 字段列表 FROM 数据表名 [where 表达式] GROUP BY 字段名1 [ASC|DESC], 字段名2 [ASC|DESC];</span><br><span class="line">回溯统计：分组后又根据分组的字段向上进行新的统计</span><br><span class="line">SELECT [select选项] 字段列表 FROM 数据表名 [where 表达式] GROUP BY 字段名1 [ASC|DESC], 字段名2 [ASC|DESC] WITH ROLLUP;</span><br><span class="line"></span><br><span class="line">统计筛选</span><br><span class="line">SELECT [select选项] 字段列表 FROM 数据表名 [where 表达式] GROUP BY 字段名1 [ASC|DESC] [WITH ROLLUP] HAVING 条件表达式;</span><br><span class="line"></span><br><span class="line">使用别名</span><br><span class="line">SELECT 字段1 [AS] 别名1，字段2 [AS] 别名2 FROM 表名;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>聚合函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>COUNT()</td>
+<td>返回参数的数量，不统计为Null的记录</td>
+</tr>
+<tr>
+<td>SUM()</td>
+<td>返回参数字段之和</td>
+</tr>
+<tr>
+<td>AVG()</td>
+<td>返回参数字段平均值</td>
+</tr>
+<tr>
+<td>MAX()</td>
+<td>返回参数字段最大值</td>
+</tr>
+<tr>
+<td>MIN()</td>
+<td>返回参数字段最小值</td>
+</tr>
+<tr>
+<td>GROUP_CONCAT()</td>
+<td>返回符合条件的参数字段值的连接字符串</td>
+</tr>
+<tr>
+<td>JSON_ARRAYAGG()</td>
+<td>将符合条件的参数字段值作为单个JSON数组返回</td>
+</tr>
+<tr>
+<td>JSON_OBJECTAGG()</td>
+<td>将符合条件的参数字段值作为单个JSON对象返回</td>
+</tr>
+</tbody></table>
+<h2 id="5-4-运算符"><a href="#5-4-运算符" class="headerlink" title="5.4 运算符"></a>5.4 运算符</h2><table>
+<thead>
+<tr>
+<th>算术运算符</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>+</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>*</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&#x2F;</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>%</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NULL</td>
+<td>NULL参与的运算结果都为NULL</td>
+<td></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CEIL()</td>
+<td>返回大于等于x的最小整数</td>
+</tr>
+<tr>
+<td>FLOOR()</td>
+<td>返回小于等于x的最大整数</td>
+</tr>
+<tr>
+<td>FORMAT(x,y)</td>
+<td>返回小数点后y位小数（进位）</td>
+</tr>
+<tr>
+<td>ROUND(x[,y])</td>
+<td>计算与x最近的整数</td>
+</tr>
+<tr>
+<td>TRUNCATE(x,y)</td>
+<td>返回小数点后y位小数（不进位）</td>
+</tr>
+<tr>
+<td>ABS(x)</td>
+<td>返回x的绝对值</td>
+</tr>
+<tr>
+<td>MOD(x,y)</td>
+<td>求模运算</td>
+</tr>
+<tr>
+<td>PI()</td>
+<td>圆周率</td>
+</tr>
+<tr>
+<td>SQRT(x)</td>
+<td>平方根</td>
+</tr>
+<tr>
+<td>POW(x,y)</td>
+<td>幂运算，x的y次方</td>
+</tr>
+<tr>
+<td>RAND()</td>
+<td>[0,1]的随机数</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>比较运算符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#x3D;</td>
+<td></td>
+</tr>
+<tr>
+<td>&lt;&#x3D;&gt;</td>
+<td>可以与NULL比较</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td></td>
+</tr>
+<tr>
+<td>&gt;&#x3D;</td>
+<td></td>
+</tr>
+<tr>
+<td>&lt;&#x3D;</td>
+<td></td>
+</tr>
+<tr>
+<td>&lt;&gt;,!&#x3D;</td>
+<td></td>
+</tr>
+<tr>
+<td>BETWEEN … AND …</td>
+<td></td>
+</tr>
+<tr>
+<td>NOT BETWEEN … AND …</td>
+<td></td>
+</tr>
+<tr>
+<td>IS</td>
+<td></td>
+</tr>
+<tr>
+<td>IS NOT</td>
+<td></td>
+</tr>
+<tr>
+<td>IS NULL</td>
+<td></td>
+</tr>
+<tr>
+<td>IS NOT NULL</td>
+<td></td>
+</tr>
+<tr>
+<td>LIKE ‘匹配模式’</td>
+<td></td>
+</tr>
+<tr>
+<td>NOT LIKE ‘匹配模式’</td>
+<td></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>比较函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>IN()</td>
+<td>比较一个值是否在一个给定的集合内</td>
+</tr>
+<tr>
+<td>NOT IN()</td>
+<td>及比较一个值是否不在一个给定的集合内</td>
+</tr>
+<tr>
+<td>GREATEST()</td>
+<td>返回最大的一个参数值，至少传递两个参数</td>
+</tr>
+<tr>
+<td>LEAST()</td>
+<td>返回最小的一个参数值，至少传递两个参数</td>
+</tr>
+<tr>
+<td>ISNULL()</td>
+<td>测试是否为空</td>
+</tr>
+<tr>
+<td>COALESCE()</td>
+<td>返回第一个非空函数</td>
+</tr>
+<tr>
+<td>INTERVAL()</td>
+<td>返回第一个参数的参数索引</td>
+</tr>
+<tr>
+<td>STRCMP()</td>
+<td>比较两个字符串</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>逻辑运算符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AND | &amp;&amp;</td>
+<td></td>
+</tr>
+<tr>
+<td>OR | ||</td>
+<td></td>
+</tr>
+<tr>
+<td>NOT ！</td>
+<td></td>
+</tr>
+<tr>
+<td>XOR</td>
+<td>一真一假位真，否则为假</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>位运算符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&amp;</td>
+<td>按位与</td>
+</tr>
+<tr>
+<td>|</td>
+<td>按位或</td>
+</tr>
+<tr>
+<td>^</td>
+<td>按位异或</td>
+</tr>
+<tr>
+<td>&lt;&lt;</td>
+<td>按位左移</td>
+</tr>
+<tr>
+<td>&gt;&gt;</td>
+<td>按位右移</td>
+</tr>
+<tr>
+<td>~</td>
+<td>按位取反</td>
+</tr>
+</tbody></table>
+<h1 id="6-多表操作"><a href="#6-多表操作" class="headerlink" title="6.多表操作"></a>6.多表操作</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">联合查询</span><br><span class="line">SELECT ... UNION [ALL | DISTINCT] SELECT ...</span><br><span class="line"></span><br><span class="line">连接查询</span><br><span class="line">交叉连接：返回两个表中的笛卡尔乘积</span><br><span class="line">SELECT 查询字段 FROM 表1 CROSS JOIN 表2;</span><br><span class="line">内链接：</span><br><span class="line">SELECT 查询字段 FROM 表1 [INNER] JOIN 表2 ON 匹配条件;</span><br><span class="line">sleect g.id,g.name,c.id,c.name from sh_goods g join mygoods c on g.id=c.id;</span><br><span class="line"></span><br><span class="line">左连接:返回左表中的所有记录和右边符合条件的记录</span><br><span class="line">SELECT 查询字段 FROM 表1 LEFT [OUTER] JOIN 表2 ON 匹配条件;</span><br><span class="line"></span><br><span class="line">右连接:返回右表中的所有记录和左边符合条件的记录</span><br><span class="line">SELECT 查询字段 FROM 表1 RIGHT [OUTER] JOIN 表2 ON 匹配条件;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%90%8E%E7%AB%AF/"># 后端</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2025/08/25/NVM%E7%AE%A1%E7%90%86Node%E5%A4%9A%E7%89%88%E6%9C%AC/">nvm管理Node多版本</a>
+            
+            
+            <a class="next" rel="next" href="/2025/08/25/ASR%E8%AF%AD%E9%9F%B3%E8%BD%AC%E6%96%87%E5%AD%97/">ASR语音转文字</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <!-- <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Henry Li | Powered by Hexo</a> & Chic</a></span>
+    </div>
+</footer> -->
+<footer id="footer" class="footer">
+  <div class="copyright">
+    <span>© Henry Li | Powered by Hexo</a> & Chic</a></span>
+    <br>
+    <span id="busuanzi_container_site_uv">本站总访客数: <span id="busuanzi_value_site_uv"></span> 人,</span>
+    <span id="busuanzi_container_site_pv">本站总访问量: <span id="busuanzi_value_site_pv"></span> 次</span>
+  </div>
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+    </div>
+</body>
+
+</html>

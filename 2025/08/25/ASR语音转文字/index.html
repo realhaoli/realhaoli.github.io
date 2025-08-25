@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Henry Li">
+
+
+
+
+
+<title>ASR语音转文字 | Henry&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const pagebody = document.getElementsByTagName('body')[0]
+
+            function setTheme(status) {
+
+                if (status === 'dark') {
+                    window.sessionStorage.theme = 'dark'
+                    pagebody.classList.add('dark-theme');
+
+                } else if (status === 'light') {
+                    window.sessionStorage.theme = 'light'
+                    pagebody.classList.remove('dark-theme');
+                }
+            };
+
+            setTheme(window.sessionStorage.theme)
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Henry&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                <a class="menu-item" href="/archives">文章</a>
+                
+                <a class="menu-item" href="/category">分类</a>
+                
+                <a class="menu-item" href="/tag">标签</a>
+                
+                <a class="menu-item" href="/about">关于</a>
+                
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Henry&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">
+                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M4.5 17.27q-.213 0-.356-.145T4 16.768t.144-.356t.356-.143h15q.213 0 .356.144q.144.144.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.144T4 11.999t.144-.356t.356-.143h15q.213 0 .356.144t.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.143Q4 7.443 4 7.23t.144-.356t.356-.143h15q.213 0 .356.144T20 7.23t-.144.356t-.356.144z"/></svg>
+                    <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Material Symbols Light by Google - https://github.com/google/material-design-icons/blob/master/LICENSE --><path fill="currentColor" d="m12 12.708l-5.246 5.246q-.14.14-.344.15t-.364-.15t-.16-.354t.16-.354L11.292 12L6.046 6.754q-.14-.14-.15-.344t.15-.364t.354-.16t.354.16L12 11.292l5.246-5.246q.14-.14.345-.15q.203-.01.363.15t.16.354t-.16.354L12.708 12l5.246 5.246q.14.14.15.345q.01.203-.15.363t-.354.16t-.354-.16z"/></svg>
+                </div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                <a class="menu-item" href="/archives">文章</a>
+                
+                <a class="menu-item" href="/category">分类</a>
+                
+                <a class="menu-item" href="/tag">标签</a>
+                
+                <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if (toggleMenu.classList.contains("active")) {
+            toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        } else {
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">关闭目录</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">前往底部</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 6
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        // b.innerText = expanded ? 'Expand all' : 'Collapse all';
+        b.innerText = expanded ? '展开目录' : '关闭目录';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">ASR语音转文字</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Henry Li</a>&nbsp;&nbsp;
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2025-08-25</a>&nbsp;&nbsp;
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%8A%80%E6%9C%AF%E9%80%9F%E8%AE%B0/">技术速记</a>
+                            &nbsp;&nbsp;
+                        </span>
+                    
+                    <!-- 添加本文阅读量 -->
+                        <span id="busuanzi_container_page_pv">
+                        本文阅读量: <span id="busuanzi_value_page_pv"></span> 次
+                        </span>
+
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>在某实习进行AI电话语音外呼项目中，mentor让我标记电话通话内容</p>
+<p>一个个听录音太慢了，但是看的速度可以很快，所以我就本地转换一下，大大减轻工作内容</p>
+<p>本项目使用Python代码，使用OpenAI开源的<code>Whisper</code>模型进行本地识别，开源库为<code>pywhispercpp</code></p>
+<h1 id="1、材料说明"><a href="#1、材料说明" class="headerlink" title="1、材料说明"></a>1、材料说明</h1><p>一个excel表，第一列为电话录音的URL地址，URL地址可能出现异常不能用。URL的地址也太长了，本地代码不能运行</p>
+<p>电话录音为wav文件，每个电话分为左右两声道，分别为对方的语音，自己的语音。</p>
+<p>每个电话的采样率太高了，需要降低采样率。</p>
+<p>需要保存的内容为：语音url、语音时长、左声道内容、右声道内容。</p>
+<p><code>Whisper</code>模型详情如下：</p>
+<table>
+<thead>
+<tr>
+<th>模型名称</th>
+<th>参数量</th>
+<th>磁盘&#x2F;内存占用</th>
+<th>相对速度</th>
+<th>适用场景举例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>tiny</strong></td>
+<td>39 M</td>
+<td>≈ 1 GB</td>
+<td>~10×</td>
+<td>嵌入式、超低延迟 demo</td>
+</tr>
+<tr>
+<td><strong>base</strong></td>
+<td>74 M</td>
+<td>≈ 1.5 GB</td>
+<td>~7×</td>
+<td>实时字幕、资源受限设备</td>
+</tr>
+<tr>
+<td><strong>small</strong></td>
+<td>244 M</td>
+<td>≈ 2.5 GB</td>
+<td>~4×</td>
+<td>日常转写、手机&#x2F;笔记本</td>
+</tr>
+<tr>
+<td><strong>medium</strong></td>
+<td>769 M</td>
+<td>≈ 5 GB</td>
+<td>~2×</td>
+<td>会议记录、带口音音频</td>
+</tr>
+<tr>
+<td><strong>large-v3</strong></td>
+<td>1 550 M</td>
+<td>≈ 10 GB</td>
+<td>1×</td>
+<td>专业级、多语言混合</td>
+</tr>
+<tr>
+<td><strong>large-v3-turbo</strong></td>
+<td>809 M</td>
+<td>≈ 6 GB</td>
+<td>~8×</td>
+<td>在 large 与 medium 之间折中</td>
+</tr>
+</tbody></table>
+<h1 id="2、项目结构"><a href="#2、项目结构" class="headerlink" title="2、项目结构"></a>2、项目结构</h1><p>批量处理 Excel 中的音频 URL流程：<br>       1. 下载音频<br>       2. 分离左右声道，重采样<br>       3. 语音识别（中文）<br>       4. 计算语音时长<br>       5. 输出新的 Excel（含原两列 + 时长 + 左声道文本 + 右声道文本）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">./</span><br><span class="line">tel-urls.xlsx</span><br><span class="line">download_wav.py</span><br><span class="line">get_audio_info.py</span><br><span class="line">split_and_resample.py</span><br><span class="line">voice2text.py</span><br><span class="line">main.py</span><br></pre></td></tr></table></figure>
+
+<h1 id="3、文件内容"><a href="#3、文件内容" class="headerlink" title="3、文件内容"></a>3、文件内容</h1><h2 id="3-1-download-wav-py"><a href="#3-1-download-wav-py" class="headerlink" title="3.1 download_wav.py"></a>3.1 download_wav.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">Optional</span></span><br><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> urlparse, unquote</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">_safe_filename</span>(<span class="params">url: <span class="built_in">str</span>, resp</span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    根据 Content-Disposition 或 url 生成合法、简短的文件名。</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 1. 优先使用 Content-Disposition</span></span><br><span class="line">    cd = resp.headers.get(<span class="string">&quot;content-disposition&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&quot;filename=&quot;</span> <span class="keyword">in</span> cd:</span><br><span class="line">        fname = cd.split(<span class="string">&quot;filename=&quot;</span>)[<span class="number">1</span>].split(<span class="string">&quot;;&quot;</span>)[<span class="number">0</span>].strip(<span class="string">&#x27;&quot;&#x27;</span>).strip(<span class="string">&quot;&#x27;&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 2. 用 url 中的 basename（去掉 query）</span></span><br><span class="line">        path = urlparse(url).path</span><br><span class="line">        fname = unquote(os.path.basename(path))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 3. 兜底：uuid</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> fname <span class="keyword">or</span> <span class="keyword">not</span> fname.lower().endswith(<span class="string">&quot;.wav&quot;</span>):</span><br><span class="line">        fname = <span class="string">f&quot;<span class="subst">&#123;uuid.uuid4().<span class="built_in">hex</span>&#125;</span>.wav&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 4. 去掉危险字符</span></span><br><span class="line">    fname = <span class="string">&quot;&quot;</span>.join(c <span class="keyword">for</span> c <span class="keyword">in</span> fname <span class="keyword">if</span> c.isalnum() <span class="keyword">or</span> c <span class="keyword">in</span> (<span class="string">&quot;-&quot;</span>, <span class="string">&quot;_&quot;</span>, <span class="string">&quot;.&quot;</span>))</span><br><span class="line">    <span class="keyword">return</span> fname</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">download_wav_file</span>(<span class="params">url: <span class="built_in">str</span>, save_path: <span class="built_in">str</span></span>) -&gt; <span class="type">Optional</span>[<span class="built_in">str</span>]:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    从 url 下载 wav 文件并保存到 save_path。</span></span><br><span class="line"><span class="string">    返回最终保存的完整文件路径；失败返回 None。</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># 1. 准备保存路径</span></span><br><span class="line">        <span class="keyword">if</span> os.path.isdir(save_path) <span class="keyword">or</span> save_path.endswith(os.sep):</span><br><span class="line">            os.makedirs(save_path, exist_ok=<span class="literal">True</span>)</span><br><span class="line">            <span class="comment"># 延迟到拿到 resp 后生成文件名</span></span><br><span class="line">            local_dir = save_path</span><br><span class="line">            local_path = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            local_dir = os.path.dirname(save_path)</span><br><span class="line">            <span class="keyword">if</span> local_dir:</span><br><span class="line">                os.makedirs(local_dir, exist_ok=<span class="literal">True</span>)</span><br><span class="line">            local_path = save_path</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 2. 下载</span></span><br><span class="line">        <span class="keyword">with</span> requests.get(url, stream=<span class="literal">True</span>, timeout=<span class="number">30</span>) <span class="keyword">as</span> resp:</span><br><span class="line">            resp.raise_for_status()</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> local_path <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                <span class="comment"># 目录模式：动态生成文件名</span></span><br><span class="line">                fname = _safe_filename(url, resp)</span><br><span class="line">                local_path = os.path.join(local_dir, fname)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 3. 写文件</span></span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(local_path, <span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                shutil.copyfileobj(resp.raw, f)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> local_path</span><br><span class="line"></span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="comment"># print(f&quot;[download_wav_file] 下载失败：&#123;e&#125;&quot;)</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    url=<span class="string">&quot;http://wdcloud-sh-freeswitch.oss-cn-shanghai.aliyuncs.com/fre50814&quot;</span></span><br><span class="line">    save_dir = <span class="string">&quot;/Users/henryli/Documents/IVR-Project&quot;</span></span><br><span class="line"></span><br><span class="line">    final_path = download_wav_file(url, save_dir)</span><br><span class="line">    <span class="keyword">if</span> final_path:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;文件已保存到：<span class="subst">&#123;final_path&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;下载未成功，请检查网络或 url&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-get-audio-info-py"><a href="#3-2-get-audio-info-py" class="headerlink" title="3.2 get_audio_info.py"></a>3.2 get_audio_info.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> soundfile <span class="keyword">as</span> sf</span><br><span class="line"></span><br><span class="line"><span class="comment"># def audio_info(path):</span></span><br><span class="line"><span class="comment">#     &quot;&quot;&quot;</span></span><br><span class="line"><span class="comment">#     打印音频文件的采样率、声道数、位宽、时长</span></span><br><span class="line"><span class="comment">#     支持 WAV/FLAC/OGG/MP3 等格式</span></span><br><span class="line"><span class="comment">#     &quot;&quot;&quot;</span></span><br><span class="line"><span class="comment">#     if not os.path.isfile(path):</span></span><br><span class="line"><span class="comment">#         raise FileNotFoundError(path)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#     info = sf.info(path)</span></span><br><span class="line"><span class="comment">#     print(f&quot;文件: &#123;path&#125;&quot;)</span></span><br><span class="line"><span class="comment">#     print(f&quot;采样率: &#123;info.samplerate&#125; Hz&quot;)</span></span><br><span class="line"><span class="comment">#     print(f&quot;声道数: &#123;info.channels&#125;&quot;)</span></span><br><span class="line"><span class="comment">#     print(f&quot;位宽/格式: &#123;info.subtype&#125;&quot;)</span></span><br><span class="line"><span class="comment">#     print(f&quot;时长: &#123;info.duration:.2f&#125; 秒&quot;)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_audio_duration</span>(<span class="params">file_path: <span class="built_in">str</span></span>) -&gt; <span class="built_in">float</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    返回音频文件时长（秒），失败返回 0.0</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># audio = AudioSegment.from_file(file_path)</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">round</span>(sf.info(file_path).duration, <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">except</span> Exception:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0.0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    path = <span class="string">&quot;/Users/henryli/Downloads/Analyze_Tel/demo.wav&quot;</span></span><br><span class="line">    <span class="built_in">print</span>(get_audio_duration(path))</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-split-and-resample-py"><a href="#3-3-split-and-resample-py" class="headerlink" title="3.3 split_and_resample.py"></a>3.3 split_and_resample.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> soundfile <span class="keyword">as</span> sf</span><br><span class="line"><span class="keyword">import</span> librosa</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">split_and_convert</span>(<span class="params">audio_path: <span class="built_in">str</span></span>) -&gt; <span class="built_in">tuple</span>[<span class="built_in">str</span>, <span class="built_in">str</span>]:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    把本地音频文件拆分成左右两个 16 kHz / 16-bit / 单声道 WAV 文件，</span></span><br><span class="line"><span class="string">    并保存在同目录下，文件名分别为 &lt;原文件名&gt;.left.wav 和 &lt;原文件名&gt;.right.wav。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    参数</span></span><br><span class="line"><span class="string">    ----</span></span><br><span class="line"><span class="string">    audio_path : str</span></span><br><span class="line"><span class="string">        本地音频文件路径。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    返回</span></span><br><span class="line"><span class="string">    ----</span></span><br><span class="line"><span class="string">    tuple[str, str]</span></span><br><span class="line"><span class="string">        (left_wav_path, right_wav_path)</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 1. 读取音频</span></span><br><span class="line">    y, sr = librosa.load(audio_path, sr=<span class="literal">None</span>, mono=<span class="literal">False</span>)  <span class="comment"># shape: (channels, samples)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 如果是单声道，复制一份当作左右声道</span></span><br><span class="line">    <span class="keyword">if</span> y.ndim == <span class="number">1</span>:</span><br><span class="line">        y = np.stack([y, y])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 2. 拆分左右声道</span></span><br><span class="line">    left_raw, right_raw = y[<span class="number">0</span>], y[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 3. 重采样到 16 kHz</span></span><br><span class="line">    target_sr = <span class="number">16000</span></span><br><span class="line">    left_16k = librosa.resample(left_raw, orig_sr=sr, target_sr=target_sr)</span><br><span class="line">    right_16k = librosa.resample(right_raw, orig_sr=sr, target_sr=target_sr)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 4. 构造输出文件路径</span></span><br><span class="line">    base_path, _ = os.path.splitext(audio_path)  <span class="comment"># 去掉扩展名</span></span><br><span class="line">    left_path = <span class="string">f&quot;<span class="subst">&#123;base_path&#125;</span>_left.wav&quot;</span></span><br><span class="line">    right_path = <span class="string">f&quot;<span class="subst">&#123;base_path&#125;</span>_right.wav&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 5. 保存为 16-bit PCM WAV</span></span><br><span class="line">    sf.write(left_path, left_16k, target_sr, subtype=<span class="string">&#x27;PCM_16&#x27;</span>)</span><br><span class="line">    sf.write(right_path, right_16k, target_sr, subtype=<span class="string">&#x27;PCM_16&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> left_path, right_path</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    test_file = <span class="string">&quot;/Users/henryli/Downloads/Analyze_Tel/demo.wav&quot;</span></span><br><span class="line">    left_wav_path, right_wav_path = split_and_convert(test_file)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;左声道文件:&quot;</span>, left_wav_path)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;右声道文件:&quot;</span>, right_wav_path)</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-4-voice2text-py"><a href="#3-4-voice2text-py" class="headerlink" title="3.4 voice2text.py"></a>3.4 voice2text.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pywhispercpp.model <span class="keyword">import</span> Model</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">transcribe_chinese</span>(<span class="params">wav_path: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    <span class="comment"># model = Model(&#x27;tiny&#x27;)</span></span><br><span class="line">    <span class="comment"># model = Model(&#x27;base&#x27;)</span></span><br><span class="line">    <span class="comment"># model = Model(&#x27;small&#x27;) #推荐</span></span><br><span class="line">    model = Model(<span class="string">&#x27;medium&#x27;</span>)</span><br><span class="line">    segments = model.transcribe(</span><br><span class="line">        wav_path,</span><br><span class="line">        language=<span class="string">&#x27;zh&#x27;</span>,</span><br><span class="line">        initial_prompt=<span class="string">&#x27;以下是普通话内容&#x27;</span></span><br><span class="line">    )</span><br><span class="line">    text = <span class="string">&#x27;&#x27;</span>.join(seg.text <span class="keyword">for</span> seg <span class="keyword">in</span> segments).strip()</span><br><span class="line">    <span class="keyword">return</span> text</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    path = <span class="string">&quot;/Users/henryli/Downloads/Analyze_Tel/demo.wav&quot;</span>   </span><br><span class="line">    result = transcribe_chinese(path)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;识别结果：&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-5-main-py"><a href="#3-5-main-py" class="headerlink" title="3.5 main.py"></a>3.5 main.py</h2><p>批量处理 Excel 中的音频 URL：<br>       1. 下载音频<br>       2. 分离左右声道<br>       3. 语音识别（中文）<br>       4. 计算时长<br>       5. 输出新的 Excel（含原两列 + 时长 + 左声道文本 + 右声道文本）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">批量处理 Excel 中的音频 URL：</span></span><br><span class="line"><span class="string">    1. 下载音频</span></span><br><span class="line"><span class="string">    2. 分离左右声道</span></span><br><span class="line"><span class="string">    3. 语音识别（中文）</span></span><br><span class="line"><span class="string">    4. 计算时长</span></span><br><span class="line"><span class="string">    5. 输出新的 Excel（含原两列 + 时长 + 左声道文本 + 右声道文本）</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> pydub <span class="keyword">import</span> AudioSegment</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> download_wav <span class="keyword">import</span> download_wav_file</span><br><span class="line"><span class="keyword">from</span> split_and_resample <span class="keyword">import</span> split_and_convert</span><br><span class="line"><span class="keyword">from</span> voice2text <span class="keyword">import</span> transcribe_chinese</span><br><span class="line"><span class="keyword">from</span> get_audio_info <span class="keyword">import</span> get_audio_duration</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">process_one_url</span>(<span class="params">url: <span class="built_in">str</span>, save_dir: <span class="built_in">str</span></span>) -&gt; <span class="built_in">tuple</span>[<span class="built_in">float</span>, <span class="built_in">str</span>, <span class="built_in">str</span>]:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    对单个 URL 进行全流程处理：</span></span><br><span class="line"><span class="string">    返回 (时长, 左声道文本, 右声道文本)</span></span><br><span class="line"><span class="string">    如果任意一步失败，对应字段返回空字符串或 0</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 1. 下载</span></span><br><span class="line">    wav_path = download_wav_file(url, save_dir)</span><br><span class="line">    <span class="keyword">if</span> wav_path <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0.0</span>, <span class="string">&quot;&quot;</span>, <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 2. 计算时长</span></span><br><span class="line">    duration = get_audio_duration(wav_path)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 3. 分离声道</span></span><br><span class="line">    left_path, right_path = split_and_convert(wav_path)</span><br><span class="line">    <span class="keyword">if</span> left_path <span class="keyword">is</span> <span class="literal">None</span> <span class="keyword">or</span> right_path <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">return</span> duration, <span class="string">&quot;&quot;</span>, <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 4. 语音识别</span></span><br><span class="line">    left_text  = transcribe_chinese(left_path)  <span class="keyword">or</span> <span class="string">&quot;&quot;</span></span><br><span class="line">    right_text = transcribe_chinese(right_path) <span class="keyword">or</span> <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> duration, left_text, right_text</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>(<span class="params">input_excel: <span class="built_in">str</span>,</span></span><br><span class="line"><span class="params">         audio_save_dir: <span class="built_in">str</span>,</span></span><br><span class="line"><span class="params">         output_excel: <span class="built_in">str</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    主函数</span></span><br><span class="line"><span class="string">    :param input_excel:  原始 Excel 文件路径</span></span><br><span class="line"><span class="string">    :param audio_save_dir: 所有音频文件保存的文件夹（不存在会自动创建）</span></span><br><span class="line"><span class="string">    :param output_excel:  结果 Excel 文件路径</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    os.makedirs(audio_save_dir, exist_ok=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 读取 Excel</span></span><br><span class="line">    df = pd.read_excel(input_excel, header=<span class="literal">None</span>)  <span class="comment"># 假设无表头</span></span><br><span class="line">    <span class="keyword">if</span> df.shape[<span class="number">1</span>] &lt; <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">raise</span> ValueError(<span class="string">&quot;Excel 至少需要两列：URL 和字符串&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 准备结果容器</span></span><br><span class="line">    durations, left_texts, right_texts = [], [], []</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 批量处理</span></span><br><span class="line">    <span class="keyword">for</span> url <span class="keyword">in</span> tqdm(df.iloc[:, <span class="number">0</span>].astype(<span class="built_in">str</span>), desc=<span class="string">&quot;Processing&quot;</span>):</span><br><span class="line">        dur, left, right = process_one_url(url.strip(), audio_save_dir)</span><br><span class="line">        durations.append(dur)</span><br><span class="line">        left_texts.append(left)</span><br><span class="line">        right_texts.append(right)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 组装结果 DataFrame</span></span><br><span class="line">    result_df = pd.DataFrame(&#123;</span><br><span class="line">        <span class="number">0</span>: df.iloc[:, <span class="number">0</span>],   <span class="comment"># 原 URL</span></span><br><span class="line">        <span class="number">1</span>: df.iloc[:, <span class="number">1</span>],   <span class="comment"># 原字符串</span></span><br><span class="line">        <span class="number">3</span>: durations,       <span class="comment"># 第 4 列：时长</span></span><br><span class="line">        <span class="number">4</span>: left_texts,      <span class="comment"># 第 5 列：左声道文本</span></span><br><span class="line">        <span class="number">5</span>: right_texts      <span class="comment"># 第 6 列：右声道文本</span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 保存</span></span><br><span class="line">    result_df.to_excel(output_excel, index=<span class="literal">False</span>, header=<span class="literal">False</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;处理完成，结果已保存至：<span class="subst">&#123;output_excel&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="comment"># 示例用法（可改成命令行参数或交互输入）</span></span><br><span class="line">    input_excel_path   】= <span class="string">r&quot;0814录音文件列表.xlsx&quot;</span></span><br><span class="line">    save_audio_dir = <span class="string">r&quot;/Users/henryli/Documents/IVR-Project/0814&quot;</span></span><br><span class="line">    output_result_path = <span class="string">&quot;result_&quot;</span>+input_excel_path</span><br><span class="line"></span><br><span class="line">    main(input_excel_path, save_audio_dir, output_result_path)</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%AE%97%E6%B3%95/"># 算法</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2025/08/25/NVM%E7%AE%A1%E7%90%86Node%E5%A4%9A%E7%89%88%E6%9C%AC/">nvm管理Node多版本</a>
+            
+            
+            <a class="next" rel="next" href="/2025/08/25/%E5%A4%A7%E6%A8%A1%E5%9E%8BAPI%E8%B0%83%E7%94%A8%E6%96%B9%E6%B3%95/">大模型API调用方法</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <!-- <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Henry Li | Powered by Hexo</a> & Chic</a></span>
+    </div>
+</footer> -->
+<footer id="footer" class="footer">
+  <div class="copyright">
+    <span>© Henry Li | Powered by Hexo</a> & Chic</a></span>
+    <br>
+    <span id="busuanzi_container_site_uv">本站总访客数: <span id="busuanzi_value_site_uv"></span> 人,</span>
+    <span id="busuanzi_container_site_pv">本站总访问量: <span id="busuanzi_value_site_pv"></span> 次</span>
+  </div>
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+    </div>
+</body>
+
+</html>

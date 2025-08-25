@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Henry Li">
+
+
+
+
+
+<title>Docker笔记 | Henry&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const pagebody = document.getElementsByTagName('body')[0]
+
+            function setTheme(status) {
+
+                if (status === 'dark') {
+                    window.sessionStorage.theme = 'dark'
+                    pagebody.classList.add('dark-theme');
+
+                } else if (status === 'light') {
+                    window.sessionStorage.theme = 'light'
+                    pagebody.classList.remove('dark-theme');
+                }
+            };
+
+            setTheme(window.sessionStorage.theme)
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Henry&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                <a class="menu-item" href="/archives">文章</a>
+                
+                <a class="menu-item" href="/category">分类</a>
+                
+                <a class="menu-item" href="/tag">标签</a>
+                
+                <a class="menu-item" href="/about">关于</a>
+                
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Henry&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">
+                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M4.5 17.27q-.213 0-.356-.145T4 16.768t.144-.356t.356-.143h15q.213 0 .356.144q.144.144.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.144T4 11.999t.144-.356t.356-.143h15q.213 0 .356.144t.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.143Q4 7.443 4 7.23t.144-.356t.356-.143h15q.213 0 .356.144T20 7.23t-.144.356t-.356.144z"/></svg>
+                    <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Material Symbols Light by Google - https://github.com/google/material-design-icons/blob/master/LICENSE --><path fill="currentColor" d="m12 12.708l-5.246 5.246q-.14.14-.344.15t-.364-.15t-.16-.354t.16-.354L11.292 12L6.046 6.754q-.14-.14-.15-.344t.15-.364t.354-.16t.354.16L12 11.292l5.246-5.246q.14-.14.345-.15q.203-.01.363.15t.16.354t-.16.354L12.708 12l5.246 5.246q.14.14.15.345q.01.203-.15.363t-.354.16t-.354-.16z"/></svg>
+                </div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                <a class="menu-item" href="/archives">文章</a>
+                
+                <a class="menu-item" href="/category">分类</a>
+                
+                <a class="menu-item" href="/tag">标签</a>
+                
+                <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if (toggleMenu.classList.contains("active")) {
+            toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        } else {
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">关闭目录</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">前往底部</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 6
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        // b.innerText = expanded ? 'Expand all' : 'Collapse all';
+        b.innerText = expanded ? '展开目录' : '关闭目录';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Docker笔记</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Henry Li</a>&nbsp;&nbsp;
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2025-08-25</a>&nbsp;&nbsp;
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%8A%80%E6%9C%AF%E9%80%9F%E8%AE%B0/">技术速记</a>
+                            &nbsp;&nbsp;
+                        </span>
+                    
+                    <!-- 添加本文阅读量 -->
+                        <span id="busuanzi_container_page_pv">
+                        本文阅读量: <span id="busuanzi_value_page_pv"></span> 次
+                        </span>
+
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="1、介绍"><a href="#1、介绍" class="headerlink" title="1、介绍"></a>1、介绍</h1><p>虚拟化技术主要用来解决<u>高性能的物理硬件产能过剩</u>和<u>老的旧的硬件产能过低</u>的重组重用</p>
+<p>Docker项目的目标是实现轻量级的操作系统虚拟化解决方案，Docker的基础是Linux容器（LXC）等技术</p>
+<p>Securely build，share and run any application，anywhere</p>
+<p><strong>打包</strong>：就是把你软件运行所需的依赖、第三方库、软件打包到一起，变成一个安装包 </p>
+<p><strong>分发</strong>：你可以把你打包好的“安装包”上传到一个镜像仓库，其他人可以非常方便的获取和安装 </p>
+<p><strong>部署</strong>：拿着“安装包”就可以一个命令运行起来你的应用，自动模拟出一摸一样的运行环境，不管是在 Windows&#x2F;Mac&#x2F;Linux。</p>
+<p><strong>Dockerfile</strong>：像自动化脚本，用来创建镜像</p>
+<p><strong>镜像&#x2F;lmage</strong>：Docker将应用程序及其所需的依赖、函数库、环境、配置等文件打包在一起，称为镜像。</p>
+<p><strong>容器&#x2F;Container</strong>：镜像中的应用程序运行后形成的进程就是容器，就像是面向对象程序设计中的类和对象一样，镜像是静态的定义，容器是镜像运行时的实体。只是Docker会给容器做隔离，又对外不可见。容器可以被创建、启动、停止、删除、暂停等。</p>
+<p><img src="/../images/docker/docker.png" alt="docker架构"></p>
+<h1 id="2、Docker命令"><a href="#2、Docker命令" class="headerlink" title="2、Docker命令"></a>2、Docker命令</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">启动Docker服务</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">systemctl start docker</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">停止Docker服务</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">systemctl stop docker</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">重启Docker服务</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">systemctl restart docker</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看Docker服务状态</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">systemctl status docker</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">开机自启动Docker服务</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">systemctl <span class="built_in">enable</span> docker</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">取消开机自启动docker</span></span><br><span class="line">systemctl disenable docker</span><br></pre></td></tr></table></figure>
+
+<h1 id="3、镜像命令"><a href="#3、镜像命令" class="headerlink" title="3、镜像命令"></a>3、镜像命令</h1><p><img src="/../images/docker/image.png" alt="docker架构"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看本地镜像</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">docker images</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">REPOSITORY仓库，TAG版本，IMAGE ID镜像ID，CREATED拉取时间，SIZE存储空间</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">搜索远程镜像</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">docker search &lt;repository_name&gt;</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">docker search mysql    <span class="comment">#举例：搜索mysql</span></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">删除镜像</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">docker rmi &lt;IMAGE ID|REPOSITORY:TAG &gt;</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">拉取镜像：远程-&gt;本地</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">docker pull &lt;REPOSITORY:TAG&gt;</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">Docker Hub官网找指定版本号：https://hub-stage.docker.com/</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">docker pull mysql:8.0    <span class="comment">#举例：下载指定版本</span></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">推送镜像：本地-&gt;远程</span></span><br><span class="line">docker push</span><br></pre></td></tr></table></figure>
+
+<h1 id="4、容器命令"><a href="#4、容器命令" class="headerlink" title="4、容器命令"></a>4、容器命令</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看容器</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">docker ps           <span class="comment">#查看正在运行的容器</span></span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">docker ps -a        <span class="comment">#查看所有容器</span></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">创建容器</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">方式一：docker run一步完成“创建+启动”，最简单、最常用</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">docker run -it --name=&lt;name&gt; &lt;REPOSITORY:TAG&gt; /bin/bash <span class="comment">#创建并进入容器内部</span></span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">docker run -<span class="built_in">id</span> --name=&lt;name&gt; &lt;REPOSITORY:TAG&gt;           <span class="comment">#创建容器并后台运行</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">-i：保持容器运行。通常与-t同时使用。加入it这两个参数后，容器创建后自动进入容器中，退出容器后，容器自动关闭</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">-t：为容器重新分配一个伪输入终端，通常与-i同时使用。</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">-d：以守护（后台）模式运行容器。创建一个容器在后台运行，需要使用dockerexec进入容器。退出后，容器不会关闭。</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">-it：创建的容器一一般称为交互式容器，<span class="built_in">id</span>创建的容器般称为守护式容器</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">-p:将宿主机端口与容器端口映射，，冒号左侧是宿主机端口，右侧是容器端口</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">--name：为创建的容器命名。</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">方式二：分两步：docker create + docker start（先建后启），可在启动前改配置、挂卷、做检查</span></span><br><span class="line">docker run --gpus all -v /host/path:/container/path -p &lt;port&gt;:&lt;inner_port&gt;  --name=&lt;continaer_name&gt; -it &lt;REPOSITORY:TAG&gt; [/path/script.sh]</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">启动容器</span></span><br><span class="line">docker start &lt;NAMES|CONTAINER ID&gt;	</span><br><span class="line">docker start $(docker ps -aq)  #启动所有容器</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">关闭所有容器</span></span><br><span class="line">docker stop &lt;NAMES|CONTAINER ID&gt;</span><br><span class="line">docker stop $(docker ps -q)	   #关闭所有容器</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">进入容器</span></span><br><span class="line">docker exec -it &lt;NAMES|CONTAINER ID&gt; /bin/bash</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">-it：给当前进入的容器创建一个标准输入、输出终端，允许我们与容器交互</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">bash：进入容器后执行的命令，bash是一个linux终端交互命令</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">删除容器</span></span><br><span class="line">docker rm &lt;NAMES|CONTAINER ID&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看容器日志</span></span><br><span class="line">docker logs</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">暂停容器</span></span><br><span class="line">docker pause &lt;NAMES|CONTAINER ID&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">暂停-&gt;运行</span></span><br><span class="line">docker unpause &lt;NAMES|CONTAINER ID&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="5、镜像的打包与加载"><a href="#5、镜像的打包与加载" class="headerlink" title="5、镜像的打包与加载"></a>5、镜像的打包与加载</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看容器</span></span><br><span class="line">docker ps</span><br><span class="line"></span><br><span class="line"><span class="comment">#容器打包为镜像</span></span><br><span class="line">docker commit &lt;container_name&gt; &lt;image_name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">#1.查看本地镜像</span></span><br><span class="line">docker images</span><br><span class="line"><span class="comment">#找到你要导出的镜像的 REPOSITORY 和 TAG，比如 my-app:latest</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#2.导出镜像到指定路径的tar文件</span></span><br><span class="line">docker save -o &lt;/path/image_name.tar&gt; &lt;REPOSITORY:TAG&gt;</span><br><span class="line">docker save -o /path/to/your/usb/my-app.tar my-app:latest</span><br><span class="line"></span><br><span class="line"><span class="comment">#宿主机导入镜像</span></span><br><span class="line">docker load -i &lt;/path/image_name.tar&gt;</span><br><span class="line">docker load -i /path/to/usb/my-app.tar</span><br><span class="line"></span><br><span class="line"><span class="comment">#可选：如果镜像很大，可压缩镜像，然后放到目标机器上解压</span></span><br><span class="line">gzip my-app.tar</span><br><span class="line">unzip my-app.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h1 id="5、容器卷"><a href="#5、容器卷" class="headerlink" title="5、容器卷"></a>5、容器卷</h1><p><strong>不便于修改</strong>：当我们要修改容器内的内容时，需要进入容器内部修改，很不方便。</p>
+<p><strong>数据不可复用</strong>：在容器内的修改对外是不可见的。所有修改对新创建的容器是不可复用的。</p>
+<p><strong>升级维护困难</strong>：数据在容器内，如果要升级容器必然删除旧容器，所有数据都跟着删除了</p>
+<p>容器卷（Volume）是 Docker 提供的核心数据持久化机制，是一个容器虚拟目录指向宿主机文件系统中的某个目，可确保容器内数据在容器销毁后依然保留，并支持容器间共享数据</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>特点与使用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>命名卷</strong></td>
+<td>由 Docker 管理，推荐用于生产环境，支持数据持久化和容器间共享。</td>
+</tr>
+<tr>
+<td><strong>绑定挂载</strong></td>
+<td>将宿主机目录直接映射到容器，适合开发和调试，路径需绝对路径。</td>
+</tr>
+<tr>
+<td><strong>匿名卷</strong></td>
+<td>未指定名称的卷，由 Docker 自动创建，适合临时数据存储。</td>
+</tr>
+</tbody></table>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">创建命名卷</span></span><br><span class="line">docker volume create my_volume</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看卷列表：</span></span><br><span class="line">docker volume ls</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看卷详情：</span></span><br><span class="line">docker volume inspect my_volume</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">删除未使用的volume</span></span><br><span class="line">docker volume prune</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">删除一个或多个指定的volume</span></span><br><span class="line">docker volume rm my_volume</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">挂载卷到容器</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">命名卷挂载：</span></span><br><span class="line">docker run -d -v my_volume:/data &lt;continaer_name&gt;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">绑定挂载（宿主机目录到容器）：</span></span><br><span class="line">docker run -it --privileged=true -v /host/path:/container/path &lt;image&gt;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">只读挂载（容器内只读）</span></span><br><span class="line">docker run -d -v my_volume:/data:ro nginx</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">容器间共享卷</span></span><br><span class="line">docker run -d -v my_volume:/data --name container1 nginx</span><br><span class="line">docker run -d --volumes-from container1 --name container2 nginx</span><br></pre></td></tr></table></figure>
+
+<h1 id="6、Dockerfile"><a href="#6、Dockerfile" class="headerlink" title="6、Dockerfile"></a>6、Dockerfile</h1><p>Dockerfile的本质是一个文件（构建镜像的说明书），通过指令描述构建镜像的过程，但说明书里写的步骤（比如 <code>COPY ./app /app</code>）需要依赖你本地已有的项目目录结构。</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>FROM</code></td>
+<td>指定基础镜像（如 <code>ubuntu</code>, <code>node:14</code>, <code>python:3.9-slim</code> 等）。</td>
+</tr>
+<tr>
+<td><code>RUN</code></td>
+<td>在镜像中执行命令（如安装软件包）。</td>
+</tr>
+<tr>
+<td><code>COPY</code></td>
+<td>将本地文件复制到镜像中（推荐用于文件&#x2F;代码）。</td>
+</tr>
+<tr>
+<td><code>ADD</code></td>
+<td>类似 <code>COPY</code>，但支持远程 URL 和自动解压压缩包（不推荐使用远程 URL）。</td>
+</tr>
+<tr>
+<td><code>WORKDIR</code></td>
+<td>设置工作目录（类似 <code>cd</code> 命令）。</td>
+</tr>
+<tr>
+<td><code>EXPOSE</code></td>
+<td>声明容器运行时监听的端口（需配合 <code>-p</code> 参数映射到宿主机）。</td>
+</tr>
+<tr>
+<td><code>ENV</code></td>
+<td>设置环境变量（如 <code>ENV PATH=/usr/local/bin:$PATH</code>）。</td>
+</tr>
+<tr>
+<td><code>CMD</code></td>
+<td>容器启动时默认执行的命令（可被 <code>docker run</code> 参数覆盖）。</td>
+</tr>
+<tr>
+<td><code>ENTRYPOINT</code></td>
+<td>类似 <code>CMD</code>，但不会被 <code>docker run</code> 参数覆盖。</td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Dockerfile 基本结构</span></span><br><span class="line"><span class="comment"># 1. 指定基础镜像</span></span><br><span class="line">FROM ubuntu:20.04</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 维护者信息（可选）</span></span><br><span class="line">LABEL maintainer=<span class="string">&quot;your_email@example.com&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 设置工作目录（后续命令在此目录执行）</span></span><br><span class="line">WORKDIR /app</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 复制本地文件到镜像</span></span><br><span class="line">COPY . /app</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 运行命令（如安装依赖）</span></span><br><span class="line">RUN apt-get update &amp;&amp; apt-get install -y python3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6. 暴露端口（容器运行时监听的端口）</span></span><br><span class="line">EXPOSE 8000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 7. 容器启动时执行的命令</span></span><br><span class="line">CMD [<span class="string">&quot;python3&quot;</span>, <span class="string">&quot;app.py&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#假设本地有一个dockerfile，运行创建容器</span></span><br><span class="line">docker build -t my_image_name:tag .</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用 docker history 查看镜像构建历史：</span></span><br><span class="line">docker <span class="built_in">history</span> --no-trunc 镜像名或ID</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 没有官方或可靠的方法可以从镜像或容器中“原样导出”原始的 Dockerfile</span></span><br><span class="line"><span class="comment"># 可依靠第三方工具实现类似于dockerfile</span></span><br><span class="line"><span class="comment"># 用 dfimage 或 dive 工具还原 Dockerfile</span></span><br><span class="line">docker run -v /var/run/docker.sock:/var/run/docker.sock --<span class="built_in">rm</span> alpine/dfimage 镜像名:tag</span><br></pre></td></tr></table></figure>
+
+<h1 id="7、DockerCompose"><a href="#7、DockerCompose" class="headerlink" title="7、DockerCompose"></a>7、DockerCompose</h1><p>DockerCompose可以基于Compose文件帮我们快速的部署分布式应用，而无需手动一个个创建和运行容器！</p>
+<p>Compose文件是一个文本文件，通过指令定义集群中的每个容器如何运行。</p>
+<p>Compose 使用的三个步骤：</p>
+<ul>
+<li>使用 Dockerfile 定义应用程序的环境。</li>
+<li>使用 docker-compose.yml 定义构成应用程序的服务，这样它们可以在隔离环境中一起运行。</li>
+<li>最后，执行 docker-compose up 命令来启动并运行整个应用程序。</li>
+</ul>
+<p>![img](<a target="_blank" rel="noopener" href="https://ycni8pqfbwqe.feishu.cn/space/api/box/stream/download/asynccode/?code=MjM0ZDhmMmZlM2VkYmQ3MTE">https://ycni8pqfbwqe.feishu.cn/space/api/box/stream/download/asynccode/?code=MjM0ZDhmMmZlM2VkYmQ3MTE</a></p>
+<h1 id="8、镜像仓库"><a href="#8、镜像仓库" class="headerlink" title="8、镜像仓库"></a>8、镜像仓库</h1><p>公有：DockerHub、阿里云镜像等</p>
+<p>私有镜像：本地搭建私有Docker Registry</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;builder&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;gc&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;defaultKeepStorage&quot;</span>: <span class="string">&quot;20GB&quot;</span>,</span><br><span class="line">      <span class="string">&quot;enabled&quot;</span>: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;experimental&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="string">&quot;registry-mirrors&quot;</span>: [</span><br><span class="line">    <span class="string">&quot;https://docker.xuanyuan.me&quot;</span>,</span><br><span class="line">    <span class="string">&quot;https://hub-mirror.c.163.com&quot;</span>,</span><br><span class="line">    <span class="string">&quot;https://mirror.baidubce.com&quot;</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#添加镜像</span></span><br><span class="line"><span class="variable">$sudo</span> <span class="built_in">mkdir</span> -p /etc/docker</span><br><span class="line"><span class="variable">$sudo</span> nano /etc/docker/daemon.json</span><br><span class="line"></span><br><span class="line">添加以下内容</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;registry-mirrors&quot;</span>: [</span><br><span class="line">    <span class="string">&quot;https://docker.xuanyuan.me&quot;</span>,</span><br><span class="line">    <span class="string">&quot;https://hub-mirror.c.163.com&quot;</span>,</span><br><span class="line">    <span class="string">&quot;https://mirror.baidubce.com&quot;</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#重启</span></span><br><span class="line"><span class="variable">$sudo</span> systemctl daemon-reload</span><br><span class="line"><span class="variable">$sudo</span> systemctl restart docker</span><br><span class="line"></span><br><span class="line"><span class="comment">#测试</span></span><br><span class="line"><span class="variable">$docker</span> run hello-world</span><br><span class="line">docker run -it --gpus all --name pytorch_env ubuntu:22.04 /bin/bash</span><br></pre></td></tr></table></figure>
+
+<h1 id="9、使用"><a href="#9、使用" class="headerlink" title="9、使用"></a>9、使用</h1><h2 id="9-1-安装显卡环境"><a href="#9-1-安装显卡环境" class="headerlink" title="9.1 安装显卡环境"></a>9.1 安装显卡环境</h2><p><strong>显卡驱动</strong> → <strong>CUDA</strong> <strong>→ cuDNN →</strong> <strong>深度学习框架</strong>（如PyTorch&#x2F;TensorFlow）</p>
+<ol>
+<li><strong>显卡型号</strong>需要配置显卡驱动Driver Version</li>
+<li><strong>显卡驱动</strong>Driver Version是显卡的驱动程序，使用<code>nvidia-smi</code>查询最高支持的驱动版本号</li>
+<li><strong>CUDA</strong> <strong>Toolkit</strong>（含<code>nvcc</code>）在驱动之上提供通用计算能力（基础的计算能力）</li>
+<li><strong>cuDNN</strong> 是基于 CUDA 的深度学习专用加速库（更强大的计算能力），版本必须与 CUDA 版本匹配，官网上查</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查询显卡型号</span></span><br><span class="line">lspci | grep -i nvidia</span><br><span class="line"></span><br><span class="line">查询最高支持的版本</span><br><span class="line">nvidia-smi</span><br><span class="line"></span><br><span class="line">查询cuda版本</span><br><span class="line">nvcc --version</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run --gpus all -v /home/docker_data_24/lxt:/root/common-dir -p 63005:22  --name=lxt -it ubuntun22.04-cuda12.8.1-conda-ssh:20250812image /root/start.sh</span><br><span class="line"></span><br><span class="line">docker run --gpus all -it --name tmp_build nvidia/cuda:12.8.1-cudnn-devel-ubuntu22.04 bash</span><br></pre></td></tr></table></figure>
+
+<h2 id="9-2-深度学习环境多用户配置"><a href="#9-2-深度学习环境多用户配置" class="headerlink" title="9.2 深度学习环境多用户配置"></a>9.2 深度学习环境多用户配置</h2><p>使用docker配置多人隔离的深度学习环境</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#拉取镜像</span></span><br><span class="line"><span class="comment">#DockerHub：https://hub.docker.com/r/nvidia/cuda</span></span><br><span class="line">docker pull nvidia/cuda:12.8.1-cudnn-devel-ubuntu22.04</span><br><span class="line"><span class="comment">#docker pull --platform linux/amd64 nvidia/cuda:12.8.1-cudnn-devel-ubuntu22.04</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#启动临时容器</span></span><br><span class="line">docker run --gpus all -it --name tmp_build nvidia/cuda:12.8.1-cudnn-devel-ubuntu22.04 bash</span><br><span class="line"><span class="comment">#docker run --name cuda-conda-build --gpus all -it -p 63000:22 nvidia/cuda:12.8.1-cudnn-devel-ubuntu22.04 bash</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">#容器内安装</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#其他工具</span></span><br><span class="line">apt-get install -y openssh-server <span class="built_in">sudo</span> vim git htop</span><br><span class="line"><span class="comment"># 确保 sshd 能启动</span></span><br><span class="line"><span class="built_in">mkdir</span> -p /var/run/sshd</span><br><span class="line"></span><br><span class="line">退出并提交为新镜像</span><br><span class="line"><span class="built_in">exit</span>   <span class="comment"># 退出容器回到宿主机</span></span><br><span class="line">docker commit &lt;container_name&gt; &lt;image_name:tag&gt;</span><br><span class="line">docker commit tmp_build 20250809-ubuntun2204-conda-pytorch-cuda12.8-python3.12</span><br><span class="line"></span><br><span class="line"><span class="built_in">cat</span> &gt; /root/start.sh &lt;&lt;<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># 1) 创建 sshd 需要的目录</span></span><br><span class="line"><span class="built_in">mkdir</span> -p /var/run/sshd</span><br><span class="line"><span class="comment"># 2) 允许 root 远程登录（测试环境用，生产请建新用户）</span></span><br><span class="line">sed -i <span class="string">&#x27;s/#PermitRootLogin prohibit-password/PermitRootLogin yes/&#x27;</span> /etc/ssh/sshd_config</span><br><span class="line"><span class="comment"># 3) 设置 root 密码（把 123456 换成你自己的）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;root:root123456&#x27;</span> | chpasswd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4) 前台启动 sshd（-D 表示不 daemonize，保持容器活着）</span></span><br><span class="line"><span class="built_in">exec</span> /usr/sbin/sshd -D</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%90%8E%E7%AB%AF/"># 后端</a>
+                    
+                        <a href="/tags/%E8%BF%90%E7%BB%B4/"># 运维</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2025/08/25/Markdown%E6%A0%BC%E5%BC%8F%E6%B5%8B%E8%AF%95/">Markdown格式测试</a>
+            
+            
+            <a class="next" rel="next" href="/2025/08/25/Git%E9%80%9F%E8%AE%B0/">Git速记</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <!-- <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Henry Li | Powered by Hexo</a> & Chic</a></span>
+    </div>
+</footer> -->
+<footer id="footer" class="footer">
+  <div class="copyright">
+    <span>© Henry Li | Powered by Hexo</a> & Chic</a></span>
+    <br>
+    <span id="busuanzi_container_site_uv">本站总访客数: <span id="busuanzi_value_site_uv"></span> 人,</span>
+    <span id="busuanzi_container_site_pv">本站总访问量: <span id="busuanzi_value_site_pv"></span> 次</span>
+  </div>
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+    </div>
+</body>
+
+</html>

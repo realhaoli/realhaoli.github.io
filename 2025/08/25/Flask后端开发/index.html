@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Henry Li">
+
+
+
+
+
+<title>Flask后端开发 | Henry&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const pagebody = document.getElementsByTagName('body')[0]
+
+            function setTheme(status) {
+
+                if (status === 'dark') {
+                    window.sessionStorage.theme = 'dark'
+                    pagebody.classList.add('dark-theme');
+
+                } else if (status === 'light') {
+                    window.sessionStorage.theme = 'light'
+                    pagebody.classList.remove('dark-theme');
+                }
+            };
+
+            setTheme(window.sessionStorage.theme)
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Henry&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                <a class="menu-item" href="/archives">文章</a>
+                
+                <a class="menu-item" href="/category">分类</a>
+                
+                <a class="menu-item" href="/tag">标签</a>
+                
+                <a class="menu-item" href="/about">关于</a>
+                
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Henry&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">
+                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M4.5 17.27q-.213 0-.356-.145T4 16.768t.144-.356t.356-.143h15q.213 0 .356.144q.144.144.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.144T4 11.999t.144-.356t.356-.143h15q.213 0 .356.144t.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.143Q4 7.443 4 7.23t.144-.356t.356-.143h15q.213 0 .356.144T20 7.23t-.144.356t-.356.144z"/></svg>
+                    <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Material Symbols Light by Google - https://github.com/google/material-design-icons/blob/master/LICENSE --><path fill="currentColor" d="m12 12.708l-5.246 5.246q-.14.14-.344.15t-.364-.15t-.16-.354t.16-.354L11.292 12L6.046 6.754q-.14-.14-.15-.344t.15-.364t.354-.16t.354.16L12 11.292l5.246-5.246q.14-.14.345-.15q.203-.01.363.15t.16.354t-.16.354L12.708 12l5.246 5.246q.14.14.15.345q.01.203-.15.363t-.354.16t-.354-.16z"/></svg>
+                </div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                <a class="menu-item" href="/archives">文章</a>
+                
+                <a class="menu-item" href="/category">分类</a>
+                
+                <a class="menu-item" href="/tag">标签</a>
+                
+                <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if (toggleMenu.classList.contains("active")) {
+            toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        } else {
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">关闭目录</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">前往底部</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 6
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        // b.innerText = expanded ? 'Expand all' : 'Collapse all';
+        b.innerText = expanded ? '展开目录' : '关闭目录';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Flask后端开发</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Henry Li</a>&nbsp;&nbsp;
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2025-08-25</a>&nbsp;&nbsp;
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%8A%80%E6%9C%AF%E9%80%9F%E8%AE%B0/">技术速记</a>
+                            &nbsp;&nbsp;
+                        </span>
+                    
+                    <!-- 添加本文阅读量 -->
+                        <span id="busuanzi_container_page_pv">
+                        本文阅读量: <span id="busuanzi_value_page_pv"></span> 次
+                        </span>
+
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>原来接工厂的项目要求对工件质量进行检测，我们使用了Python的OpenCV和Pytorch库进行实现</p>
+<p>后来要求封装为一个系统，但我们平时是用Java的Springboot框架，Java调用python算法麻烦很多</p>
+<p>所以就学了Python的Flask的微服务框架，针对工厂的内部环境够用了</p>
+<h2 id="1、Flask简介"><a href="#1、Flask简介" class="headerlink" title="1、Flask简介"></a>1、Flask简介</h2><p>Flask 是一个灵活、轻量的框架，适合小型项目和定制化需求，但在大型项目中需要开发者具备更高的架构设计能力</p>
+<p>微服务就是把一个大系统，拆成多个“小团队”各自负责的小系统，这些小系统之间通过“打电话”（通常是 HTTP&#x2F;REST 或消息队列）协同工作。</p>
+<p>“微”并不代表整个应用只能塞在一个Python文件内，当然塞在单一文件内也没有问题。</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 安装</span><br><span class="line">pip install flask</span><br></pre></td></tr></table></figure>
+
+<h2 id="1、Flask应用"><a href="#1、Flask应用" class="headerlink" title="1、Flask应用"></a>1、Flask应用</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="comment">#http://127.0.0.1:5000</span></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hello_world</span>():</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;Hello Flask&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#http://127.0.0.1:5000/user/1</span></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/user/&lt;id&gt;&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hey</span>(<span class="params"><span class="built_in">id</span></span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">id</span> == <span class="string">&#x27;1&#x27;</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;aaa&#x27;</span></span><br><span class="line">    <span class="keyword">elif</span> (<span class="built_in">id</span> == <span class="built_in">str</span>(<span class="number">2</span>)):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;bbb&#x27;</span></span><br><span class="line">    <span class="keyword">elif</span> (<span class="built_in">int</span>(<span class="built_in">id</span>) == <span class="number">3</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;ccc&#x27;</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;ID is %s&quot;</span> %<span class="built_in">id</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#http://127.0.0.1:5000/num/10</span></span><br><span class="line"><span class="comment">#可接受int，float，path，uuid类型</span></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/num/&lt;int:num&gt;&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">show_num</span>(<span class="params">num</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;num is %s&quot;</span>%(num+num)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/path/&lt;path:mypath&gt;&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">show_path</span>(<span class="params">mypath</span>):</span><br><span class="line">    <span class="comment"># show the subpath after /path/</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;subpath is %s&quot;</span> %mypath</span><br><span class="line"></span><br><span class="line"><span class="comment">#if __name__ == &#x27;__main__&#x27;:</span></span><br><span class="line"><span class="comment">#    app.run()</span></span><br><span class="line">app.run(host=<span class="string">&quot;0.0.0.0&quot;</span>)	<span class="comment">#任何主机都可访问</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2、唯一的URL-重定向行为"><a href="#2、唯一的URL-重定向行为" class="headerlink" title="2、唯一的URL&#x2F;重定向行为"></a>2、唯一的URL&#x2F;重定向行为</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#以下两条规则的不同之处在于是否使用尾部的斜杠</span></span><br><span class="line"><span class="meta">@app.route(<span class="params">/projects1）</span></span></span><br><span class="line"><span class="params"><span class="meta"><span class="keyword">def</span> projects1(<span class="params"></span>):</span></span></span><br><span class="line"><span class="params"><span class="meta">    <span class="keyword">return</span> <span class="string">&quot;projects1&quot;</span></span></span></span><br><span class="line"><span class="params"><span class="meta"></span></span></span><br><span class="line"><span class="params"><span class="meta">@app.route(<span class="params">/projects2/）</span></span></span></span><br><span class="line"><span class="params"><span class="params"><span class="meta"><span class="keyword">def</span> projects2(<span class="params"></span>):</span></span></span></span><br><span class="line"><span class="params"><span class="params"><span class="meta">    <span class="keyword">return</span> <span class="string">&quot;projects2&quot;</span></span></span></span></span><br></pre></td></tr></table></figure>
+
+<p>projects1的URL没有尾部斜杠，因此其行为表现与一个文件类似。如果访问这个URL时添加了尾部斜杠就会得到一个404错误。这样可以保持URL唯一，并帮助搜索引擎避免重复索引同一页面。</p>
+<p>projectss的URL尾部有一个斜杠，看起来就如同一个文件夹。访问一个没有斜杠结尾的URL时Flask会自动进行重定向，帮你在尾部加上一个斜杠。</p>
+<h2 id="3、FLask的HTTP方法"><a href="#3、FLask的HTTP方法" class="headerlink" title="3、FLask的HTTP方法"></a>3、FLask的HTTP方法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request,jsonify</span><br><span class="line"></span><br><span class="line"><span class="comment">#@app.route(&#x27;/test1&#x27;,methods=[&quot;POST&quot;，&quot;GET&quot;])</span></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/test1&#x27;</span>,methods=[<span class="string">&quot;POST&quot;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">POST_test</span>():</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        my_json=request.get_json()</span><br><span class="line">        <span class="comment"># print(my_json)</span></span><br><span class="line">        <span class="comment"># 获取Json值</span></span><br><span class="line">        myage=my_json.get(<span class="string">&quot;age&quot;</span>)</span><br><span class="line">        myname=my_json.get(<span class="string">&quot;name&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> <span class="built_in">all</span>([myname,myage]):</span><br><span class="line">            <span class="keyword">return</span> jsonify(msg=<span class="string">&quot;缺少参数&quot;</span>)</span><br><span class="line">        <span class="comment"># 返回Json格式</span></span><br><span class="line">        <span class="keyword">return</span> jsonify(name=myage,age=myname)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="keyword">return</span> jsonify(msg=e)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>效果</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td>查</td>
+<td>请求指定的页面信息，并返回实体主体</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>增</td>
+<td>向指定资源提交数据进行处理请求（例如提交表单或者上传文件）。数据被包合在请求体。POST请求可能会导致新的资源的建立和&#x2F;或已有资源的修改。</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>改</td>
+<td>从客户端向服务器传送的数据取代指定的文档的内容</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>删</td>
+<td>请求服务器删除指定的页面</td>
+</tr>
+</tbody></table>
+<h2 id="4、重定向"><a href="#4、重定向" class="headerlink" title="4、重定向"></a>4、重定向</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> redirect</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/baidu&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">baidu</span>():</span><br><span class="line">    <span class="keyword">return</span> redirect(<span class="string">&quot;https://www.baidu.com&quot;</span>)</span><br><span class="line"><span class="comment">#	return redirect(url_for(&quot;function_name&quot;))#重定向到某个函数的路由</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5、cookies"><a href="#5、cookies" class="headerlink" title="5、cookies"></a>5、cookies</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#读取Cookie</span></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    username = request.cookies.get(<span class="string">&#x27;username&#x27;</span>)</span><br><span class="line">    <span class="comment"># use cookies.get(key) instead of cookies[key] to not get a</span></span><br><span class="line">    <span class="comment"># KeyError if the cookie is missing.</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#存储Cookie</span></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> make_response</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    resp = make_response(render_template(...))</span><br><span class="line">    resp.set_cookie(<span class="string">&#x27;username&#x27;</span>, <span class="string">&#x27;the username&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> resp</span><br></pre></td></tr></table></figure>
+
+<h2 id="6、Session"><a href="#6、Session" class="headerlink" title="6、Session"></a>6、Session</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, session, redirect, url_for, escape, request</span><br><span class="line"></span><br><span class="line"><span class="comment"># Set the secret key to some random bytes. Keep this really secret!</span></span><br><span class="line">app.secret_key = <span class="string">b&#x27;_5#y2L&quot;F4Q8z\n\xec]/&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/login&#x27;</span>,methods=[<span class="string">&quot;POST&quot;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">log_in</span>():</span><br><span class="line">    get_data=request.get_json()</span><br><span class="line">    username=get_data.get(<span class="string">&quot;username&quot;</span>)</span><br><span class="line">    password=get_data.get(<span class="string">&quot;password&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> <span class="built_in">all</span>([username,password]):</span><br><span class="line">        <span class="keyword">return</span> jsonify(msg=<span class="string">&quot;缺少参数&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> username==<span class="string">&quot;aaa&quot;</span> <span class="keyword">and</span> password==<span class="string">&quot;123&quot;</span>:</span><br><span class="line">        session[<span class="string">&quot;username&quot;</span>]=username</span><br><span class="line">        <span class="keyword">return</span> jsonify(msg=<span class="string">&quot;登录成功&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> jsonify(msg=<span class="string">&quot;账号或密码错误&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/logout&#x27;</span>,methods=[<span class="string">&quot;GET&quot;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">log_out</span>():</span><br><span class="line">    session.clear()</span><br><span class="line">    <span class="keyword">return</span> jsonify(msg=<span class="string">&quot;退出成功&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/session&#x27;</span>,methods=[<span class="string">&quot;GET&quot;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">check_session</span>():</span><br><span class="line">    username=session.get(<span class="string">&quot;username&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> username <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">return</span> jsonify(username=username)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> jsonify(msg=<span class="string">&quot;您还未登录&quot;</span>)</span><br><span class="line">        <span class="comment"># return redirect(url_for(&#x27;index&#x27;))</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="7、自定义转换器"><a href="#7、自定义转换器" class="headerlink" title="7、自定义转换器"></a>7、自定义转换器</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> werkzeug.routing <span class="keyword">import</span> BaseConverter</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">RegexConverter</span>(<span class="title class_ inherited__">BaseConverter</span>):</span><br><span class="line">    <span class="comment">#自定义转化器类</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,url_map,regex</span>):</span><br><span class="line">        <span class="comment">#调用父类的方法</span></span><br><span class="line">        <span class="built_in">super</span>(RegexConverter,<span class="variable language_">self</span>).__init__(url_map)</span><br><span class="line">        <span class="variable language_">self</span>.regex=regex</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">to_python</span>(<span class="params">self, value</span>):</span><br><span class="line">        <span class="comment">#父类的方法，功能实现</span></span><br><span class="line">        <span class="keyword">return</span> value</span><br><span class="line"></span><br><span class="line"><span class="comment">#将自定义的转换器类添加到flask应用中</span></span><br><span class="line">app.url_map.converters[<span class="string">&#x27;re&#x27;</span>]=RegexConverter</span><br><span class="line"><span class="comment">#过滤符合正则表达式的数据</span></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&lt;re(&quot;123&quot;):value&gt;&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hello_world</span>(<span class="params">value</span>):  <span class="comment"># put application&#x27;s code here</span></span><br><span class="line">    <span class="comment">#匹配123</span></span><br><span class="line">    <span class="built_in">print</span>(value)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;Hello World!&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="8、abort异常"><a href="#8、abort异常" class="headerlink" title="8、abort异常"></a>8、abort异常</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> abort</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    abort(<span class="number">404</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;123&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="9、request请求"><a href="#9、request请求" class="headerlink" title="9、request请求"></a>9、request请求</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 前端表单 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">    账号:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;name&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">    密码:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;password&quot;</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">    提交:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">name</span>=<span class="string">&quot;submit&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask,render_template,request</span><br><span class="line"></span><br><span class="line"><span class="comment">#request请求包含前端发送过来的所有请求数据</span></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/index&#x27;</span>,methods=[<span class="string">&quot;POST&quot;</span>,<span class="string">&quot;GET&quot;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">&quot;GET&quot;</span>:	<span class="comment">#初始时进入的表单页面</span></span><br><span class="line">        <span class="keyword">return</span> render_template(<span class="string">&#x27;index.html&#x27;</span>)	<span class="comment">#返回数据并渲染模板</span></span><br><span class="line"><span class="comment">#   	return make_response(&#x27;index.html&#x27;)	#只返回数据</span></span><br><span class="line">    <span class="keyword">elif</span> request.method == <span class="string">&quot;POST&quot;</span>:	<span class="comment">#表单提交数据后的操作</span></span><br><span class="line">        name=request.form.get(<span class="string">&quot;name&quot;</span>)</span><br><span class="line">        password=request.form.get(<span class="string">&quot;password&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> name == <span class="string">&quot;aaa&quot;</span> <span class="keyword">and</span> password == <span class="string">&quot;123&quot;</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;loginsuccess&quot;</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            abort(<span class="number">404</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;this is post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="10、JSON数据给前端"><a href="#10、JSON数据给前端" class="headerlink" title="10、JSON数据给前端"></a>10、JSON数据给前端</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> make_response,json，jsonify</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    <span class="comment"># python字典</span></span><br><span class="line">    data=&#123;</span><br><span class="line">        <span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;Tom&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">#    方法一</span></span><br><span class="line">    response = make_response(json.dumps(data,ensure_ascii=<span class="literal">False</span>))<span class="comment">#ensure_ascii显示中文</span></span><br><span class="line">    response.mimetype = <span class="string">&#x27;application/json&#x27;</span></span><br><span class="line">    <span class="keyword">return</span> response</span><br><span class="line"></span><br><span class="line"><span class="comment">#	 方法二</span></span><br><span class="line">app.config[<span class="string">&#x27;JSON_AS_ASCII&#x27;</span>]=<span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> jsonify(data)</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%90%8E%E7%AB%AF/"># 后端</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2025/08/25/Git%E9%80%9F%E8%AE%B0/">Git速记</a>
+            
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <!-- <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Henry Li | Powered by Hexo</a> & Chic</a></span>
+    </div>
+</footer> -->
+<footer id="footer" class="footer">
+  <div class="copyright">
+    <span>© Henry Li | Powered by Hexo</a> & Chic</a></span>
+    <br>
+    <span id="busuanzi_container_site_uv">本站总访客数: <span id="busuanzi_value_site_uv"></span> 人,</span>
+    <span id="busuanzi_container_site_pv">本站总访问量: <span id="busuanzi_value_site_pv"></span> 次</span>
+  </div>
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+    </div>
+</body>
+
+</html>

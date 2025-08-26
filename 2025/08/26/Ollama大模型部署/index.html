@@ -13,7 +13,7 @@
 
 
 
-<title>nvm管理Node多版本 | Henry&#39;s Blog</title>
+<title>Ollama大模型部署 | Henry&#39;s Blog</title>
 
 
 
@@ -241,7 +241,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">nvm管理Node多版本</h1>
+            <h1 class="post-title">Ollama大模型部署</h1>
             
                 <div class="post-meta">
                     
@@ -271,26 +271,62 @@
         </header>
 
         <div class="post-content">
-            <h1 id="1-nvm介绍"><a href="#1-nvm介绍" class="headerlink" title="1. nvm介绍"></a>1. nvm介绍</h1><ol>
-<li><p>Node Version Manager（NVM）是一个用于管理多个Node.js版本的工具,它允许用户在同一台机器上安装和使用多个Node.js版本</p>
+            <h1 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h1><h2 id="1-1-为什么本地部署"><a href="#1-1-为什么本地部署" class="headerlink" title="1.1 为什么本地部署"></a>1.1 为什么本地部署</h2><h3 id="（1）为什么不使用网页版"><a href="#（1）为什么不使用网页版" class="headerlink" title="（1）为什么不使用网页版"></a>（1）为什么不使用网页版</h3><ul>
+<li><p>数据的隐私问题：数据肯定会上传到供应商服务器</p>
 </li>
-<li><p>NVM是开源的，支持MacOS、Windows和Linux操作系统。</p>
+<li><p>文件上传限制：文件数量，文件大小，文件类型</p>
 </li>
-</ol>
-<h1 id="2-卸载Node"><a href="#2-卸载Node" class="headerlink" title="2. 卸载Node"></a>2. 卸载Node</h1><p>如果已经安装了node，那么在安装nvm之前，需要先卸载node。否则可跳过。</p>
-<p>为了确保彻底删除node，看下node安装目录中还有没有node文件夹，有的话一起删除。</p>
-<p>删除以下文件夹（如果存在的话）</p>
-<ul>
-<li>C:\Program Files (x86)\Nodejs</li>
-<li>C:\Program Files\Nodejs</li>
-<li>C:\Users{User}\AppData\Roaming\npm</li>
-<li>C:\Users{User}\AppData\Roaming\npm-cache</li>
-<li>删除C:\Users\用户名 下的 .npmrc文件以及 .yarnrc 文件</li>
-<li>环境变量中npm、node的所有相关统统删掉</li>
+<li><p>功能受限，经过别人封装</p>
+</li>
 </ul>
-<h1 id="3-安装nvm"><a href="#3-安装nvm" class="headerlink" title="3. 安装nvm"></a>3. 安装nvm</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">1.下载网址</span><br><span class="line">官网下载：https://nvm.uihtm.com/download.html</span><br><span class="line">GitHhub下载：https://github.com/coreybutler/nvm-windows</span><br><span class="line"></span><br><span class="line">2.在setting.txt文件配置中配置路径和下载镜像</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">第一行是nvm安装路径、第二行是nodejs路径、第三行是node下载镜像、第四行是npm下载镜像</span></span><br><span class="line">root: D:\My-NVM\nvm</span><br><span class="line">path: D:\My-NVM</span><br><span class="line">node_mirror: https://npmmirror.com/mirrors/node/</span><br><span class="line">npm_mirror:  https://npmmirror.com/mirrors/npm/</span><br><span class="line"></span><br><span class="line">3.验证添加成功</span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">nvm -v</span></span><br><span class="line"></span><br><span class="line">4. 修改npm镜像源</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">设置镜像</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm config <span class="built_in">set</span> registry https://registry.npmmirror.com</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看是否成功</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm config get registry</span></span><br><span class="line"></span><br><span class="line">5.环境变量配置</span><br><span class="line">当命令安装包时，将包安装到自己设置的目录下</span><br><span class="line">(1)新建文件夹</span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash"><span class="built_in">mkdir</span> D:\My-NVM\nvm\node_cache</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash"><span class="built_in">mkdir</span> D:\My-NVM\nvm\node_global</span></span><br><span class="line">配置变量（非C盘要以管理员权限运行）</span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm config <span class="built_in">set</span> cache <span class="string">&quot;D:\My-NVM\nvm\node_cache&quot;</span></span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm config <span class="built_in">set</span> prefix <span class="string">&quot;D:\My-NVM\nvm\node_global&quot;</span></span></span><br><span class="line"></span><br><span class="line">(2)设置环境变量</span><br><span class="line">系统环境变量新增 NODE_PATH 变量</span><br><span class="line">变量名：NODE_PATH</span><br><span class="line">变量值：D:\My-NVM\nvm\node_global\node_modules</span><br><span class="line"></span><br><span class="line">添加用户path变量</span><br><span class="line">D:\My-NVM\nvm\node_cache</span><br><span class="line">D:\My-NVM\nvm\node_global</span><br></pre></td></tr></table></figure>
+<h3 id="（2）本地解决思路："><a href="#（2）本地解决思路：" class="headerlink" title="（2）本地解决思路："></a>（2）本地解决思路：</h3><ul>
+<li><p>Ollama部署本地大模型</p>
+</li>
+<li><p>Docker本地部署RAGflow</p>
+</li>
+<li><p>在RAGflow中构建个人知识库</p>
+</li>
+</ul>
+<h2 id="1-2-Ollama"><a href="#1-2-Ollama" class="headerlink" title="1.2 Ollama"></a>1.2 Ollama</h2><p>Ollama 是一个<strong>开源、轻量级</strong>的本地大型语言模型（LLM）部署与管理工具，旨在帮助用户在本地设备（如个人电脑、服务器）上<strong>快速、便捷地运行、管理和定制各类开源大模型</strong>，无需依赖云端服务</p>
+<p>可以理解为Ollama是大模型界的Docker</p>
+<table>
+<thead>
+<tr>
+<th align="left">命令</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>ollama pull llama3</code></td>
+<td align="left">下载模型</td>
+</tr>
+<tr>
+<td align="left"><code>ollama run llama3</code></td>
+<td align="left">运行模型</td>
+</tr>
+<tr>
+<td align="left"><code>ollama list</code></td>
+<td align="left">查看已下载模型</td>
+</tr>
+<tr>
+<td align="left"><code>ollama rm llama3</code></td>
+<td align="left">删除模型</td>
+</tr>
+<tr>
+<td align="left"><code>ollama cp llama3 mymodel</code></td>
+<td align="left">复制模型并自定义名称</td>
+</tr>
+</tbody></table>
+<h1 id="2、本地部署Deepseek大模型"><a href="#2、本地部署Deepseek大模型" class="headerlink" title="2、本地部署Deepseek大模型"></a>2、本地部署Deepseek大模型</h1><h2 id="1-1-Ollama部署本地大模型"><a href="#1-1-Ollama部署本地大模型" class="headerlink" title="1.1 Ollama部署本地大模型"></a>1.1 Ollama部署本地大模型</h2><h3 id="（1）安装Ollama"><a href="#（1）安装Ollama" class="headerlink" title="（1）安装Ollama"></a>（1）安装Ollama</h3><p>官网查看安装方式：<a target="_blank" rel="noopener" href="https://ollama.com/download/">https://ollama.com/download/</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://ollama.com/install.sh | sh</span><br></pre></td></tr></table></figure>
 
-<h1 id="4-nvm管理Node-js"><a href="#4-nvm管理Node-js" class="headerlink" title="4. nvm管理Node.js"></a>4. nvm管理Node.js</h1><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#查看可在线安装的NodeJS版本</span><br><span class="line">$nvm list available</span><br><span class="line"></span><br><span class="line">#安装指定版本的 Node.js</span><br><span class="line">$nvm install &lt;version&gt;</span><br><span class="line">$nvm install  <span class="number">20</span>.<span class="number">17</span>.<span class="number">0</span></span><br><span class="line"></span><br><span class="line">#查看是否安装成功</span><br><span class="line">$node -v</span><br><span class="line">$npm -v</span><br><span class="line"></span><br><span class="line">#切换到指定版本的 Node.js。</span><br><span class="line">$nvm use &lt;version&gt;</span><br><span class="line"></span><br><span class="line">#列出已安装的所有 Node.js 版本</span><br><span class="line">$nvm ls # nvm list,*代表正在使用</span><br><span class="line"></span><br><span class="line">#卸载指定的 Node.js 版本</span><br><span class="line">$nvm uninstall &lt;version&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="（2）安装-运行大模型"><a href="#（2）安装-运行大模型" class="headerlink" title="（2）安装&#x2F;运行大模型"></a>（2）安装&#x2F;运行大模型</h3><p>查看支持的大模型：<a target="_blank" rel="noopener" href="https://ollama.com/search">https://ollama.com/search</a></p>
+<p>直接进去复制安装命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 运行deepseek-r1模型</span></span><br><span class="line">ollama run deepseek-r1</span><br><span class="line"></span><br><span class="line"><span class="comment">#退出交互，但是会后台运行</span></span><br><span class="line">输入：/bye</span><br><span class="line"><span class="comment">#停止后台服务，守护进程仍在(监听端口，)</span></span><br><span class="line">ollama stop llama3</span><br><span class="line"><span class="comment">#终止整个 Ollama 服务</span></span><br><span class="line">systemctl stop ollama</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-Docker部署RAGflow"><a href="#1-2-Docker部署RAGflow" class="headerlink" title="1.2 Docker部署RAGflow"></a>1.2 Docker部署RAGflow</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 官网：https://ragflow.io/docs/v0.20.3/</span></span><br><span class="line">$ git <span class="built_in">clone</span> https://github.com/infiniflow/ragflow.git</span><br><span class="line">$ <span class="built_in">cd</span> ragflow/docker</span><br><span class="line">$ git checkout -f v0.20.3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用CPU</span></span><br><span class="line"><span class="comment">#$ docker compose -f docker-compose.yml up -d</span></span><br><span class="line"><span class="comment"># 使用GPU加速</span></span><br><span class="line"> docker compose -f docker-compose-gpu.yml up -d</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-3-在RAGflow中构建个人知识库"><a href="#1-3-在RAGflow中构建个人知识库" class="headerlink" title="1.3 在RAGflow中构建个人知识库"></a>1.3 在RAGflow中构建个人知识库</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#配置：在浏览器输入localhost:8880</span></span><br><span class="line">在【模型供应商】添加本地模型</span><br><span class="line">模型类型：chat、embedding、rerank</span><br><span class="line">模型名称：deepseek-r1 <span class="comment">#命令ollama list查看</span></span><br><span class="line">基础URL：http:&lt;yourip&gt;:11434 <span class="comment">#命令ipconfig查看</span></span><br><span class="line">最大token数：10000 <span class="comment">#随便</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#设置默认模型</span></span><br><span class="line">聊天模型：</span><br><span class="line">嵌入模型：</span><br><span class="line"> </span><br><span class="line"><span class="comment">#构建知识库</span></span><br><span class="line">新建文件，并进行解析</span><br></pre></td></tr></table></figure>
 
         </div>
 
@@ -301,7 +337,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/%E5%89%8D%E7%AB%AF/"># 前端</a>
+                        <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/"># 大模型</a>
                     
                         
                 </span>
@@ -314,10 +350,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2025/08/26/Markdown%E6%A0%BC%E5%BC%8F%E6%B5%8B%E8%AF%95/">Markdown格式测试</a>
+                <a class="prev" rel="prev" href="/2025/08/26/Docker%E7%AC%94%E8%AE%B0/">Docker笔记</a>
             
             
-            <a class="next" rel="next" href="/2025/08/26/Docker%E7%AC%94%E8%AE%B0/">Docker笔记</a>
+            <a class="next" rel="next" href="/2025/08/26/OpenMMLab/">OpenMMLab</a>
             
         </section>
 

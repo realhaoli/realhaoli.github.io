@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Henry Li">
+
+
+
+
+
+<title>OpenMMLab | Henry&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const pagebody = document.getElementsByTagName('body')[0]
+
+            function setTheme(status) {
+
+                if (status === 'dark') {
+                    window.sessionStorage.theme = 'dark'
+                    pagebody.classList.add('dark-theme');
+
+                } else if (status === 'light') {
+                    window.sessionStorage.theme = 'light'
+                    pagebody.classList.remove('dark-theme');
+                }
+            };
+
+            setTheme(window.sessionStorage.theme)
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Henry&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                <a class="menu-item" href="/archives">文章</a>
+                
+                <a class="menu-item" href="/category">分类</a>
+                
+                <a class="menu-item" href="/tag">标签</a>
+                
+                <a class="menu-item" href="/about">关于</a>
+                
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Henry&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">
+                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M4.5 17.27q-.213 0-.356-.145T4 16.768t.144-.356t.356-.143h15q.213 0 .356.144q.144.144.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.144T4 11.999t.144-.356t.356-.143h15q.213 0 .356.144t.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.143Q4 7.443 4 7.23t.144-.356t.356-.143h15q.213 0 .356.144T20 7.23t-.144.356t-.356.144z"/></svg>
+                    <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Material Symbols Light by Google - https://github.com/google/material-design-icons/blob/master/LICENSE --><path fill="currentColor" d="m12 12.708l-5.246 5.246q-.14.14-.344.15t-.364-.15t-.16-.354t.16-.354L11.292 12L6.046 6.754q-.14-.14-.15-.344t.15-.364t.354-.16t.354.16L12 11.292l5.246-5.246q.14-.14.345-.15q.203-.01.363.15t.16.354t-.16.354L12.708 12l5.246 5.246q.14.14.15.345q.01.203-.15.363t-.354.16t-.354-.16z"/></svg>
+                </div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                <a class="menu-item" href="/archives">文章</a>
+                
+                <a class="menu-item" href="/category">分类</a>
+                
+                <a class="menu-item" href="/tag">标签</a>
+                
+                <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if (toggleMenu.classList.contains("active")) {
+            toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        } else {
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">关闭目录</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">前往底部</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 6
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        // b.innerText = expanded ? 'Expand all' : 'Collapse all';
+        b.innerText = expanded ? '展开目录' : '关闭目录';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">OpenMMLab</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Henry Li</a>&nbsp;&nbsp;
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2025-08-26</a>&nbsp;&nbsp;
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%8A%80%E6%9C%AF%E9%80%9F%E8%AE%B0/">技术速记</a>
+                            &nbsp;&nbsp;
+                        </span>
+                    
+                    <!-- 添加本文阅读量 -->
+                        <span id="busuanzi_container_page_pv">
+                        本文阅读量: <span id="busuanzi_value_page_pv"></span> 次
+                        </span>
+
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>OpenMMLab是一个涵盖计算机视觉多个领域的开源算法平台，覆盖目标检测、语义分割、3D检测、文本识别、预训练等各视觉算法。其提供的工具箱如MMDetection、MMOCR和MMDetection3D等，支持模块化设计，便于构建定制模型。如今很多的新算法也是在OpenMMLab的算法库上实现的，</p>
+<h1 id="1、MMPretrain"><a href="#1、MMPretrain" class="headerlink" title="1、MMPretrain"></a>1、MMPretrain</h1><h2 id="1-1-安装"><a href="#1-1-安装" class="headerlink" title="1.1 安装"></a>1.1 安装</h2><ol>
+<li>创建pytorch环境</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">conda create --name openmmlab python=3.8 -y</span><br><span class="line">conda activate openmmlab</span><br><span class="line">conda install pytorch torchvision -c pytorch</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>安装框架</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/open-mmlab/mmpretrain.git</span><br><span class="line"><span class="built_in">cd</span> mmpretrain</span><br><span class="line">pip install -U openmim &amp;&amp; mim install -e .</span><br><span class="line"><span class="comment"># 测试能否运行</span></span><br><span class="line">python demo/image_demo.py demo/demo.JPEG resnet18_8xb32_in1k --device cpu</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">小技巧:以下两种方式是等价的</span><br><span class="line">1.使用工具你可以通过python执行,但是需要把执行工具的路径写正确</span><br><span class="line"><span class="variable">$python</span> ./tools/confusion_matrix.py .......</span><br><span class="line"><span class="variable">$python</span> ./tools/vis_cam.py .......</span><br><span class="line"></span><br><span class="line">2.但是也可以用框架集成的，只要在mmpretrain项目中都可执行</span><br><span class="line"><span class="variable">$mim</span> run mmpretrain confusion_matrix  ....</span><br><span class="line"><span class="variable">$mim</span> run mmpretrain vis_cam  .....</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-测试"><a href="#1-2-测试" class="headerlink" title="1.2 测试"></a>1.2 测试</h2><p><img src="/../images/openmmlab/%E6%B5%8B%E8%AF%95.png"></p>
+<h2 id="1-3-下载数据集"><a href="#1-3-下载数据集" class="headerlink" title="1.3 下载数据集"></a>1.3 下载数据集</h2><p><img src="/../images/openmmlab/%E4%B8%8B%E8%BD%BD%E6%95%B0%E6%8D%AE%E9%9B%86.png"></p>
+<h2 id="1-4-配置文件"><a href="#1-4-配置文件" class="headerlink" title="1.4 配置文件"></a>1.4 配置文件</h2><p><img src="/../images/openmmlab/%E9%85%8D%E7%BD%AE1.png"></p>
+<p><img src="/../images/openmmlab/%E9%85%8D%E7%BD%AE2.png"></p>
+<h2 id="1-5-配置详解"><a href="#1-5-配置详解" class="headerlink" title="1.5 配置详解"></a>1.5 配置详解</h2><h3 id="（1）模型配置"><a href="#（1）模型配置" class="headerlink" title="（1）模型配置"></a>（1）模型配置</h3><p><img src="/../images/openmmlab/%E6%A8%A1%E5%9E%8B%E9%85%8D%E7%BD%AE.png"></p>
+<h3 id="（2）数据配置"><a href="#（2）数据配置" class="headerlink" title="（2）数据配置"></a>（2）数据配置</h3><p><img src="/../images/openmmlab/%E6%95%B0%E6%8D%AE%E9%85%8D%E7%BD%AE1.png"></p>
+<p><img src="/../images/openmmlab/%E6%95%B0%E6%8D%AE%E9%85%8D%E7%BD%AE2.png"></p>
+<p><img src="/../images/openmmlab/%E6%95%B0%E6%8D%AE%E9%85%8D%E7%BD%AE3.png"></p>
+<h3 id="（3）训练配置"><a href="#（3）训练配置" class="headerlink" title="（3）训练配置"></a>（3）训练配置</h3><p><img src="/../images/openmmlab/%E8%AE%AD%E7%BB%83%E9%85%8D%E7%BD%AE.png"></p>
+<h3 id="（4）运行配置"><a href="#（4）运行配置" class="headerlink" title="（4）运行配置"></a>（4）运行配置</h3><p><img src="/../images/openmmlab/%E8%BF%90%E8%A1%8C%E9%85%8D%E7%BD%AE1.png"></p>
+<p><img src="/../images/openmmlab/%E8%BF%90%E8%A1%8C%E9%85%8D%E7%BD%AE2.png"></p>
+<h2 id="1-6-自定义训练"><a href="#1-6-自定义训练" class="headerlink" title="1.6 自定义训练"></a>1.6 自定义训练</h2><p><img src="/../images/openmmlab/%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE.png"></p>
+<p>直接把四个文件内容都复制到该文件中</p>
+<h3 id="（1）模型部分"><a href="#（1）模型部分" class="headerlink" title="（1）模型部分"></a>（1）模型部分</h3><p><img src="/../images/openmmlab/%E6%A8%A1%E5%9E%8B.png"></p>
+<h3 id="（2）数据集部分"><a href="#（2）数据集部分" class="headerlink" title="（2）数据集部分"></a>（2）数据集部分</h3><p><img src="/../images/openmmlab/%E6%95%B0%E6%8D%AE%E9%9B%861.png"></p>
+<p><img src="/../images/openmmlab/%E6%95%B0%E6%8D%AE%E9%9B%862.png"></p>
+<h3 id="（3）训练部分"><a href="#（3）训练部分" class="headerlink" title="（3）训练部分"></a>（3）训练部分</h3><p><img src="/../images/openmmlab/%E8%AE%AD%E7%BB%831.png"></p>
+<h2 id="1-7-执行训练"><a href="#1-7-执行训练" class="headerlink" title="1.7 执行训练"></a>1.7 执行训练</h2><p>执行mmpretrain仓库的tools目录下的train.py</p>
+<p>可以通过mim任意位置直接调用mmpretrain的train.py进行训练</p>
+<p><img src="/../images/openmmlab/%E8%AE%AD%E7%BB%8301.png"></p>
+<p><img src="/../images/openmmlab/%E8%AE%AD%E7%BB%8302.png"></p>
+<h2 id="1-8-验证"><a href="#1-8-验证" class="headerlink" title="1.8 验证"></a>1.8 验证</h2><p><img src="/../images/openmmlab/%E9%AA%8C%E8%AF%8101.png"></p>
+<p><img src="/../images/openmmlab/%E9%AA%8C%E8%AF%8102.png"></p>
+<h2 id="1-9-推理"><a href="#1-9-推理" class="headerlink" title="1.9 推理"></a>1.9 推理</h2><p><img src="/../images/openmmlab/%E6%8E%A8%E7%90%86.png"></p>
+<h2 id="1-9-分析结果"><a href="#1-9-分析结果" class="headerlink" title="1.9 分析结果"></a>1.9 分析结果</h2><h3 id="（1）文件分析"><a href="#（1）文件分析" class="headerlink" title="（1）文件分析"></a>（1）文件分析</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#训练模型命令</span></span><br><span class="line"><span class="variable">$mim</span> train mmpretrain &lt;模型配置文件&gt; --work-dir=&lt;数据保存文件&gt;</span><br><span class="line"><span class="comment">#例如我的训练命令</span></span><br><span class="line"><span class="variable">$mim</span> train mmpretrain swin.py --work-dir=./ swin-mds12-bs32-0421</span><br></pre></td></tr></table></figure>
+
+<p>训练模型后会生成以下文件夹，使用工具需要修改其中的配置文件</p>
+<p><img src="/../images/openmmlab/%E6%88%AA%E5%9B%BE_20250516225738.png"></p>
+<h3 id="（2）分析结果"><a href="#（2）分析结果" class="headerlink" title="（2）分析结果"></a>（2）分析结果</h3><p><img src="/../images/openmmlab/%E5%88%86%E6%9E%90.png"></p>
+<h3 id="（3）混淆矩阵"><a href="#（3）混淆矩阵" class="headerlink" title="（3）混淆矩阵"></a>（3）混淆矩阵</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#生成混淆矩阵命令</span></span><br><span class="line"><span class="variable">$mim</span> run mmpretrain confusion_matrix &lt;模型配置文件.py&gt; &lt;权重文件.pth&gt; --out &lt;信息文件.pkl&gt; --show-path &lt;保存的文件名.png&gt; --include-values --cmap Blues</span><br><span class="line"><span class="comment">#--include-values 指在混淆矩阵中显示数值，</span></span><br><span class="line"><span class="comment">#--cmap Blues指生成的混淆矩阵颜色是Blues</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#比如，我生成的混淆矩阵命令</span></span><br><span class="line"><span class="variable">$mim</span> run mmpretrain confusion_matrix swin.py best_accuracy_top1_epoch_34.pth --out confusion_matrix.pkl --show-path confusion_matrix.png --include-values --cmap Blues</span><br><span class="line"></span><br><span class="line"><span class="comment">#如果报错可能需要安装python包matplotlib</span></span><br><span class="line"><span class="variable">$pip</span> install matplotlib</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../images/openmmlab/%E6%88%AA%E5%9B%BE_20250516230415.png"></p>
+<h3 id="（4）热力图"><a href="#（4）热力图" class="headerlink" title="（4）热力图"></a>（4）热力图</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#该模型需要依赖pytorch_grad_cam 库，如果报错的话需要安装库</span></span><br><span class="line"><span class="comment">#我试了默认安装的1.5版本的出现问题了，然后降低到1.3.6就可以了</span></span><br><span class="line"><span class="variable">$pip</span> install <span class="string">&quot;grad-cam==1.3.6&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#默认安装</span></span><br><span class="line"><span class="variable">$pip</span> install grad-cam	<span class="comment">#默认1.5.5会出现报错</span></span><br><span class="line"><span class="comment"># 卸载当前版本</span></span><br><span class="line"><span class="variable">$pip</span> uninstall grad-cam	<span class="comment">#如果报错那么卸载默认安装的，改为1.3.6版本的</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#命令解析</span></span><br><span class="line">python vis_cam.py </span><br><span class="line">  test.jpg                                 <span class="comment"># 输入图像</span></span><br><span class="line">  configs/resnet/resnet50_8xb32_in1k.py    <span class="comment"># 配置文件</span></span><br><span class="line">  checkpoints/resnet50.pth                 <span class="comment"># 模型权重</span></span><br><span class="line">  --target-layers backbone.layers[-1].ln1  <span class="comment"># 可选：指定生成 CAM 的目标层，默认最后归一化层，本句指定最后一层的 LN 层</span></span><br><span class="line">  --vit-like                               <span class="comment"># 重要可选：如果是vit类型需要添加该参数，否则不添加该参数</span></span><br><span class="line">  --target-category 3       			   <span class="comment"># 可选：针对类别 ID=3 生成热力图</span></span><br><span class="line">  --aug-smooth              			   <span class="comment"># 可选：启用数据增强平滑</span></span><br><span class="line">  --eigen-smooth              			   <span class="comment"># 可选：启用特征平滑降噪</span></span><br><span class="line">  --save-path heatmap_resnet50.png         <span class="comment"># 可选：保存路径</span></span><br><span class="line">  --method GradCAM++                       <span class="comment"># 可选：CAM 方法，默认为 GradCAM，可选 GradCAM++、XGradCAM 等</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 我的使用方法</span></span><br><span class="line"><span class="comment">#使用vit类型算法</span></span><br><span class="line"><span class="variable">$mim</span> run mmpretrain vis_cam &lt;路径/图像.png&gt; &lt;配置文件.py&gt; &lt;权重.pth&gt;  --vit-like --save-path &lt;热力图.png&gt;</span><br><span class="line"><span class="comment">#举例，我使用swin transformer算法</span></span><br><span class="line"><span class="variable">$mim</span> run mmpretrain vis_cam ../pic/test.png swin-b.py best_accuracy_top1_epoch_33.pth --vit-like --save-path cam.png</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用卷积类算法</span></span><br><span class="line"><span class="variable">$mim</span> run mmpretrain vis_cam &lt;路径/图像.png&gt; &lt;配置文件.py&gt; &lt;权重.pth&gt; --save-path &lt;热力图.png&gt;</span><br><span class="line"><span class="comment">#举例，我使用restnet50算法</span></span><br><span class="line"><span class="variable">$mim</span> run mmpretrain vis_cam ../pic/test.png restnet50.py best_accuracy_top1_</span><br><span class="line">epoch_28.pth --save-path cam.png</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">更多热力图使用技巧可以参考官网</span><br><span class="line">https://mmpretrain.readthedocs.io/en/latest/useful_tools/cam_visualization.html</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../images/openmmlab/%E6%88%AA%E5%9B%BE_20250517104553.png"></p>
+<h1 id="2、MMAction2"><a href="#2、MMAction2" class="headerlink" title="2、MMAction2"></a>2、MMAction2</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mmcv官网：https://mmcv.readthedocs.io/en/latest/get_started/installation.html</span><br><span class="line">mmaction2官网：https://mmaction2.readthedocs.io/zh-cn/latest/get_started/installation.html#build-mmaction2-from-source</span><br><span class="line">mmcv: https://mmcv.readthedocs.io/en/latest/get_started/installation.html</span><br><span class="line">mmpose: https://mmpose.readthedocs.io/zh-cn/latest/installation.html</span><br><span class="line">pytorch：https://pytorch.org/get-started/previous-versions/</span><br><span class="line">检查版本：pip list | grep mm</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-1-python环境"><a href="#2-1-python环境" class="headerlink" title="2.1 python环境"></a>2.1 python环境</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.conda环境</span></span><br><span class="line">conda create --name openmmlab python=3.8 -y</span><br><span class="line">conda activate openmmlab</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.安装pytorch：https://pytorch.org/get-started/previous-versions/</span></span><br><span class="line">conda install pytorch==2.0.0 torchvision==0.15.0 torchaudio==2.0.0 pytorch-cuda=11.7 -c pytorch -c nvidia</span><br><span class="line"><span class="comment">#conda install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.7 -c pytorch -c nvidia</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-安装库"><a href="#2-2-安装库" class="headerlink" title="2.2 安装库"></a>2.2 安装库</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">pip install -U openmim</span><br><span class="line">pip install cmake lit</span><br><span class="line">pip list | grep mm</span><br><span class="line"></span><br><span class="line">mim install mmengine</span><br><span class="line">pip install mmcv==2.1.0 -f https://download.openmmlab.com/mmcv/dist/cu117/torch2.0/index.html</span><br><span class="line">pip install mmdet==3.2.0</span><br><span class="line">mim install mmpose==1.2.0</span><br><span class="line">pip list | grep mm</span><br><span class="line"></span><br><span class="line">pip install -v -e .</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%AE%97%E6%B3%95/"># 算法</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2025/08/26/NVM%E7%AE%A1%E7%90%86Node%E5%A4%9A%E7%89%88%E6%9C%AC/">nvm管理Node多版本</a>
+            
+            
+            <a class="next" rel="next" href="/2025/08/25/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <!-- <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Henry Li | Powered by Hexo</a> & Chic</a></span>
+    </div>
+</footer> -->
+<footer id="footer" class="footer">
+  <div class="copyright">
+    <span>© Henry Li | Powered by Hexo</a> & Chic</a></span>
+    <br>
+    <span id="busuanzi_container_site_uv">本站总访客数: <span id="busuanzi_value_site_uv"></span> 人,</span>
+    <span id="busuanzi_container_site_pv">本站总访问量: <span id="busuanzi_value_site_pv"></span> 次</span>
+  </div>
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+    </div>
+</body>
+
+</html>

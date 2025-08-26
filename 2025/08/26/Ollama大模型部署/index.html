@@ -342,16 +342,116 @@
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ollama <span class="built_in">rm</span> llama3.1</span><br></pre></td></tr></table></figure>
 
-<h2 id="2-2-使用-API-调用（兼容-OpenAI-格式）"><a href="#2-2-使用-API-调用（兼容-OpenAI-格式）" class="headerlink" title="2.2 使用 API 调用（兼容 OpenAI 格式）"></a>2.2 使用 API 调用（兼容 OpenAI 格式）</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> openai <span class="keyword">import</span> OpenAI</span><br><span class="line"></span><br><span class="line">client = OpenAI(</span><br><span class="line">    base_url=<span class="string">&quot;http://localhost:11434/v1&quot;</span>,</span><br><span class="line">    api_key=<span class="string">&quot;ollama&quot;</span>  <span class="comment"># 任意值即可</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">response = client.chat.completions.create(</span><br><span class="line">    model=<span class="string">&quot;llama3.1&quot;</span>,</span><br><span class="line">    messages=[</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;你好，介绍一下你自己&quot;</span>&#125;</span><br><span class="line">    ]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(response.choices[<span class="number">0</span>].message.content)</span><br></pre></td></tr></table></figure>
+<h2 id="2-2-使用-API-调用"><a href="#2-2-使用-API-调用" class="headerlink" title="2.2 使用 API 调用"></a>2.2 使用 API 调用</h2><p>兼容 OpenAI 格式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> openai <span class="keyword">import</span> OpenAI</span><br><span class="line"></span><br><span class="line">client = OpenAI(</span><br><span class="line">    base_url=<span class="string">&quot;http://localhost:11434/v1&quot;</span>,</span><br><span class="line">    api_key=<span class="string">&quot;ollama&quot;</span>  <span class="comment"># 任意值即可</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">response = client.chat.completions.create(</span><br><span class="line">    model=<span class="string">&quot;llama3.1&quot;</span>,</span><br><span class="line">    messages=[</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;你好，介绍一下你自己&quot;</span>&#125;</span><br><span class="line">    ]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(response.choices[<span class="number">0</span>].message.content)</span><br></pre></td></tr></table></figure>
 
 <h2 id="2-3-Docker本地部署"><a href="#2-3-Docker本地部署" class="headerlink" title="2.3 Docker本地部署"></a>2.3 Docker本地部署</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#其实就是docker镜像实例化的用法</span></span><br><span class="line">docker run -d --name ollama -p 11434:11434 ollama/ollama</span><br><span class="line">docker <span class="built_in">exec</span> -it ollama ollama pull llama3.1</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-4-本地提示词"><a href="#2-4-本地提示词" class="headerlink" title="2.4 本地提示词"></a>2.4 本地提示词</h2><p>本地部署的 Ollama 模型支持设置系统提示词</p>
+<h3 id="（1）在对话中设置提示词"><a href="#（1）在对话中设置提示词" class="headerlink" title="（1）在对话中设置提示词"></a>（1）在对话中设置提示词</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在 ollama run 启动的对话中，直接输入系统提示词：</span></span><br><span class="line">/system 你是一个专业的 Python 编程助手，只回答与编程相关的问题。</span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）创建自定义模型（永久生效）"><a href="#（2）创建自定义模型（永久生效）" class="headerlink" title="（2）创建自定义模型（永久生效）"></a>（2）创建自定义模型（永久生效）</h3><p>通过创建一个带系统提示词的模型文件，<strong>永久绑定提示词</strong>：</p>
+<ol>
+<li>创建一个 <code>Modelfile</code> 文件：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FROM llama3.1</span><br><span class="line"></span><br><span class="line">SYSTEM 你是一个中文助手，语气亲切，回答简洁。</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>构建并保存为新模型：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ollama create my-model-cn -f Modelfile</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>运行自己的模型</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ollama run my-model-cn</span><br></pre></td></tr></table></figure>
+
+<h3 id="（3）API方法设置提示词"><a href="#（3）API方法设置提示词" class="headerlink" title="（3）API方法设置提示词"></a>（3）API方法设置提示词</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> openai <span class="keyword">import</span> OpenAI</span><br><span class="line"></span><br><span class="line">client = OpenAI(</span><br><span class="line">    base_url=<span class="string">&quot;http://localhost:11434/v1&quot;</span>,</span><br><span class="line">    api_key=<span class="string">&quot;ollama&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">response = client.chat.completions.create(</span><br><span class="line">    model=<span class="string">&quot;llama3.1&quot;</span>,</span><br><span class="line">    messages=[</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;system&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;你是一个中文写作助手，擅长用比喻解释复杂概念。&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;解释一下什么是熵？&quot;</span>&#125;</span><br><span class="line">    ]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(response.choices[<span class="number">0</span>].message.content)</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-5-本地知识库"><a href="#2-5-本地知识库" class="headerlink" title="2.5 本地知识库"></a>2.5 本地知识库</h2><p><strong>本地部署的大模型完全支持接入知识库</strong>，实现“知识增强问答”（RAG，Retrieval-Augmented Generation）。<br>可以把本地文档、PDF、网页等资料变成向量，存进向量数据库，再通过大模型调用这些资料回答问题，<strong>数据完全留在本地，安全可控</strong>。</p>
+<p>目前主流构建方案</p>
+<table>
+<thead>
+<tr>
+<th>方案名称</th>
+<th>是否支持 Ollama</th>
+<th>是否图形界面</th>
+<th>是否免费</th>
+<th>适合人群</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>AnythingLLM</strong></td>
+<td>✅ 支持</td>
+<td>✅ 有</td>
+<td>✅ 免费</td>
+<td>普通用户 &#x2F; 学生 &#x2F; 老师</td>
+<td>图形界面，零配置</td>
+</tr>
+<tr>
+<td><strong>Cherry Studio</strong></td>
+<td>✅ 支持</td>
+<td>✅ 有</td>
+<td>✅ 免费</td>
+<td>非技术用户</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>LangChain + Chroma</strong></td>
+<td>✅ 支持</td>
+<td>❌ 无</td>
+<td>✅ 开源</td>
+<td>开发者 &#x2F; 工程师</td>
+<td>可编程、可集成</td>
+</tr>
+<tr>
+<td><strong>RAGFlow</strong></td>
+<td>✅ 支持</td>
+<td>✅ 有</td>
+<td>✅ 开源</td>
+<td>企业&#x2F;技术团队</td>
+<td>支持多人协作、权限管理</td>
+</tr>
+</tbody></table>
+<h2 id="2-6-本地Function-Calling"><a href="#2-6-本地Function-Calling" class="headerlink" title="2.6 本地Function Calling"></a>2.6 本地Function Calling</h2><p>Ollama从 v0.3.0 起，支持通过 <code>/api/chat</code> 接口使用 <code>tools</code> 字段声明可调用的函数</p>
+<p>通过 JSON Schema 定义函数，模型返回结构化调用指令，可在本地执行</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>模型要求</strong></td>
+<td>并非所有本地模型都支持 function calling，推荐使用 <code>llama3.1</code> 或 <code>qwen2</code> 系列。</td>
+</tr>
+<tr>
+<td><strong>显存要求</strong></td>
+<td>即使 int4 量化版 llama3.1:8b 也需要 4~5GB 显存 。</td>
+</tr>
+<tr>
+<td><strong>准确率</strong></td>
+<td>小模型未经微调时，function calling 准确率可能较低，建议配合 prompt 模板优化。</td>
+</tr>
+<tr>
+<td><strong>替代方案</strong></td>
+<td>如果你发现 Ollama 的 function calling 不稳定，可尝试 <strong>LM Studio</strong> 或 <strong>Open WebUI</strong>，它们提供了更完整的工具调用封装 。</td>
+</tr>
+</tbody></table>
+<h3 id="（1）定义函数结构"><a href="#（1）定义函数结构" class="headerlink" title="（1）定义函数结构"></a>（1）定义函数结构</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">tools = [</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;function&quot;</span>,</span><br><span class="line">        <span class="string">&quot;function&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;name&quot;</span>: <span class="string">&quot;get_weather&quot;</span>,</span><br><span class="line">            <span class="string">&quot;description&quot;</span>: <span class="string">&quot;获取指定城市的天气&quot;</span>,</span><br><span class="line">            <span class="string">&quot;parameters&quot;</span>: &#123;</span><br><span class="line">                <span class="string">&quot;type&quot;</span>: <span class="string">&quot;object&quot;</span>,</span><br><span class="line">                <span class="string">&quot;properties&quot;</span>: &#123;</span><br><span class="line">                    <span class="string">&quot;city&quot;</span>: &#123;<span class="string">&quot;type&quot;</span>: <span class="string">&quot;string&quot;</span>, <span class="string">&quot;description&quot;</span>: <span class="string">&quot;城市名称&quot;</span>&#125;</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="string">&quot;required&quot;</span>: [<span class="string">&quot;city&quot;</span>]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）发起请求"><a href="#（2）发起请求" class="headerlink" title="（2）发起请求"></a>（2）发起请求</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">res = requests.post(<span class="string">&quot;http://localhost:11434/api/chat&quot;</span>, json=&#123;</span><br><span class="line">    <span class="string">&quot;model&quot;</span>: <span class="string">&quot;llama3.1&quot;</span>,</span><br><span class="line">    <span class="string">&quot;messages&quot;</span>: [</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;北京天气怎么样？&quot;</span>&#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="string">&quot;tools&quot;</span>: tools,</span><br><span class="line">    <span class="string">&quot;stream&quot;</span>: <span class="literal">False</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">data = res.json()</span><br><span class="line"><span class="built_in">print</span>(data[<span class="string">&quot;message&quot;</span>][<span class="string">&quot;tool_calls&quot;</span>])</span><br></pre></td></tr></table></figure>
+
+<h3 id="（3）本地执行并获得返回结果"><a href="#（3）本地执行并获得返回结果" class="headerlink" title="（3）本地执行并获得返回结果"></a>（3）本地执行并获得返回结果</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 假设解析出 tool_calls 中的 city=&quot;北京&quot;</span></span><br><span class="line">weather = get_weather(<span class="string">&quot;北京&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 再次调用模型，带上函数结果</span></span><br><span class="line">follow_up = requests.post(<span class="string">&quot;http://localhost:11434/api/chat&quot;</span>, json=&#123;</span><br><span class="line">    <span class="string">&quot;model&quot;</span>: <span class="string">&quot;llama3.1&quot;</span>,</span><br><span class="line">    <span class="string">&quot;messages&quot;</span>: [</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;北京天气怎么样？&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;assistant&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;&quot;</span>, <span class="string">&quot;tool_calls&quot;</span>: [...]&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;tool&quot;</span>, <span class="string">&quot;content&quot;</span>: weather&#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 <h1 id="3、本地部署Deepseek-RAGFlow"><a href="#3、本地部署Deepseek-RAGFlow" class="headerlink" title="3、本地部署Deepseek+RAGFlow"></a>3、本地部署Deepseek+RAGFlow</h1><h2 id="1-1-Ollama部署本地大模型"><a href="#1-1-Ollama部署本地大模型" class="headerlink" title="1.1 Ollama部署本地大模型"></a>1.1 Ollama部署本地大模型</h2><h3 id="（1）安装Ollama"><a href="#（1）安装Ollama" class="headerlink" title="（1）安装Ollama"></a>（1）安装Ollama</h3><p>官网查看安装方式：<a target="_blank" rel="noopener" href="https://ollama.com/download/">https://ollama.com/download/</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://ollama.com/install.sh | sh</span><br></pre></td></tr></table></figure>
 
 <h3 id="（2）安装-运行大模型"><a href="#（2）安装-运行大模型" class="headerlink" title="（2）安装&#x2F;运行大模型"></a>（2）安装&#x2F;运行大模型</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 运行deepseek-r1模型</span></span><br><span class="line">ollama run deepseek-r1</span><br></pre></td></tr></table></figure>
 
-<h2 id="1-2-Docker部署RAGflow"><a href="#1-2-Docker部署RAGflow" class="headerlink" title="1.2 Docker部署RAGflow"></a>1.2 Docker部署RAGflow</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 官网：https://ragflow.io/docs/v0.20.3/</span></span><br><span class="line">$ git <span class="built_in">clone</span> https://github.com/infiniflow/ragflow.git</span><br><span class="line">$ <span class="built_in">cd</span> ragflow/docker</span><br><span class="line">$ git checkout -f v0.20.3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用CPU</span></span><br><span class="line"><span class="comment">#$ docker compose -f docker-compose.yml up -d</span></span><br><span class="line"><span class="comment"># 使用GPU加速</span></span><br><span class="line"> docker compose -f docker-compose-gpu.yml up -d</span><br></pre></td></tr></table></figure>
+<h2 id="1-2-Docker部署RAGflow"><a href="#1-2-Docker部署RAGflow" class="headerlink" title="1.2 Docker部署RAGflow"></a>1.2 Docker部署RAGflow</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 官网：https://ragflow.io/docs/v0.20.3/</span></span><br><span class="line">$ git <span class="built_in">clone</span> https://github.com/infiniflow/ragflow.git</span><br><span class="line">$ <span class="built_in">cd</span> ragflow/docker</span><br><span class="line">$ git checkout -f v0.20.3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用CPU</span></span><br><span class="line"><span class="comment">#$ docker compose -f docker-compose.yml up -d</span></span><br><span class="line"><span class="comment"># 使用GPU加速</span></span><br><span class="line">docker compose -f docker-compose-gpu.yml up -d</span><br></pre></td></tr></table></figure>
 
 <h2 id="1-3-在RAGflow中构建个人知识库"><a href="#1-3-在RAGflow中构建个人知识库" class="headerlink" title="1.3 在RAGflow中构建个人知识库"></a>1.3 在RAGflow中构建个人知识库</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#配置：在浏览器输入localhost:8880</span></span><br><span class="line">在【模型供应商】添加本地模型</span><br><span class="line">模型类型：chat、embedding、rerank</span><br><span class="line">模型名称：deepseek-r1 <span class="comment">#命令ollama list查看</span></span><br><span class="line">基础URL：http:&lt;your_ip&gt;:11434 <span class="comment">#命令ipconfig查看</span></span><br><span class="line">最大token数：10000 <span class="comment">#随便</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#设置默认模型</span></span><br><span class="line">聊天模型：</span><br><span class="line">嵌入模型：</span><br><span class="line"> </span><br><span class="line"><span class="comment">#构建知识库</span></span><br><span class="line">新建文件，并进行解析</span><br></pre></td></tr></table></figure>
 

@@ -274,7 +274,7 @@
             <h1 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h1><h2 id="1-1-为什么本地部署"><a href="#1-1-为什么本地部署" class="headerlink" title="1.1 为什么本地部署"></a>1.1 为什么本地部署</h2><h3 id="（1）为什么不使用网页版"><a href="#（1）为什么不使用网页版" class="headerlink" title="（1）为什么不使用网页版"></a>（1）为什么不使用网页版</h3><ul>
 <li><p>数据的隐私问题：数据肯定会上传到供应商服务器</p>
 </li>
-<li><p>文件上传限制：文件数量，文件大小，文件类型</p>
+<li><p>文件上传限制：文件数量，文件大小，文件类型都会有限制</p>
 </li>
 <li><p>功能受限，经过别人封装</p>
 </li>
@@ -317,16 +317,44 @@
 <td align="left">复制模型并自定义名称</td>
 </tr>
 </tbody></table>
-<h1 id="2、本地部署Deepseek大模型"><a href="#2、本地部署Deepseek大模型" class="headerlink" title="2、本地部署Deepseek大模型"></a>2、本地部署Deepseek大模型</h1><h2 id="1-1-Ollama部署本地大模型"><a href="#1-1-Ollama部署本地大模型" class="headerlink" title="1.1 Ollama部署本地大模型"></a>1.1 Ollama部署本地大模型</h2><h3 id="（1）安装Ollama"><a href="#（1）安装Ollama" class="headerlink" title="（1）安装Ollama"></a>（1）安装Ollama</h3><p>官网查看安装方式：<a target="_blank" rel="noopener" href="https://ollama.com/download/">https://ollama.com/download/</a></p>
+<h1 id="2、使用方法"><a href="#2、使用方法" class="headerlink" title="2、使用方法"></a>2、使用方法</h1><h2 id="2-1-基础使用方法"><a href="#2-1-基础使用方法" class="headerlink" title="2.1 基础使用方法"></a>2.1 基础使用方法</h2><ol>
+<li>启动服务</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ollama serve</span><br><span class="line"><span class="comment">#默认监听在 http://localhost:11434</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>拉取模型</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看支持的大模型：https://ollama.com/search</span></span><br><span class="line"><span class="comment"># 直接进去复制安装命令</span></span><br><span class="line">ollama pull llama3.1</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>运行模型（交互式聊天）</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入交互式命令行，可直接对话。</span></span><br><span class="line">ollama run llama3.1</span><br><span class="line"></span><br><span class="line"><span class="comment">#退出本次会话(交互)，但是会后台运行</span></span><br><span class="line">输入：/bye</span><br><span class="line"><span class="comment">#停止后台服务，守护进程仍在(监听端口，)</span></span><br><span class="line">ollama stop llama3</span><br><span class="line"><span class="comment">#终止整个 Ollama 服务</span></span><br><span class="line">systemctl stop ollama</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>查看已下载模型</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ollama list</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>删除模型</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ollama <span class="built_in">rm</span> llama3.1</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-使用-API-调用（兼容-OpenAI-格式）"><a href="#2-2-使用-API-调用（兼容-OpenAI-格式）" class="headerlink" title="2.2 使用 API 调用（兼容 OpenAI 格式）"></a>2.2 使用 API 调用（兼容 OpenAI 格式）</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> openai <span class="keyword">import</span> OpenAI</span><br><span class="line"></span><br><span class="line">client = OpenAI(</span><br><span class="line">    base_url=<span class="string">&quot;http://localhost:11434/v1&quot;</span>,</span><br><span class="line">    api_key=<span class="string">&quot;ollama&quot;</span>  <span class="comment"># 任意值即可</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">response = client.chat.completions.create(</span><br><span class="line">    model=<span class="string">&quot;llama3.1&quot;</span>,</span><br><span class="line">    messages=[</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;你好，介绍一下你自己&quot;</span>&#125;</span><br><span class="line">    ]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(response.choices[<span class="number">0</span>].message.content)</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3-Docker本地部署"><a href="#2-3-Docker本地部署" class="headerlink" title="2.3 Docker本地部署"></a>2.3 Docker本地部署</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#其实就是docker镜像实例化的用法</span></span><br><span class="line">docker run -d --name ollama -p 11434:11434 ollama/ollama</span><br><span class="line">docker <span class="built_in">exec</span> -it ollama ollama pull llama3.1</span><br></pre></td></tr></table></figure>
+
+<h1 id="3、本地部署Deepseek-RAGFlow"><a href="#3、本地部署Deepseek-RAGFlow" class="headerlink" title="3、本地部署Deepseek+RAGFlow"></a>3、本地部署Deepseek+RAGFlow</h1><h2 id="1-1-Ollama部署本地大模型"><a href="#1-1-Ollama部署本地大模型" class="headerlink" title="1.1 Ollama部署本地大模型"></a>1.1 Ollama部署本地大模型</h2><h3 id="（1）安装Ollama"><a href="#（1）安装Ollama" class="headerlink" title="（1）安装Ollama"></a>（1）安装Ollama</h3><p>官网查看安装方式：<a target="_blank" rel="noopener" href="https://ollama.com/download/">https://ollama.com/download/</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://ollama.com/install.sh | sh</span><br></pre></td></tr></table></figure>
 
-<h3 id="（2）安装-运行大模型"><a href="#（2）安装-运行大模型" class="headerlink" title="（2）安装&#x2F;运行大模型"></a>（2）安装&#x2F;运行大模型</h3><p>查看支持的大模型：<a target="_blank" rel="noopener" href="https://ollama.com/search">https://ollama.com/search</a></p>
-<p>直接进去复制安装命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 运行deepseek-r1模型</span></span><br><span class="line">ollama run deepseek-r1</span><br><span class="line"></span><br><span class="line"><span class="comment">#退出交互，但是会后台运行</span></span><br><span class="line">输入：/bye</span><br><span class="line"><span class="comment">#停止后台服务，守护进程仍在(监听端口，)</span></span><br><span class="line">ollama stop llama3</span><br><span class="line"><span class="comment">#终止整个 Ollama 服务</span></span><br><span class="line">systemctl stop ollama</span><br></pre></td></tr></table></figure>
+<h3 id="（2）安装-运行大模型"><a href="#（2）安装-运行大模型" class="headerlink" title="（2）安装&#x2F;运行大模型"></a>（2）安装&#x2F;运行大模型</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 运行deepseek-r1模型</span></span><br><span class="line">ollama run deepseek-r1</span><br></pre></td></tr></table></figure>
 
 <h2 id="1-2-Docker部署RAGflow"><a href="#1-2-Docker部署RAGflow" class="headerlink" title="1.2 Docker部署RAGflow"></a>1.2 Docker部署RAGflow</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 官网：https://ragflow.io/docs/v0.20.3/</span></span><br><span class="line">$ git <span class="built_in">clone</span> https://github.com/infiniflow/ragflow.git</span><br><span class="line">$ <span class="built_in">cd</span> ragflow/docker</span><br><span class="line">$ git checkout -f v0.20.3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用CPU</span></span><br><span class="line"><span class="comment">#$ docker compose -f docker-compose.yml up -d</span></span><br><span class="line"><span class="comment"># 使用GPU加速</span></span><br><span class="line"> docker compose -f docker-compose-gpu.yml up -d</span><br></pre></td></tr></table></figure>
 
-<h2 id="1-3-在RAGflow中构建个人知识库"><a href="#1-3-在RAGflow中构建个人知识库" class="headerlink" title="1.3 在RAGflow中构建个人知识库"></a>1.3 在RAGflow中构建个人知识库</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#配置：在浏览器输入localhost:8880</span></span><br><span class="line">在【模型供应商】添加本地模型</span><br><span class="line">模型类型：chat、embedding、rerank</span><br><span class="line">模型名称：deepseek-r1 <span class="comment">#命令ollama list查看</span></span><br><span class="line">基础URL：http:&lt;yourip&gt;:11434 <span class="comment">#命令ipconfig查看</span></span><br><span class="line">最大token数：10000 <span class="comment">#随便</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#设置默认模型</span></span><br><span class="line">聊天模型：</span><br><span class="line">嵌入模型：</span><br><span class="line"> </span><br><span class="line"><span class="comment">#构建知识库</span></span><br><span class="line">新建文件，并进行解析</span><br></pre></td></tr></table></figure>
+<h2 id="1-3-在RAGflow中构建个人知识库"><a href="#1-3-在RAGflow中构建个人知识库" class="headerlink" title="1.3 在RAGflow中构建个人知识库"></a>1.3 在RAGflow中构建个人知识库</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#配置：在浏览器输入localhost:8880</span></span><br><span class="line">在【模型供应商】添加本地模型</span><br><span class="line">模型类型：chat、embedding、rerank</span><br><span class="line">模型名称：deepseek-r1 <span class="comment">#命令ollama list查看</span></span><br><span class="line">基础URL：http:&lt;your_ip&gt;:11434 <span class="comment">#命令ipconfig查看</span></span><br><span class="line">最大token数：10000 <span class="comment">#随便</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#设置默认模型</span></span><br><span class="line">聊天模型：</span><br><span class="line">嵌入模型：</span><br><span class="line"> </span><br><span class="line"><span class="comment">#构建知识库</span></span><br><span class="line">新建文件，并进行解析</span><br></pre></td></tr></table></figure>
+
 
         </div>
 
@@ -350,7 +378,7 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2025/08/26/Docker%E7%AC%94%E8%AE%B0/">Docker笔记</a>
+                <a class="prev" rel="prev" href="/2025/08/26/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E9%80%9F%E8%AE%B0/">Hexo博客搭建速记</a>
             
             
             <a class="next" rel="next" href="/2025/08/26/OpenMMLab/">OpenMMLab</a>

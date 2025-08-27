@@ -1,4 +1,4 @@
-# My-Hexo-Blog
+# realhaoli.github.io
 
 > 基于 Hexo 的静态技术博客，部署在 GitHub Pages。
 

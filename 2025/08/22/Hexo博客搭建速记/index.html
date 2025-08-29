@@ -291,7 +291,7 @@
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;&lt;Your Github username here&gt;&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;&lt;Your Github email here&gt;&quot;</span></span><br><span class="line">git config --global --list</span><br></pre></td></tr></table></figure>
 
-<h1 id="2-运行"><a href="#2-运行" class="headerlink" title="2. 运行"></a>2. 运行</h1><h2 id="2-1-初建"><a href="#2-1-初建" class="headerlink" title="2.1 初建"></a>2.1 初建</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装并初始化项目</span></span><br><span class="line">hexo init &lt;folder&gt;    <span class="comment">#初始化你的博客文件夹</span></span><br><span class="line"><span class="built_in">cd</span> &lt;folder&gt;</span><br><span class="line">npm install    <span class="comment">#安装默认依赖</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 本地浏览 http://localhost:4000</span></span><br><span class="line">hexo server              </span><br></pre></td></tr></table></figure>
+<h1 id="2-运行"><a href="#2-运行" class="headerlink" title="2. 运行"></a>2. 运行</h1><h2 id="2-1-初始化"><a href="#2-1-初始化" class="headerlink" title="2.1 初始化"></a>2.1 初始化</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装并初始化项目</span></span><br><span class="line">hexo init &lt;folder&gt;    <span class="comment">#初始化你的博客文件夹</span></span><br><span class="line"><span class="built_in">cd</span> &lt;folder&gt;</span><br><span class="line">npm install    <span class="comment">#安装默认依赖</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 本地浏览 http://localhost:4000</span></span><br><span class="line">hexo server              </span><br></pre></td></tr></table></figure>
 
 <h2 id="2-2-运行"><a href="#2-2-运行" class="headerlink" title="2.2 运行"></a>2.2 运行</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Hexo博客的本质是使用Hexo框架，渲染自己编辑的markdown文件为前端项目，生成保存在public目录</span></span><br><span class="line"><span class="comment"># 本地查看命令如下</span></span><br><span class="line">hexo clear	<span class="comment">#清除存到public目录下以前版本历史</span></span><br><span class="line">hexo generate	<span class="comment">#渲染页面，存到public目录下，可简写为：hexo g</span></span><br><span class="line">hexo server	<span class="comment">#本地运行，可简写为hexo s，运行后可在网页http://localhost:4000/查看</span></span><br><span class="line"><span class="comment"># 或者多合一命令</span></span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure>
 
@@ -451,7 +451,13 @@
 
         </div>
 
-        
+      <div style="background-color: #f9f9f9; border-left: 5px solid #007acc; padding: 10px; margin: 20px 0;">
+        <strong>📢 转载须知：</strong>本站点内容采用
+    <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0 协议</a>进行许可，转载请注明原文链接和作者信息
+      </div>
+
+
+        <!--  -->
         <section class="post-tags">
             <div>
                 <span>标签:</span>
@@ -490,12 +496,35 @@
         <span>© Henry Li | Powered by Hexo</a> & Chic</a></span>
     </div>
 </footer> -->
-<footer id="footer" class="footer">
+<!-- <footer id="footer" class="footer">
   <div class="copyright">
-    <span>© Henry Li | Powered by Hexo</a> & Chic</a></span>
+    <span>© 2025 Henry Li | Powered by Hexo</a> & Chic</a></span>
     <br>
     <span id="busuanzi_container_site_uv">本站总访客数: <span id="busuanzi_value_site_uv"></span> 人,</span>
     <span id="busuanzi_container_site_pv">本站总访问量: <span id="busuanzi_value_site_pv"></span> 次</span>
+    <br>
+    <span> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">
+      <img alt="CC BY-NC 4.0" style="position:relative; top:2px;" src="https://licensebuttons.net/l/by-nc/4.0/80x15.png" />
+      </a>除特别声明外，本站点内容采用<a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+    CC BY-NC-SA 4.0 协议</a>进行许可，转载请注明出处。
+<span>
+  </div>
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer> -->
+<footer id="footer" class="footer" style="font-size:0.3em;line-height:1.5">
+  <br>
+  <div class="copyright">
+    <span>© 2025 Henry Li | Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank" rel="noopener">Chic</a></span>
+    <br>
+    <span id="busuanzi_container_site_uv">本站总访客数: <span id="busuanzi_value_site_uv"></span> 人,</span>
+    <span id="busuanzi_container_site_pv">本站总访问量: <span id="busuanzi_value_site_pv"></span> 次</span>
+    <br>
+    <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+      <img alt="CC BY-NC-SA 4.0" style="position:relative; top:3px;" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+    </a>本站点内容采用
+    <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+      CC BY-NC-SA 4.0 协议</a>进行许可，转载请注明原文链接和作者信息
   </div>
 
   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>

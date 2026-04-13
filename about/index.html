@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Henry Li">
+
+
+
+
+
+<title>About | Henry&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const pagebody = document.getElementsByTagName('body')[0]
+
+            function setTheme(status) {
+
+                if (status === 'dark') {
+                    window.sessionStorage.theme = 'dark'
+                    pagebody.classList.add('dark-theme');
+
+                } else if (status === 'light') {
+                    window.sessionStorage.theme = 'light'
+                    pagebody.classList.remove('dark-theme');
+                }
+            };
+
+            setTheme(window.sessionStorage.theme)
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Henry&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                <a class="menu-item" href="/archives">文章</a>
+                
+                <a class="menu-item" href="/category">分类</a>
+                
+                <a class="menu-item" href="/tag">标签</a>
+                
+                <a class="menu-item" href="/about">关于</a>
+                
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Henry&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">
+                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M4.5 17.27q-.213 0-.356-.145T4 16.768t.144-.356t.356-.143h15q.213 0 .356.144q.144.144.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.144T4 11.999t.144-.356t.356-.143h15q.213 0 .356.144t.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.143Q4 7.443 4 7.23t.144-.356t.356-.143h15q.213 0 .356.144T20 7.23t-.144.356t-.356.144z"/></svg>
+                    <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Material Symbols Light by Google - https://github.com/google/material-design-icons/blob/master/LICENSE --><path fill="currentColor" d="m12 12.708l-5.246 5.246q-.14.14-.344.15t-.364-.15t-.16-.354t.16-.354L11.292 12L6.046 6.754q-.14-.14-.15-.344t.15-.364t.354-.16t.354.16L12 11.292l5.246-5.246q.14-.14.345-.15q.203-.01.363.15t.16.354t-.16.354L12.708 12l5.246 5.246q.14.14.15.345q.01.203-.15.363t-.354.16t-.354-.16z"/></svg>
+                </div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                <a class="menu-item" href="/archives">文章</a>
+                
+                <a class="menu-item" href="/category">分类</a>
+                
+                <a class="menu-item" href="/tag">标签</a>
+                
+                <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if (toggleMenu.classList.contains("active")) {
+            toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        } else {
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                
+    <!-- 以下是新增的 about.ejs 内容 -->
+    <div class="container">
+        <div class="post-wrap about">
+            <!-- 标题区域 - 保持与标签页相同的样式 -->
+            <h1 class="post-title">Henry Li</h1>
+            
+            <!-- Markdown 内容渲染区 -->
+            <div class="about-content">
+                <h2 id="Who-am-I-？"><a href="#Who-am-I-？" class="headerlink" title="Who am I ？"></a>Who am I ？</h2><p>他是一个擅长分析、重视逻辑的<strong>理科生</strong>，</p>
+<p>但他现在很多时候更倾向于凭着<strong>感觉</strong>去指引前进的方向；</p>
+<p>他说他<strong>涉猎广泛</strong>，对很多事情都有自己独到的见解，</p>
+<p>但是，谁知道呢，反正他说的话很多时候<strong>听不懂</strong>，也<strong>说不过</strong>；</p>
+<p>他认为自己是一位对未来充满期待的<strong>理想主义者</strong>，</p>
+<p><strong>不知道</strong>是不是又是一位喜欢胡思乱想，经常脑洞大开的白日梦想家；</p>
+<p>哦，他还经常独来独往，而且看着总感觉<strong>无拘无束</strong>很快乐的样子，</p>
+<p>但他却是一名<strong>话唠</strong>，喜欢<strong>话疗</strong>，</p>
+<p>也是经过朋友认证的，喜欢深度交流的<strong>小小心理按摩师</strong>；</p>
+<p>如果要他做自我介绍，他<strong>肯定会说</strong>：</p>
+<p><strong>我是电，我是光，我将会是你见过的唯一的神话！</strong></p>
+<p>反正总之<strong>很难评</strong>，</p>
+<p>有机会你还是自己去<strong>交流交流</strong>看看吧！</p>
+<h2 id="注意注意，前方“昊”出没！"><a href="#注意注意，前方“昊”出没！" class="headerlink" title="注意注意，前方“昊”出没！"></a>注意注意，前方“昊”出没！</h2><p>有人说，数字时代中，世界成了一座座<strong>数字孤岛</strong>，</p>
+<p>但是呢，总有人喜欢做个<strong>探险家</strong>，</p>
+<p>喜欢在孤岛间<strong>追逐浪潮、发现新奇、创造浪漫</strong>。</p>
+<p>让我们一起<strong>做个游戏</strong>怎么样？</p>
+<p><strong>我相信</strong>我们一定会用到很多共同的软件，</p>
+<p>如果咱们能在<strong>茫茫数字汪洋中</strong>遇到，那一定说明我们真的<strong>很有缘分</strong>，</p>
+<p>所以一起来一场网络世界中的“<strong>邂逅</strong>”吧，</p>
+<p>我在不同的地方(软件)会有<strong>不同的名字</strong>，</p>
+<p>比如“<strong>书昊</strong>”、“<strong>乐昊</strong>”、“<strong>昊飞侠</strong>”、“<strong>昊想玩</strong>”、“<strong>昊看戏</strong>”、“<strong>昊昊吃饭</strong>”，</p>
+<p>虽然我已经<strong>关闭了全网搜索</strong>，</p>
+<p>但是如果你能遇到，并发送暗号“<strong>hey，你hao</strong>!”，</p>
+<p>我就会<strong>为你</strong>准备一份惊喜，</p>
+<p><strong>期待未来</strong>的相逢！</p>
+<h2 id="别走，还有"><a href="#别走，还有" class="headerlink" title="别走，还有"></a>别走，还有</h2><p>如果你有很多<strong>脑洞大开的想法</strong>，比如改变世界啦，创造未来啦，</p>
+<p>想找个人一起<strong>讨论它</strong>、<strong>助力它</strong>、<strong>做成它</strong>，</p>
+<p>或者有<strong>很有意思</strong>的事想要分享，</p>
+<p>又或者<strong>需要帮助</strong>，</p>
+<p>可以<strong>随时联系</strong>我哦，</p>
+<p>呐，这是我的<strong>联系方式</strong>“<code>realhaoli@qq.com</code>”，记的收好哦，</p>
+<p>Bye-bye，(๑＞ڡ＜)☆</p>
+
+            </div>
+            
+        </div>
+    </div>
+            </div>
+            <!-- <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Henry Li | Powered by Hexo</a> & Chic</a></span>
+    </div>
+</footer> -->
+<!-- <footer id="footer" class="footer">
+  <div class="copyright">
+    <span>© 2025 Henry Li | Powered by Hexo</a> & Chic</a></span>
+    <br>
+    <span id="busuanzi_container_site_uv">本站总访客数: <span id="busuanzi_value_site_uv"></span> 人,</span>
+    <span id="busuanzi_container_site_pv">本站总访问量: <span id="busuanzi_value_site_pv"></span> 次</span>
+    <br>
+    <span> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">
+      <img alt="CC BY-NC 4.0" style="position:relative; top:2px;" src="https://licensebuttons.net/l/by-nc/4.0/80x15.png" />
+      </a>除特别声明外，本站点内容采用<a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+    CC BY-NC-SA 4.0 协议</a>进行许可，转载请注明出处。
+<span>
+  </div>
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer> -->
+<footer id="footer" class="footer" style="font-size:0.3em;line-height:1.5">
+  <br>
+  <div class="copyright">
+    <span>© 2025 Henry Li | Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank" rel="noopener">Chic</a></span>
+    <br>
+    <span id="busuanzi_container_site_uv">本站总访客数: <span id="busuanzi_value_site_uv"></span> 人,</span>
+    <span id="busuanzi_container_site_pv">本站总访问量: <span id="busuanzi_value_site_pv"></span> 次</span>
+    <br>
+    <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+      <img alt="CC BY-NC-SA 4.0" style="position:relative; top:3px;" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+    </a>本站点内容采用
+    <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+      CC BY-NC-SA 4.0 版权协议</a>进行许可，转载请注明原文链接和作者信息
+  </div>
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+    </div>
+</body>
+
+</html>

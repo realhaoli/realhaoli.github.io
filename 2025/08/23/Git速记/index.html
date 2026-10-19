@@ -271,7 +271,55 @@
         </header>
 
         <div class="post-content">
-            <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Git操作流程</span></span><br><span class="line"><span class="comment">#1、克隆仓库或本地初始化项目</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/username/repo.git</span><br><span class="line"><span class="built_in">cd</span> repo</span><br><span class="line"><span class="comment">#git init dir	#本地初始化</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#2、创建新分支：为了避免直接在 main 或 master 分支上进行开发，通常会创建一个新的分支</span></span><br><span class="line">git checkout -b new-feature</span><br><span class="line"></span><br><span class="line"><span class="comment">#3、暂存、提交文件：随时暂存(装箱)，按需提交</span></span><br><span class="line">git add .	<span class="comment">#git add filename</span></span><br><span class="line">git commit -m <span class="string">&quot;Add new feature&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#4、拉取最新更改：在推送本地更改之前，最好从远程仓库拉取最新的更改，以避免冲突：</span></span><br><span class="line">git pull origin main</span><br><span class="line"><span class="comment"># 或者如果在新的分支上工作</span></span><br><span class="line">git pull origin new-feature</span><br><span class="line"></span><br><span class="line"><span class="comment">#5、推送更改</span></span><br><span class="line">git push origin new-feature</span><br><span class="line"></span><br><span class="line"><span class="comment">#6、创建 Pull Request（PR）</span></span><br><span class="line">在 GitHub 或其他托管平台上创建 Pull Request，邀请团队成员进行代码审查。</span><br><span class="line">PR 合并后，你的更改就会合并到主分支。</span><br><span class="line"></span><br><span class="line"><span class="comment">#7、删除分支：如果不再需要新功能分支，可以将其删除：</span></span><br><span class="line">git branch -d new-feature</span><br><span class="line"><span class="comment">#或者从远程仓库删除分支：</span></span><br><span class="line">git push origin --delete new-feature</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+            <h1 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h1><h3 id="1-新建仓库"><a href="#1-新建仓库" class="headerlink" title="1. 新建仓库"></a>1. 新建仓库</h3><blockquote>
+<p>本地已有项目，新建 git 仓库并推送到远程</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">1. GitHub新建仓库：</span><br><span class="line">https://github.com -&gt; new repository -&gt; 输入名字等选项 -&gt;Create repository</span><br><span class="line"></span><br><span class="line">2.同步到远程</span><br><span class="line"><span class="comment"># 1. 进入你的项目文件夹</span></span><br><span class="line"><span class="built_in">cd</span> ./your_project</span><br><span class="line"><span class="comment"># 2. 初始化本地git仓库，生成隐藏的 .git 文件夹</span></span><br><span class="line">git init</span><br><span class="line"><span class="comment"># 可选：把默认分支改成main（新版默认main，老版本是master）</span></span><br><span class="line">git branch -M main</span><br><span class="line"><span class="comment"># 3. 添加所有文件到暂存区</span></span><br><span class="line">git add .</span><br><span class="line"><span class="comment"># 4. 提交到本地仓库，引号里写提交备注,方便review</span></span><br><span class="line">git commit -m <span class="string">&quot;first commit&quot;</span></span><br><span class="line"><span class="comment"># 5. 关联远程仓库，把下面url换成你复制的远程仓库地址</span></span><br><span class="line">git remote add origin https://gitee.com/xxx/xxx.git</span><br><span class="line"><span class="comment"># 6. 推送到远程main分支</span></span><br><span class="line">git push -u origin main</span><br><span class="line"><span class="comment">#除第一次外，可简化为</span></span><br><span class="line"><span class="comment">#git push</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-远程克隆仓库"><a href="#2-远程克隆仓库" class="headerlink" title="2. 远程克隆仓库"></a>2. 远程克隆仓库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://gitee.com/xxx/xxx.git</span><br><span class="line"><span class="built_in">cd</span> xxx</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-公共库改为自己的库"><a href="#3-公共库改为自己的库" class="headerlink" title="3. 公共库改为自己的库"></a>3. 公共库改为自己的库</h3><p>方式一：推荐 fork直接为自己的库(自动换源)，然后clone到本地</p>
+<p>方式二：clone到本地，然后<strong>换源</strong>为自己的库，换源操作如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://xxx/公共库.git</span><br><span class="line"><span class="built_in">cd</span> 公共库文件夹</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看绑定的哪个仓库</span></span><br><span class="line">git remote -v </span><br><span class="line"><span class="comment">#删掉原来的远程 origin</span></span><br><span class="line">git remote remove origin</span><br><span class="line"><span class="comment">#绑定你自己新建的远程仓库</span></span><br><span class="line">git remote add origin https://gitee.com/你的账号/你的仓库.git</span><br><span class="line"><span class="comment">#git remote set-url origin https://github.com/你的名字/your-project.git #删掉、绑定合一</span></span><br><span class="line">git push -u origin main</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-跟踪公开库"><a href="#4-跟踪公开库" class="headerlink" title="4. 跟踪公开库"></a>4. 跟踪公开库</h3><blockquote>
+<p>如果项目基于公开库进行改造，以后公开库更新你可以拉取最新版</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git remote add upstream https://xxx/公共库.git</span><br><span class="line">git fetch upstream	<span class="comment"># 拉取原公共库最新代码</span></span><br><span class="line">git merge upstream/main	<span class="comment">#合并到主分支</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-当开始新的功能-任务"><a href="#5-当开始新的功能-任务" class="headerlink" title="5. 当开始新的功能&#x2F;任务"></a>5. 当开始新的功能&#x2F;任务</h3><blockquote>
+<p>接到一个新任务、bug 修复、需求时，**拉取最新版并新建分支</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">git branch    <span class="comment">#列出所有分支</span></span><br><span class="line">git checkout main		<span class="comment">#切换到主分支</span></span><br><span class="line">git pull origin main  <span class="comment">#拉取远程库最新main主分支到本地</span></span><br><span class="line">git checkout -b feat/xxx   <span class="comment"># 当前main分支新建feat/xxx分支，并进入</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#如果不再需要新功能分支，可以将其删除：</span></span><br><span class="line">git branch -d new-feature</span><br><span class="line"><span class="comment">#或者从远程仓库删除分支：</span></span><br><span class="line">git push origin --delete new-feature</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-日常提交"><a href="#6-日常提交" class="headerlink" title="6. 日常提交"></a>6. 日常提交</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;简明描述这次改了什么&quot;</span></span><br><span class="line">git push origin feature/xxx   <span class="comment"># 第一次推送用 -u 关联远程分支</span></span><br><span class="line">git push -u origin feature/xxx</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-main-有更新，同步到自己的分支"><a href="#7-main-有更新，同步到自己的分支" class="headerlink" title="7. main 有更新，同步到自己的分支"></a>7. main 有更新，同步到自己的分支</h3><p>场景：你本地分支写了代码、准备 push，但是<strong>远程同分支已经有别人提交了新代码</strong></p>
+<blockquote>
+<p>报错一般是：<code>! [rejected] xxx -&gt; xxx (non-fast-forward)</code> 意思：远程分支比你本地新，直接 push 推不上去，不能覆盖远端。</p>
+</blockquote>
+<ul>
+<li><strong>方式 A：merge</strong></li>
+</ul>
+<blockquote>
+<p>保留原始提交历史，产生一个合并提交，更安全，冲突好处理</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#绕过本地main，直接功能分支合并origiun/main</span></span><br><span class="line">git checkout feature/xxx</span><br><span class="line">git fetch origin</span><br><span class="line">git merge origin/main</span><br><span class="line"><span class="comment"># 如果冲突，解决文件冲突（打开文件，修改 &lt;&lt;&lt;&lt;&lt;&gt;&gt;&gt;&gt;&gt; 标记）</span></span><br><span class="line">git add .</span><br><span class="line">git commit</span><br><span class="line">git push origin feature/xxx</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>方式 B：rebase</strong></li>
+</ul>
+<blockquote>
+<p>历史更干净，但如果分支已推送给别人协作，慎用</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature/xxx</span><br><span class="line">git fetch origin</span><br><span class="line">git rebase origin/main</span><br><span class="line"><span class="comment">#git pull origin main与以上两个等价</span></span><br><span class="line"><span class="comment"># 如果冲突，解决文件冲突（打开文件，修改 &lt;&lt;&lt;&lt;&lt;&gt;&gt;&gt;&gt;&gt; 标记）</span></span><br><span class="line">git add .</span><br><span class="line">git rebase --<span class="built_in">continue</span></span><br><span class="line">git push --force-with-lease origin feature/xxx   <span class="comment"># rebase改写了历史，必须force push</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>清除工作</strong></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除本地已经合并完的feature分支（清理垃圾分支）</span></span><br><span class="line">git branch -d feature/user-login</span><br><span class="line"><span class="comment"># （可选）删除远程上已经合并完成的feature分支，网页上也可以点删除</span></span><br><span class="line">git push origin --delete feature/user-login</span><br></pre></td></tr></table></figure>
+
+
 
 <h1 id="1-Git介绍"><a href="#1-Git介绍" class="headerlink" title="1. Git介绍"></a>1. Git介绍</h1><p>开源、分布式、直接记录快照、专针对数据</p>
 <h2 id="1-1-仓库概念"><a href="#1-1-仓库概念" class="headerlink" title="1.1 仓库概念"></a>1.1 仓库概念</h2><ol>
@@ -293,7 +341,8 @@
 <li><code>.git/config</code>：当前仓库的<code>config</code> 文件，针对该仓库。</li>
 </ol>
 <p>每一个级别覆盖上一级别的配置，即 <code>.git/config</code> 的配置变量会覆盖 <code>/etc/gitconfig</code> 中的配置变量。</p>
-<h3 id="2-配置用户信息-必要"><a href="#2-配置用户信息-必要" class="headerlink" title="2. 配置用户信息(必要)"></a>2. 配置用户信息(必要)</h3><p>当使用<code>--globle</code>参数时，只需要配置一次</p>
+<h3 id="2-配置用户信息-必要"><a href="#2-配置用户信息-必要" class="headerlink" title="2. 配置用户信息(必要)"></a>2. 配置用户信息(必要)</h3><p>初次使用前配置用户名邮箱</p>
+<p>当使用<code>--globle</code>参数时，所有仓库生效，只需要配置一次</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置全局用户名和邮箱（提交者身份）</span></span><br><span class="line">git config --global user.name &quot;你的名字&quot;</span><br><span class="line">git config --global user.email &quot;你的邮箱&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看配置列表</span></span><br><span class="line">git config --list</span><br></pre></td></tr></table></figure>
 
 <h3 id="3-配置SSH"><a href="#3-配置SSH" class="headerlink" title="3. 配置SSH"></a>3. 配置SSH</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">ssh-keygen.exe <span class="comment">#生成SSH密钥</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">进入文件夹：C:\Users\username\.ssh</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">复制id_rsa.pub文件夹全部内容</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">进入GitHub选择Setting -&gt; SSH and GPG keys -&gt; New SSH key</span></span><br></pre></td></tr></table></figure>
@@ -302,18 +351,37 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.editor emacs</span><br></pre></td></tr></table></figure>
 
 <h1 id="2-本地操作"><a href="#2-本地操作" class="headerlink" title="2. 本地操作"></a>2. 本地操作</h1><p><img src="/../images/git/git-local.jpeg" alt="本地操作"></p>
-<h2 id="2-1-新建仓库"><a href="#2-1-新建仓库" class="headerlink" title="2.1 新建仓库"></a>2.1 新建仓库</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">初始化文件夹</span></span><br><span class="line">git init        #文件夹内初始化</span><br><span class="line">git init dir    #指定文件夹内</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">拉取远程仓库</span></span><br><span class="line">git clone &lt;repo&gt;        #克隆远程仓库</span><br><span class="line">git clone &lt;repo&gt; &lt;dir&gt;  #克隆远程仓库到指定文件夹</span><br></pre></td></tr></table></figure>
+<h2 id="2-1-新建仓库-init-clone"><a href="#2-1-新建仓库-init-clone" class="headerlink" title="2.1 新建仓库(init &amp;clone)"></a>2.1 新建仓库(init &amp;clone)</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">初始化文件夹</span></span><br><span class="line">git init        #文件夹内初始化</span><br><span class="line">git init dir    #指定文件夹内</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">拉取远程仓库</span></span><br><span class="line">git clone &lt;repo&gt;        #克隆远程仓库</span><br><span class="line">git clone &lt;repo&gt; &lt;dir&gt;  #克隆远程仓库到指定文件夹</span><br></pre></td></tr></table></figure>
 
-<h2 id="2-2-提交代码流程"><a href="#2-2-提交代码流程" class="headerlink" title="2.2 提交代码流程"></a>2.2 提交代码流程</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">添加到暂存区</span></span><br><span class="line">git add .                #当前目录所有文件到暂存区</span><br><span class="line">git add &lt;dir|file?       #指定目录或文件到暂存区</span><br><span class="line">git add file1 file2 ...  #添加多个文件到暂存区</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">添加到本地库</span></span><br><span class="line">git commit -m “msg”     #自动将暂存区所有内容存入本地库</span><br><span class="line">git commit file1 file2 ... -m “msg”        #添加暂存区的指定文件到本地库</span><br><span class="line">git commit -am “msg”    #直接将工作区文件加入本地库</span><br></pre></td></tr></table></figure>
+<h2 id="2-2-提交代码流程-add-commit"><a href="#2-2-提交代码流程-add-commit" class="headerlink" title="2.2 提交代码流程(add &amp; commit)"></a>2.2 提交代码流程(add &amp; commit)</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">添加到暂存区</span></span><br><span class="line">git add .                #当前目录所有文件到暂存区</span><br><span class="line">git add dir|file       #指定目录或文件到暂存区</span><br><span class="line">git add file1 file2 ...  #添加多个文件到暂存区</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">添加到本地库</span></span><br><span class="line">git commit -m “msg”     #自动将暂存区所有内容存入本地库</span><br><span class="line">git commit file1 file2 ... -m “msg”        #添加暂存区的指定文件到本地库</span><br><span class="line">git commit -am “msg”    #直接将工作区文件加入本地库</span><br></pre></td></tr></table></figure>
 
-<h2 id="2-3-查看文件状态"><a href="#2-3-查看文件状态" class="headerlink" title="2.3 查看文件状态"></a>2.3 查看文件状态</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看文件状态</span></span><br><span class="line">git status -s    </span><br><span class="line"><span class="comment">#参数表示简要输出</span></span><br><span class="line"><span class="comment">#？？(红色)表示未添加到暂存区</span></span><br><span class="line"><span class="comment">#A表示添加到暂存区</span></span><br><span class="line"><span class="comment">#M已经添加到本地库的文件又进行了修改(红色未提交到暂存区，绿色已提交到暂存区，两个MM表示都不一样)</span></span><br><span class="line"><span class="comment">#AM表示添加到暂存区后又修改了</span></span><br><span class="line"><span class="comment">#U代表合并后未提交到暂存库</span></span><br><span class="line"><span class="comment">#添加到本地库的内容不显示</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#比较文件在暂存区和工作区的差异</span></span><br><span class="line">git diff file    <span class="comment">#比较暂存区和工作区的差异，没差别则不显示，以工作区视角</span></span><br><span class="line">git diff --cached/staged file#比较暂存区和最新本地库之间的差异，没差别不显示，暂存区视角</span><br></pre></td></tr></table></figure>
+<h2 id="2-3-查看文件状态-status-diff"><a href="#2-3-查看文件状态-status-diff" class="headerlink" title="2.3 查看文件状态(status &amp; diff)"></a>2.3 查看文件状态(status &amp; diff)</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看文件状态</span></span><br><span class="line">git status -s    </span><br><span class="line"><span class="comment">#参数表示简要输出</span></span><br><span class="line"><span class="comment">#？？(红色)表示未添加到暂存区</span></span><br><span class="line"><span class="comment">#A表示添加到暂存区</span></span><br><span class="line"><span class="comment">#M已经添加到本地库的文件又进行了修改(红色未提交到暂存区，绿色已提交到暂存区，两个MM表示都不一样)</span></span><br><span class="line"><span class="comment">#AM表示添加到暂存区后又修改了</span></span><br><span class="line"><span class="comment">#U代表合并后未提交到暂存库</span></span><br><span class="line"><span class="comment">#添加到本地库的内容不显示</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#比较文件在暂存区和工作区的差异</span></span><br><span class="line">git diff file    <span class="comment">#比较暂存区和工作区的差异，没差别则不显示，以工作区视角</span></span><br><span class="line">git diff --cached/staged file#比较暂存区和最新本地库之间的差异，没差别不显示，暂存区视角</span><br></pre></td></tr></table></figure>
 
-<h2 id="2-4-版本管理"><a href="#2-4-版本管理" class="headerlink" title="2.4 版本管理"></a>2.4 版本管理</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看提交历史</span></span><br><span class="line">git log                         #查看提交记录，最新在上面</span><br><span class="line">git log --oneline/git reflog    #简洁显示日志</span><br><span class="line">git log --oneline --graph       #拓扑图显示分支与合并历程</span><br><span class="line">git log --author=&lt;Lee&gt; --oneline#查看指定作者日志</span><br><span class="line">git blame file                  #查看指定文件的修改记录</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">回退到指定版本</span></span><br><span class="line">git reset HEAD^/ID        #误操作add，暂存区回退到指定版本，默认--mixed参数，修改暂存区，工作区不变</span><br><span class="line">git reset HEAD^/ID file   #指定文件回退，默认--mixed参数</span><br><span class="line">git reset --hard HEAD/ID  #将暂存区和工作区都会回到指定版本，版本之后的会被删除，--hard参数</span><br><span class="line">git reset --soft HEAD/ID  #合并提交，指定版本之后的都设为未被提交到暂存区，只改变commit指针指向，不改变工作区</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">暂存区内容同步到工作区</span></span><br><span class="line">git restore .</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">删除文件</span></span><br><span class="line">git rm file           #将文件从暂存区和工作区中删除</span><br><span class="line">git rm -f file        #若删除前修改过且已放入暂存区，则参数-f强制删除</span><br><span class="line">git rm --cached file  #只把文件从暂存区移除，工作区不变，仅从工作区中删除</span><br><span class="line">git rm –r *           #递归删除</span><br><span class="line">git commit -m “msg”   #将删除内容同步到本地库</span><br></pre></td></tr></table></figure>
+<h2 id="2-4-版本管理-log-reset"><a href="#2-4-版本管理-log-reset" class="headerlink" title="2.4 版本管理(log &amp; reset)"></a>2.4 版本管理(log &amp; reset)</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看提交历史</span></span><br><span class="line">git log                         #查看提交记录，最新在上面</span><br><span class="line">git log --oneline/git reflog    #简洁显示日志</span><br><span class="line">git log --oneline --graph       #拓扑图显示分支与合并历程</span><br><span class="line">git log --author=&lt;Lee&gt; --oneline#查看指定作者日志</span><br><span class="line">git blame file                  #查看指定文件的修改记录</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">回退到指定版本</span></span><br><span class="line">git reset HEAD^/ID        #误操作add，暂存区回退到指定版本，默认--mixed参数，修改暂存区，工作区不变</span><br><span class="line">git reset HEAD^/ID file   #指定文件回退，默认--mixed参数</span><br><span class="line">git reset --hard HEAD/ID  #将暂存区和工作区都会回到指定版本，版本之后的会被删除，--hard参数</span><br><span class="line">git reset --soft HEAD/ID  #合并提交，指定版本之后的都设为未被提交到暂存区，只改变commit指针指向，不改变工作区</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">暂存区内容同步到工作区</span></span><br><span class="line">git restore .</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">删除文件</span></span><br><span class="line">git rm file           #将文件从暂存区和工作区中删除</span><br><span class="line">git rm -f file        #若删除前修改过且已放入暂存区，则参数-f强制删除</span><br><span class="line">git rm --cached file  #只把文件从暂存区移除，工作区不变，仅从工作区中删除</span><br><span class="line">git rm –r *           #递归删除</span><br><span class="line">git commit -m “msg”   #将删除内容同步到本地库</span><br></pre></td></tr></table></figure>
 
-<h2 id="2-5-分支管理"><a href="#2-5-分支管理" class="headerlink" title="2.5 分支管理"></a>2.5 分支管理</h2><p>版本控制中使用多分支同时推进多个任务，每个分支代表一条独立的开开发线</p>
+<h2 id="2-5-分支管理-branch"><a href="#2-5-分支管理-branch" class="headerlink" title="2.5 分支管理(branch)"></a>2.5 分支管理(branch)</h2><p>版本控制中使用多分支同时推进多个任务，每个分支代表一条独立的开开发线</p>
 <p>每个分支并行开发互不影响，对一个分支的增删改查不影响另一个分支，提高开发效率</p>
+<blockquote>
+<p>永远从最新的 main 切分支，不要从别的旧分支或过时的 main 切，否则后面合并冲突会很多</p>
+</blockquote>
+<ol>
+<li><p><code>feature/xxx</code> 、<code>feat/xxx</code>（— 新功能（开发新需求）</p>
+</li>
+<li><p><code>bugfix/xxx</code> 、<code>fix/xxx</code>— 修复 bug，开发环境 bug</p>
+</li>
+<li><p><code>hotfix/xxx</code> — <strong>线上紧急 bug</strong>，需要马上上线修复</p>
+</li>
+<li><p><code>release/v1.2.0</code> — 版本准备分支，打包测试、发版用</p>
+</li>
+<li><p><code>docs/xxx</code> — 只改文档、注释</p>
+</li>
+<li><p><code>refactor/xxx</code> — 重构代码，<strong>不改变功能</strong></p>
+</li>
+<li><p><code>test/xxx</code> — 只加测试代码</p>
+</li>
+</ol>
 <p><img src="/../images/git/git-checkout.png" alt="分支操作"></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git branch    #列出所有分支</span><br><span class="line">git branch branch_name      #创建分支</span><br><span class="line">git checkout branch_name    #切换分支，Git会用最近版本替换工作区内容</span><br><span class="line">git checkout -b branch_name #创建分支，并直接进入</span><br><span class="line">git branch -d branch_name   #删除分支</span><br><span class="line">git merge branch_name       #分支合并，将指定分支合并到本分支，都存在本地库中</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git branch    #列出所有分支</span><br><span class="line">git branch branch_name      #创建分支（但不会指向该分支）</span><br><span class="line">git checkout branch_name    #切换分支，Git会用最近版本替换工作区内容</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">git checkout -b branch_name <span class="comment">#创建分支，并直接进入，等于branch+checkout</span></span></span><br><span class="line">git branch -d branch_name   #删除分支</span><br><span class="line">git merge branch_name       #分支合并，将指定分支合并到本分支，都存在本地库中</span><br></pre></td></tr></table></figure>
 
 <h1 id="3-远程库操作"><a href="#3-远程库操作" class="headerlink" title="3. 远程库操作"></a>3. 远程库操作</h1><p>若是想和其他开发人员合作，需要将数据放到共同的服务器上</p>
 <p><img src="/../images/git/git-github.png" alt="远程库操作"></p>
@@ -331,16 +399,212 @@
 <li>添加：Tittle随便填，复制全部内容进去，保存</li>
 </ol>
 <p><code>$ssh -T ``git@github.com</code>输入命令并键入yes，进行连接验证</p>
-<h2 id="3-2-连接远程库"><a href="#3-2-连接远程库" class="headerlink" title="3.2 连接远程库"></a>3.2 连接远程库</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1.建立远程仓库：选择new，输入仓库名字</span><br><span class="line">创建后，会显示信息，可按信息进行克隆新仓库，或把本地仓库内容推送到GitHub仓库</span><br><span class="line"></span><br><span class="line">2.本地库连接：</span><br><span class="line">git init    #初始化本地库</span><br><span class="line">git remote  #显示所有远程仓库，-v参数显示实际链接地址</span><br><span class="line">git remote add &lt;name&gt; &lt;url&gt;  #给远程库起名字，便于引用</span><br><span class="line">git push -u origin master    #把本地库内容推送到远程库</span><br></pre></td></tr></table></figure>
+<h2 id="3-2-连接远程库-remote"><a href="#3-2-连接远程库-remote" class="headerlink" title="3.2 连接远程库(remote)"></a>3.2 连接远程库(remote)</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1.建立远程仓库：选择new，输入仓库名字</span><br><span class="line">创建后，会显示信息，可按信息进行克隆新仓库，或把本地仓库内容推送到GitHub仓库</span><br><span class="line"></span><br><span class="line">2.本地库连接：</span><br><span class="line">git init    #初始化本地库</span><br><span class="line">git remote  #显示所有远程仓库，-v参数显示实际链接地址</span><br><span class="line">git remote add &lt;name&gt; &lt;url&gt;  #给远程库起名字，便于引用</span><br><span class="line">git push -u origin master    #把本地库内容推送到远程库</span><br><span class="line"></span><br><span class="line">3.删除远程库连接</span><br><span class="line">git remote rm origin</span><br></pre></td></tr></table></figure>
 
-<h2 id="3-3-从远程库获取代码"><a href="#3-3-从远程库获取代码" class="headerlink" title="3.3 从远程库获取代码"></a>3.3 从远程库获取代码</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git fetch origin           #从origin远程库获取更新内容到本地库</span><br><span class="line">git merge origin/branch    #将origin远程库内容合并到branch分支</span><br></pre></td></tr></table></figure>
+<h2 id="3-3-远程main和并到本地main-fetch-merge"><a href="#3-3-远程main和并到本地main-fetch-merge" class="headerlink" title="3.3 远程main和并到本地main(fetch &amp; merge)"></a>3.3 远程main和并到本地main(fetch &amp; merge)</h2><ol>
+<li>方法 1：git pull（最简单，日常用）</li>
+</ol>
+<blockquote>
+<p>执行完：本地 <code>main</code> 指针 &#x3D; <code>origin/main</code>。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 切换到本地main分支</span></span><br><span class="line">git checkout main</span><br><span class="line"><span class="comment"># 2. pull = fetch + merge origin/main，把远程main更新到本地main</span></span><br><span class="line">git pull origin main</span><br><span class="line"><span class="comment">#git pull &lt;remote&gt; &lt;远程分支&gt;:&lt;本地分支&gt;`</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="3-4-推送到远程库"><a href="#3-4-推送到远程库" class="headerlink" title="3.4 推送到远程库"></a>3.4 推送到远程库</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git push origin master1:master2    #将本地分支名master1推送到origin远程库的master分支上</span><br><span class="line">git push origin maste    #当本地库与远程库的分支名相同时，推送本地库master分支到origin远程库</span><br><span class="line">git push --force origin master    #本地库与远程库有差异时，强制推送</span><br><span class="line">git push origin --delete master   #删除origin远程库的master分支</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>方法 2：先 fetch，再合并 origin&#x2F;main</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 切到本地main</span></span><br><span class="line">git checkout main</span><br><span class="line"><span class="comment"># 2. 拉取远程所有更新，刷新origin/*</span></span><br><span class="line">git fetch origin</span><br><span class="line"><span class="comment"># 3. 将origin/main合并进当前分支（也就是本地main）</span></span><br><span class="line">git merge origin/main</span><br></pre></td></tr></table></figure>
 
-<h2 id="3-5-远程库合并本地版本"><a href="#3-5-远程库合并本地版本" class="headerlink" title="3.5 远程库合并本地版本"></a>3.5 远程库合并本地版本</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git pull #其实就是 git fetch 和 git merge FETCH_HEAD 的简写</span><br><span class="line">git pull origin master1:master2    #远程库origin的master1分支合并到本地master2分支中</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>方法 3：reset（慎用！！）</li>
+</ol>
+<blockquote>
+<p>强制让本地 main 指针直接对齐 origin&#x2F;main</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git fetch origin</span><br><span class="line">git reset --hard origin/main</span><br></pre></td></tr></table></figure>
 
-<h2 id="3-6-删除远程仓库"><a href="#3-6-删除远程仓库" class="headerlink" title="3.6 删除远程仓库"></a>3.6 删除远程仓库</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote rm origin    #删除origin远程库</span><br></pre></td></tr></table></figure>
+<p>**注意一：**pull和rebase</p>
+<p>rebase 不要在<strong>多人共用的公共分支</strong>上执行！ 只在<strong>自己本地的功能分支</strong>用 pull rebase；main&#x2F;dev 这种公共共享分支，尽量用 merge，避免重写已经推送到远程的提交</p>
+<p>如果默认<strong>git pull 没有配置成 rebase 模式</strong>（<code>pull.rebase=false</code>，这是默认），那么</p>
+<p><code>git pull</code> &#x3D; <code>git fetch + git merge</code></p>
+<p><code>git pull --rebase</code> &#x3D; <code>git fetch + git rebase</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看</span></span><br><span class="line"><span class="comment"># 查看 pull.rebase</span></span><br><span class="line">git config pull.rebase</span><br><span class="line"><span class="comment"># 查看当前分支单独的 rebase 设置（比如main分支）</span></span><br><span class="line">git config branch.main.rebase</span><br><span class="line"><span class="comment">#查看全局pull.rebase</span></span><br><span class="line">git config --global pull.rebase</span><br><span class="line"><span class="comment">#查看本仓库pull.rebase</span></span><br><span class="line">git config --<span class="built_in">local</span> pull.rebase</span><br><span class="line"><span class="comment"># 一次性查看所有git配置，搜索rebase</span></span><br><span class="line">git config --list | grep rebase</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改</span></span><br><span class="line"><span class="comment"># 全局pull默认rebase</span></span><br><span class="line">git config --global pull.rebase <span class="literal">true</span></span><br><span class="line"><span class="comment"># 全局pull默认merge</span></span><br><span class="line">git config --global pull.rebase <span class="literal">false</span></span><br><span class="line"><span class="comment">### 仅当前仓库（local，只对这个项目生效）</span></span><br><span class="line">git config --<span class="built_in">local</span> pull.rebase <span class="literal">true</span></span><br><span class="line">git config --<span class="built_in">local</span> pull.rebase <span class="literal">false</span></span><br><span class="line"><span class="comment"># 给单个分支单独设置（只拉这个分支时 rebase）</span></span><br><span class="line">git config branch.dev.rebase <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#删除配置</span></span><br><span class="line"><span class="comment"># 删除全局pull.rebase</span></span><br><span class="line">git config --global --<span class="built_in">unset</span> pull.rebase</span><br><span class="line"><span class="comment"># 删除当前仓库pull.rebase</span></span><br><span class="line">git config --<span class="built_in">local</span> --<span class="built_in">unset</span> pull.rebase</span><br><span class="line"></span><br><span class="line"><span class="comment"># 临时覆盖</span></span><br><span class="line">git pull --rebase    <span class="comment"># 强制本次pull走rebase</span></span><br><span class="line">git pull --no-rebase <span class="comment"># 强制本次pull走merge</span></span><br></pre></td></tr></table></figure>
 
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#功能分支合并origin main</span></span><br><span class="line">git pull origin main</span><br><span class="line"><span class="comment">#当pull.rebase = false时，等价：</span></span><br><span class="line">git fetch origin</span><br><span class="line">git merge origin/main</span><br><span class="line"><span class="comment">#当pull.rebase = true 时，等价：</span></span><br><span class="line">git fetch origin</span><br><span class="line">git rebase origin/main</span><br></pre></td></tr></table></figure>
+
+<p>**注意二：**pull与fetch的拉取分支范围</p>
+<p><code>git pull origin main</code> 只会拉取 <code>origin</code> 的 <code>main</code></p>
+<p><code>git fetch origin</code> 会拉<strong>所有远程分支</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git pull origin main == fetch origin main（只拿 main）+ merge origin/main</span><br><span class="line">git fetch origin拉全部远程分支 + merge origin/main</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意三</strong>：空格 <code>origin main</code> 和斜杠 <code>origin/main</code></p>
+<p><code>git fetch origin</code>：更新本地库，但<strong>不更新工作区</strong></p>
+<p><strong><code>origin main</code>（空格）：两个参数，远程名 + 分支名</strong> </p>
+<p><strong><code>origin/main</code>（斜杠）：一个名字，【远程追踪分支】ref</strong></p>
+<blockquote>
+<p><strong>远程服务器上：分支叫 <code>main</code></strong></p>
+<p><strong>拉取到本地之后，本地存的远程镜像指针叫 <code>origin/main</code></strong></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">错误写法</span><br><span class="line">git pull origin origin/main</span><br><span class="line">这会被理解成：去远程origin，找远程上名字叫origin/main的分支。远程根本没有这个分支，大概率报错！</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-4-本地分支main"><a href="#3-4-本地分支main" class="headerlink" title="3.4 本地分支main"></a>3.4 本地分支main</h2><p>本地 main 的定位：尽量只是远程 <code>origin/main</code> 的镜像 &#x2F; 副本，当做主干的本地镜像，不是用来开发、放半成品的地方。</p>
+<p><code>origin/main</code>（远程主干）一般约定：<strong>永远是随时可上线、稳定的代码</strong>。</p>
+<blockquote>
+<p>本地 main<strong>不是单纯 “过渡中转站”</strong>，它是远程 main 在你电脑的镜像；你可以拿它做本地预合并测试，但是<strong>不承担正式合并上线的职责</strong>。正式合并交给 MR&#x2F;PR。</p>
+</blockquote>
+<ul>
+<li>如果在<strong>本地 main 写新功能、提交 commit</strong>：<ol>
+<li>后续你执行 <code>git pull</code> &#x2F; <code>git merge origin/main</code> 的时候，就容易产生多余 merge 提交；</li>
+<li>一不小心手滑 <code>git push origin main</code>，就把未测试的代码直接推到远程主干，污染所有人的主干；</li>
+<li>后续别人拉代码，拿到你还没上线的半成品。</li>
+</ol>
+</li>
+</ul>
+<ul>
+<li><p>一般只是【本地预合并测试】，提前验证我的 feature 分支，合并到主干之后会不会冲突、能不能跑起来。 这时可以切到本地 main（先保证本地 main 已经同步 origin&#x2F;main），然后 <code>git merge feature/xxx</code>，<strong>本地做一次合并，跑单元测试 &#x2F; 本地启动项目，检查冲突和 bug。</strong></p>
+</li>
+<li><p>本地合并完，不要执行 <code>git push origin main</code>！，这个合并只是<strong>在你本机做验证</strong>。 真正把 feature 合入远程主干，走 <strong>PR&#x2F;MR（合并请求）</strong>，在 Gitlab&#x2F;Gitee&#x2F;Github 网页上操作。 网页 MR 才是正式流程：代码评审、流水线 CI 自动跑测试，通过后由平台帮你合并进远程<code>origin/main</code>。</p>
+</li>
+<li><p>做完本地验证之后，你一般可以：</p>
+<ul>
+<li><p>删掉本地 main 上这个临时合并提交（或者直接放弃，不要推）；</p>
+</li>
+<li><p>继续在 feature 分支改代码，提交 MR。</p>
+</li>
+</ul>
+</li>
+<li><p>尽量不随便动本地 main 分支，避免本地 main 被意外提交、产生脏数据。本地 main 只在需要的时候再 checkout 更新。例如以下两种方案通常采用版本B</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 版本A</span></span><br><span class="line">git checkout main</span><br><span class="line">git fetch origin</span><br><span class="line">git merge origin/main</span><br><span class="line">git checkout feature/xxx</span><br><span class="line">git merge main</span><br><span class="line"><span class="comment"># 版本B</span></span><br><span class="line">git checkout feature/xxx</span><br><span class="line">git fetch origin</span><br><span class="line">git merge origin/main</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-5-推送到远程库-push"><a href="#3-5-推送到远程库-push" class="headerlink" title="3.5 推送到远程库(push)"></a>3.5 推送到远程库(push)</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git push origin master1:master2    #将本地分支名master1推送到origin远程库的master2分支上</span><br><span class="line">git push origin maste    #当本地库与远程库的分支名相同时，推送本地库master分支到origin远程库</span><br><span class="line">git push --force origin master    #本地库与远程库有差异时，强制推送</span><br><span class="line">git push origin --delete master   #删除origin远程库的master分支</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-5-指针管理"><a href="#3-5-指针管理" class="headerlink" title="3.5 指针管理"></a>3.5 指针管理</h2><p><strong>ref 是一堆命名引用（分支、tag、origin&#x2F;xxx）；HEAD 是一个特殊 ref，用来标记「当前检出到工作区的是哪个提交」。</strong></p>
+<blockquote>
+<p>HEAD 属于 ref，但 ref 不都是 HEAD。ref 是大类，HEAD 是其中一员。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git show-ref</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ref（如 refs&#x2F;heads&#x2F;main）</th>
+<th>HEAD</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>位置</td>
+<td>在 <code>.git/refs/</code> 下面</td>
+<td><code>.git/HEAD</code>，不在 refs 目录</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>分支 &#x2F; 标签 &#x2F; 远程追踪的命名别名</td>
+<td>标记<strong>当前工作区是哪个提交</strong></td>
+</tr>
+<tr>
+<td>数量</td>
+<td>可以有成百上千个（很多分支 + tag）</td>
+<td><strong>仓库永远只有 1 个 HEAD</strong></td>
+</tr>
+<tr>
+<td>正常状态</td>
+<td>存 commit SHA</td>
+<td>存 <code>ref: 某个ref</code></td>
+</tr>
+<tr>
+<td>commit 时</td>
+<td>✅ 它会移动，更新成新 commit 哈希</td>
+<td>❗ HEAD 本身内容不变，跟着 ref</td>
+</tr>
+<tr>
+<td>游离态</td>
+<td>不会变成游离</td>
+<td>可以直接存 SHA，进入 detached</td>
+</tr>
+</tbody></table>
+<ul>
+<li>ref（引用）</li>
+</ul>
+<p>ref 就是<strong>带名字的指针</strong>，放在 <code>refs/</code> 下面：</p>
+<ul>
+<li><code>refs/heads/main</code>（本地分支 main）</li>
+<li><code>refs/remotes/origin/main</code>（远程追踪分支 origin&#x2F;main）</li>
+<li><code>refs/tags/v1.0</code>（标签）</li>
+</ul>
+<p>特点： ✅ 名字固定，长期存在（除非手动删分支 &#x2F;tag） ✅ 每个分支本身就是一个 ref； ✅ <strong>ref 可以被很多命令操作：checkout、merge、commit、push…</strong> ✅ 作用：给 commit 起别名，方便你用名字代替 SHA。</p>
+<blockquote>
+<p>ref 文件在 <code>.git/refs/xxx</code>，内容：存 SHA，或者指向另一个 ref。</p>
+</blockquote>
+<ul>
+<li>HEAD（<code>.git/HEAD</code>）</li>
+</ul>
+<p>HEAD 是<strong>单独的特殊引用，不在 refs 目录里！</strong> 路径：<code>.git/HEAD</code>，<strong>不属于 <code>refs/\*</code></strong>。</p>
+<p>HEAD 只有两种状态：</p>
+<h3 id="①-绑定分支（正常开发，最常见）"><a href="#①-绑定分支（正常开发，最常见）" class="headerlink" title="① 绑定分支（正常开发，最常见）"></a>① 绑定分支（正常开发，最常见）</h3><p><code>.git/HEAD</code> 内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ref: refs/heads/main</span><br></pre></td></tr></table></figure>
+
+<p>👉 HEAD <strong>不直接存 commit 哈希</strong>，而是指向一个 ref（本地分支 ref）。</p>
+<blockquote>
+<p>此时：HEAD → refs&#x2F;heads&#x2F;main → commit 哈希。</p>
+</blockquote>
+<p>当你执行 <code>git commit</code>：</p>
+<ol>
+<li>生成新 commit</li>
+<li><strong>HEAD 指向的那个分支 ref（refs&#x2F;heads&#x2F;main）向前移动，更新成新 commit 哈希</strong></li>
+<li>HEAD 本身内容不变，依旧写着 <code>ref: refs/heads/main</code></li>
+</ol>
+<blockquote>
+<p>重点：commit 不会移动 HEAD，<strong>移动的是分支 ref！HEAD 只是跟着 ref 走。</strong></p>
+</blockquote>
+<h3 id="②-游离-HEAD（detached-HEAD，检出某个-commit-哈希，不绑定任何本地分支）"><a href="#②-游离-HEAD（detached-HEAD，检出某个-commit-哈希，不绑定任何本地分支）" class="headerlink" title="② 游离 HEAD（detached HEAD，检出某个 commit 哈希，不绑定任何本地分支）"></a>② 游离 HEAD（detached HEAD，检出某个 commit 哈希，不绑定任何本地分支）</h3><p>比如：<code>git checkout a34bc1</code>（直接切 commit 哈希，不是切分支名） 这时 <code>.git/HEAD</code> 里面<strong>直接写 commit SHA，不再指向任何 ref</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a34bc1982734...</span><br></pre></td></tr></table></figure>
+
+<p>👉 HEAD 直接指向 commit，没有绑定任何分支 ref。</p>
+<blockquote>
+<p>这个时候，你提交新 commit：<strong>HEAD 往前走，但没有任何 refs&#x2F;heads&#x2F;* 分支跟着走！</strong> 一旦切回别的分支，这个新提交没有 ref 指向，之后会被 gc 回收（容易丢提交）。</p>
+</blockquote>
+<h2 id="📊-对比表"><a href="#📊-对比表" class="headerlink" title="📊 对比表"></a>📊 对比表</h2><p>表格</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ref（如 refs&#x2F;heads&#x2F;main）</th>
+<th>HEAD</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>位置</td>
+<td>在 <code>.git/refs/</code> 下面</td>
+<td><code>.git/HEAD</code>，不在 refs 目录</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>分支 &#x2F; 标签 &#x2F; 远程追踪的命名别名</td>
+<td>标记<strong>当前工作区是哪个提交</strong></td>
+</tr>
+<tr>
+<td>数量</td>
+<td>可以有成百上千个（很多分支 + tag）</td>
+<td><strong>仓库永远只有 1 个 HEAD</strong></td>
+</tr>
+<tr>
+<td>正常状态</td>
+<td>存 commit SHA</td>
+<td>存 <code>ref: 某个ref</code></td>
+</tr>
+<tr>
+<td>commit 时</td>
+<td>✅ 它会移动，更新成新 commit 哈希</td>
+<td>❗ HEAD 本身内容不变，跟着 ref</td>
+</tr>
+<tr>
+<td>游离态</td>
+<td>不会变成游离</td>
+<td>可以直接存 SHA，进入 detached</td>
+</tr>
+</tbody></table>
 <h1 id="4-团队合作"><a href="#4-团队合作" class="headerlink" title="4. 团队合作"></a>4. 团队合作</h1><h2 id="4-1-团队内部合作"><a href="#4-1-团队内部合作" class="headerlink" title="4.1 团队内部合作"></a>4.1 团队内部合作</h2><p><img src="/../images/git/git-inner-teamwork.png" alt="团队内部合作"></p>
 <ol>
 <li>团队1创建项目，保存origin地址</li>
@@ -392,13 +656,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/%E7%AE%97%E6%B3%95/"># 算法</a>
-                    
-                        <a href="/tags/%E5%89%8D%E7%AB%AF/"># 前端</a>
-                    
                         <a href="/tags/%E8%BF%90%E7%BB%B4/"># 运维</a>
-                    
-                        <a href="/tags/%E5%90%8E%E7%AB%AF/"># 后端</a>
                     
                         
                 </span>

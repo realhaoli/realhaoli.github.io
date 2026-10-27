@@ -171,6 +171,72 @@
                 <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">关闭目录</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">前往底部</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 6
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        // b.innerText = expanded ? 'Expand all' : 'Collapse all';
+        b.innerText = expanded ? '展开目录' : '关闭目录';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
 
     
     <article class="post-wrap">
@@ -205,7 +271,142 @@
         </header>
 
         <div class="post-content">
-            
+            <h1 id="一、下载视频主流工具"><a href="#一、下载视频主流工具" class="headerlink" title="一、下载视频主流工具"></a>一、下载视频主流工具</h1><blockquote>
+<p><strong>版权与合理使用</strong>：下载的视频<strong>严禁用于任何商业用途或未经授权的二次传播</strong>。在未获得版权方授权的情况下，对下载的视频进行剪辑并公开传播，可能构成侵权</p>
+</blockquote>
+<h4 id="1-在线网站（无需安装）"><a href="#1-在线网站（无需安装）" class="headerlink" title="1. 在线网站（无需安装）"></a>1. 在线网站（无需安装）</h4><ul>
+<li><strong>Cobalt</strong>：一个开源、无广告的在线工具，支持B站、YouTube等20多个平台。你只需粘贴视频链接，即可选择下载视频或仅下载音频，适合在不想安装任何软件时快速使用。</li>
+</ul>
+<h4 id="2-命令行工具（适合进阶用户）"><a href="#2-命令行工具（适合进阶用户）" class="headerlink" title="2. 命令行工具（适合进阶用户）"></a>2. 命令行工具（适合进阶用户）</h4><table>
+<thead>
+<tr>
+<th align="left">工具名称</th>
+<th align="left">核心特点</th>
+<th align="left">安装方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>BBDown</strong></td>
+<td align="left"><strong>功能全面</strong>，支持番剧、课程、弹幕、字幕下载，可调用 <code>aria2c</code> 多线程加速。</td>
+<td align="left"><code>dotnet tool install --global BBDown</code></td>
+</tr>
+<tr>
+<td align="left"><strong>yutto</strong></td>
+<td align="left">专注于B站，支持大会员内容，自带弹幕生成（ASS格式）。</td>
+<td align="left"><code>pip install yutto</code></td>
+</tr>
+<tr>
+<td align="left"><strong>bili23-cli</strong></td>
+<td align="left">轻量级，能复用GUI版登录状态，无需重复登录即可获取高画质。</td>
+<td align="left"><code>pipx install bili23-cli</code> 或 <code>uv tool install bili23-cli</code></td>
+</tr>
+<tr>
+<td align="left"><strong>yt-dlp</strong></td>
+<td align="left"><strong>通用型下载器，支持超过1700个网站</strong>，youtube、B站是其中之一，生态成熟。</td>
+<td align="left"><code>pip install -U yt-dlp</code></td>
+</tr>
+<tr>
+<td align="left"><strong>bili-dl</strong></td>
+<td align="left">专为B站设计，支持自动续期登录状态，音频输出对foobar2000友好。</td>
+<td align="left"><code>pipx install bili-dl</code></td>
+</tr>
+</tbody></table>
+<p>大多数工具的使用方式都非常直接，只需在终端输入命令并跟上视频链接即可。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1. BBDown</span></span><br><span class="line">BBDown <span class="string">&quot;video_url&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#2. yutto</span></span><br><span class="line">yutto <span class="string">&quot;video_url&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#3. bili23-cli</span></span><br><span class="line">bili23-cli <span class="string">&quot;video_url&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#4. yt-dlp </span></span><br><span class="line">yt-dlp <span class="string">&quot;video_url&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="二、yt-dlp"><a href="#二、yt-dlp" class="headerlink" title="二、yt-dlp"></a>二、yt-dlp</h1><h2 id="2-1-安装"><a href="#2-1-安装" class="headerlink" title="2.1 安装"></a>2.1 安装</h2><ol>
+<li>yt-dlp 下载器</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方法1:python安装</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法2:</span></span><br><span class="line">brew install yt-dlp</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>FFmpeg</li>
+</ol>
+<blockquote>
+<p>负责合并音视频、转码、提取音频、转封装等后处理</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方法1:python安装</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法2:</span></span><br><span class="line">brew install ffmpeg</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>Deno JS运行时（可选）</li>
+</ol>
+<blockquote>
+<p>是 yt-dlp 处理 YouTube 时推荐的 JavaScript 运行时</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方法1:python安装</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法2:</span></span><br><span class="line">brew install deno</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-查看视频有什么字幕"><a href="#2-2-查看视频有什么字幕" class="headerlink" title="2.2 查看视频有什么字幕"></a>2.2 查看视频有什么字幕</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">yt-dlp --list-subs <span class="string">&quot;video_url&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#会输出该视频带的字幕，例如，在下载字幕或者视频时用支持的语音就行：</span></span><br><span class="line">[info] Available automatic captions <span class="keyword">for</span> JdkIOhFmbKI:</span><br><span class="line">Language Name                  Formats</span><br><span class="line">ab       Abkhazian             vtt, srt, ttml, srv3, srv2, srv1, json3</span><br><span class="line">zh-Hans  Chinese (Simplified)  vtt, srt, ttml, srv3, srv2, srv1, json3</span><br><span class="line">zh-Hant  Chinese (Traditional) vtt, srt, ttml, srv3, srv2, srv1, json3</span><br><span class="line">en       English               vtt, srt, ttml, srv3, srv2, srv1, json3</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3-查看可用格式"><a href="#2-3-查看可用格式" class="headerlink" title="2.3 查看可用格式"></a>2.3 查看可用格式</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看所有可用格式，可以直接用ID指明格式</span></span><br><span class="line">yt-dlp -F <span class="string">&quot;视频链接&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3-仅下载字幕"><a href="#2-3-仅下载字幕" class="headerlink" title="2.3 仅下载字幕"></a>2.3 仅下载字幕</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yt-dlp \</span><br><span class="line">  --write-auto-subs \					<span class="comment"># 下载 YouTube 自动生成的字</span></span><br><span class="line">  --sub-langs <span class="string">&quot;en&quot;</span> \					<span class="comment">#指明字幕语言，如 &quot;zh-Hans&quot;,&quot;en&quot;</span></span><br><span class="line">  --skip-download \ 					<span class="comment">#只下载字幕</span></span><br><span class="line">  -P <span class="string">&quot;~/Downloads&quot;</span> \					<span class="comment">#文件保存位置</span></span><br><span class="line">  --convert-subs srt \        <span class="comment">#字幕文件格式</span></span><br><span class="line">  <span class="string">&quot;video_url&quot;</span>                 <span class="comment">#视频链接</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-4-仅下载音频"><a href="#2-4-仅下载音频" class="headerlink" title="2.4 仅下载音频"></a>2.4 仅下载音频</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yt-dlp -x \</span><br><span class="line">  --audio-format mp3 \</span><br><span class="line">  --audio-quality 0 \</span><br><span class="line">  -o <span class="string">&quot;~/Music/%(title)s.%(ext)s&quot;</span> \</span><br><span class="line">  <span class="string">&quot;video_url&quot;</span></span><br><span class="line">  </span><br><span class="line">yt-dlp -f &lt;audio_ID&gt; <span class="string">&quot;video_url&quot;</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>直接使用 <code>-x</code></td>
+<td>自动选择最佳的音频流并保存为原始格式</td>
+</tr>
+<tr>
+<td><code>--audio-format</code></td>
+<td>指定音频格式，如 <code>mp3</code>、<code>flac</code>、<code>m4a</code>、<code>wav</code> 等</td>
+</tr>
+<tr>
+<td><code>--audio-quality</code></td>
+<td>控制音频质量,指定 0（最佳）到 10（最差）之间的 VBR 质量值，或直接指定比特率（如 <code>128K</code>）。默认值为 5</td>
+</tr>
+</tbody></table>
+<h2 id="2-5-视频-音频"><a href="#2-5-视频-音频" class="headerlink" title="2.5 视频+音频"></a>2.5 视频+音频</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#自动选择当前可用的最佳视频和音频流</span></span><br><span class="line">yt-dlp -o <span class="string">&quot;~/Downloads/%(title)s.%(ext)s&quot;</span> <span class="string">&quot;video_url&quot;</span></span><br><span class="line"></span><br><span class="line">yt-dlp -f <span class="string">&quot;video_ID+audio_ID&quot;</span> <span class="string">&quot;video_url&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-6-视频-音频-字幕"><a href="#2-6-视频-音频-字幕" class="headerlink" title="2.6 视频+音频+字幕"></a>2.6 视频+音频+字幕</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yt-dlp -P <span class="string">&quot;~/Downloads&quot;</span> \</span><br><span class="line">	-o <span class="string">&quot;%(title)s.%(ext)s&quot;</span> \</span><br><span class="line">  -f <span class="string">&quot;bestvideo[height&lt;=1080][vcodec^=avc1]+bestaudio[ext=m4a]/bestvideo[height&lt;=1080]+bestaudio/best[height&lt;=1080]&quot;</span> \</span><br><span class="line">  --merge-output-format mp4 \</span><br><span class="line">  --write-auto-subs --embed-subs \</span><br><span class="line">  --sub-langs <span class="string">&quot;en&quot;</span> \</span><br><span class="line">  <span class="string">&quot;video_url&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="📌-参数说明"><a href="#📌-参数说明" class="headerlink" title="📌 参数说明"></a>📌 参数说明</h4><table>
+<thead>
+<tr>
+<th align="left">参数</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>-P &quot;~/Downloads&quot;</code></td>
+<td align="left">保存到指定目录</td>
+</tr>
+<tr>
+<td align="left"><code>-o &quot;%(title)s.%(ext)s&quot;</code></td>
+<td align="left">保存文件名，可用 <code>%(title)s</code> 、<code>%(ext)s</code> 、<code>%(uploader)s</code>、<code>(upload_date)s</code>等占位符来自动生成文件名</td>
+</tr>
+<tr>
+<td align="left"><code>-f &quot;bestvideo[height&lt;=1080][vcodec^=avc1]+bestaudio[ext=m4a]/...&quot;</code></td>
+<td align="left">指定画质，基本格式选择器<code>**best</code>、<code>bestvideo+bestaudio</code>、<code>bestvideo</code>、<code>bestaudio</code>。使用 <code>height</code> 参数来限制最大分辨率，4K视频把1080换成2160。或者直接用指明ID</td>
+</tr>
+<tr>
+<td align="left"><code>--merge-output-format mp4</code></td>
+<td align="left">指明下载视频格式,支持</td>
+</tr>
+<tr>
+<td align="left"><code>--write-auto-subs</code></td>
+<td align="left">下载 YouTube <strong>自动生成</strong>的字幕</td>
+</tr>
+<tr>
+<td align="left"><code>--embed-subs</code></td>
+<td align="left">把字幕<strong>嵌入</strong>视频中，作为可开关的软字幕轨道</td>
+</tr>
+<tr>
+<td align="left"><code>--sub-langs &quot;en&quot;</code></td>
+<td align="left">只嵌入英文字幕；多语言用逗号分隔，如”zh-Hans,en”</td>
+</tr>
+</tbody></table>
+<h2 id="2-7-高画质-会员内容"><a href="#2-7-高画质-会员内容" class="headerlink" title="2.7 高画质&#x2F;会员内容"></a>2.7 高画质&#x2F;会员内容</h2><p>某些高码率、4K、大会员内容通常需要登录 Cookie</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方式一：使用浏览器，chrome/Safari/edge</span></span><br><span class="line">yt-dlp --cookies-from-browser chrome <span class="string">&quot;视频链接&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#方式二：可以手动导出 cookies.txt 后指明</span></span><br><span class="line">yt-dlp --cookies cookies.txt <span class="string">&quot;视频链接&quot;</span></span><br></pre></td></tr></table></figure>
+
+
         </div>
 
       <div style="background-color: #f9f9f9; border-left: 5px solid #007acc; padding: 10px; margin: 20px 0;">
